@@ -19,7 +19,7 @@ namespace KSE.Authentication
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<ApplicationDbContext>(option => option.UseSqlServer(Configuration.GetConnectionString("Connection")));
-            services.IdentityConfig();
+            services.IdentityConfig(Configuration);
             services.AddControllers();
             services.SwaggerConfig();
         }        
