@@ -11,15 +11,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WebApp", "WebApp", "{76DE27
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Authentication", "Authentication", "{685C5DCF-878D-433B-ACB3-72DBBAB0B943}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KSE.Authentication", "src\Services\Authentication\KSE.Authentication\KSE.Authentication.csproj", "{30340D69-651F-43A1-8E85-143B1FD98782}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KSE.Authentication", "src\Services\Authentication\KSE.Authentication\KSE.Authentication.csproj", "{30340D69-651F-43A1-8E85-143B1FD98782}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MVC", "MVC", "{F88D7B92-8D17-448C-9D27-AE60A0077711}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KSE.WebAppMvc", "src\Web\MVC\KSE.WebAppMvc\KSE.WebAppMvc.csproj", "{7E3A1F4F-C2C8-47B3-9EC2-79607F7A50B4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KSE.WebAppMvc", "src\Web\MVC\KSE.WebAppMvc\KSE.WebAppMvc.csproj", "{7E3A1F4F-C2C8-47B3-9EC2-79607F7A50B4}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{2E5AF0D9-08E1-4068-BD1E-D3D6F34F8F62}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KSE.Core", "src\BuildingBlocks\Core\KSE.Core\KSE.Core.csproj", "{74A9A9CC-FE50-4188-B543-59CF60F6A806}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KSE.Core", "src\BuildingBlocks\Core\KSE.Core\KSE.Core.csproj", "{74A9A9CC-FE50-4188-B543-59CF60F6A806}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Client", "Client", "{C9325D5F-3B72-4024-B52B-26DED9C71885}"
 EndProject
@@ -31,15 +31,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Order", "Order", "{C0E7ACD6
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Cart", "Cart", "{08287166-307B-473C-8EC5-D45B95B198BE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KSE.Cart", "src\Services\Cart\KSE.Cart\KSE.Cart.csproj", "{DF50330E-8A6C-44A5-8E6A-262F35D6E652}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KSE.Cart", "src\Services\Cart\KSE.Cart\KSE.Cart.csproj", "{DF50330E-8A6C-44A5-8E6A-262F35D6E652}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KSE.Catalog", "src\Services\Catalog\KSE.Catalog\KSE.Catalog.csproj", "{2FBD99EB-E80B-405F-8DC0-E8987054B31F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KSE.Catalog", "src\Services\Catalog\KSE.Catalog\KSE.Catalog.csproj", "{2FBD99EB-E80B-405F-8DC0-E8987054B31F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KSE.Client", "src\Services\Client\KSE.Client\KSE.Client.csproj", "{65587F8E-A021-4562-92CE-18C056B99CBB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KSE.Client", "src\Services\Client\KSE.Client\KSE.Client.csproj", "{65587F8E-A021-4562-92CE-18C056B99CBB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KSE.Order", "src\Services\Order\KSE.Order\KSE.Order.csproj", "{C72EE70E-C444-4610-A9C7-FA35E0E99740}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KSE.Order", "src\Services\Order\KSE.Order\KSE.Order.csproj", "{C72EE70E-C444-4610-A9C7-FA35E0E99740}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KSE.Payment", "src\Services\Payment\KSE.Payment\KSE.Payment.csproj", "{57EED39E-ABEE-40ED-B373-073F67050EC2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KSE.Payment", "src\Services\Payment\KSE.Payment\KSE.Payment.csproj", "{57EED39E-ABEE-40ED-B373-073F67050EC2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

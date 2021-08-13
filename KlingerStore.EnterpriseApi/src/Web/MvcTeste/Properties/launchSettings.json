@@ -2,17 +2,13 @@
   "iisSettings": {
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
-    "iis": {
-      "applicationUrl": "http://localhost/KSE.WebAppMvc",
-      "sslPort": 0
-    },
     "iisExpress": {
-      "applicationUrl": "http://localhost:57944",
-      "sslPort": 44387
+      "applicationUrl": "http://localhost:20714",
+      "sslPort": 44330
     }
   },
   "profiles": {
-    "IIS Dev": {
+    "IIS Express": {
       "commandName": "IISExpress",
       "launchBrowser": true,
       "environmentVariables": {
@@ -20,7 +16,7 @@
         "ASPNETCORE_HOSTINGSTARTUPASSEMBLIES": "Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation"
       }
     },
-    "KSE.WebAppMvc": {
+    "MvcTeste": {
       "commandName": "Project",
       "launchBrowser": true,
       "environmentVariables": {
@@ -28,13 +24,13 @@
         "ASPNETCORE_HOSTINGSTARTUPASSEMBLIES": "Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation"
       },
       "applicationUrl": "https://localhost:5001;http://localhost:5000"
+    },
+    "Docker": {
+      "commandName": "Docker",
+      "launchBrowser": true,
+      "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}",
+      "publishAllPorts": true,
+      "useSSL": true
     }
-    //"Docker": {
-    //  "commandName": "Docker",
-    //  "launchBrowser": true,
-    //  "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}",
-    //  "publishAllPorts": true,
-    //  "useSSL": true
-    //}
   }
 }

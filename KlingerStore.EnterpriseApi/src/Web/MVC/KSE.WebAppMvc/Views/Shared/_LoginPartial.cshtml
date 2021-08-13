@@ -1,0 +1,21 @@
+﻿@inject IUser AppUser 
+<ul class="navbar-nav">
+    @if (AppUser.IsAuthentication())
+    {
+        <li class="nav-item">
+            <a class="nav-link text-dark" title="Manage">Olá @AppUser.FindUserEmail()!</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link text-dark"asp-controller="Auth" asp-action="Logout">Sair</a>
+        </li>
+    }
+    else
+    {
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-controller="Auth" asp-action="Register">Registrar</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-controller="Auth" asp-action="Login">Entrar</a>
+        </li>
+    }
+</ul>

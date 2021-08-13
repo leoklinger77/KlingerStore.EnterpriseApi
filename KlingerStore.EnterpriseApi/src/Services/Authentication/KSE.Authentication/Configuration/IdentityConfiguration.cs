@@ -1,4 +1,5 @@
-﻿using KSE.Authentication.Data;
+﻿using Api.Klinger.Extensions;
+using KSE.Authentication.Data;
 using KSE.Authentication.Extensions;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
@@ -15,6 +16,7 @@ namespace KSE.Authentication.Configuration
         {
             services.AddDefaultIdentity<IdentityUser>()
                 .AddRoles<IdentityRole>()
+                .AddErrorDescriber<IdentityMessagePtBr>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 

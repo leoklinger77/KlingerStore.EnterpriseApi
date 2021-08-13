@@ -1,0 +1,46 @@
+﻿@model KSE.WebAppMvc.Models.UserLogin
+
+@{
+    ViewData["Title"] = "Entrar";
+}
+
+<div class="card">
+    <div class="card-body">
+        <h4 class="card-title mb-4">Entrar</h4>
+        <form asp-action="Login">
+            <div class="form-group">
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"> <i class="fa fa-envelope"></i> </span>
+                    </div>
+                    <input asp-for="Email" class="form-control" placeholder="Email" type="email">
+                </div>
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"> <i class="fa fa-envelope"></i> </span>
+                    </div>
+                    <input asp-for="Password" class="form-control" placeholder="Email" type="password">
+                </div>
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>          
+
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary btn-block"> Login </button>
+            </div>
+
+            <p class="text-center my-4">Acesse</p>
+            <div class="text-center mb-3">
+                <a href="#" class="btn btn-icon rounded-circle btn-facebook"> <i class="fab fa-facebook-f"></i> </a>
+                <a href="#" class="btn btn-icon rounded-circle btn-google"> <i class="fab fa-google"></i> </a>
+                <a href="#" class="btn btn-icon rounded-circle btn-twitter"> <i class="fab fa-twitter"></i> </a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
