@@ -18,7 +18,7 @@ namespace KSE.Authentication.Controllers
 
             return BadRequest(new ValidationProblemDetails(new Dictionary<string, string[]>
             {
-                {"Messagens",Erros.ToArray() }
+                { "Messagens" , Erros.ToArray() }
             }));
         }
 

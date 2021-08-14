@@ -25,6 +25,8 @@ namespace KSE.Authentication.V1.Controllers
         [HttpPost("Register")]
         public async Task<ActionResult> Register(UserRegister userRegister)
         {
+            return new StatusCodeResult(403);
+
             if (!ModelState.IsValid) return CustomResponse(ModelState);
 
             var user = new IdentityUser

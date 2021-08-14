@@ -1,4 +1,5 @@
-﻿using KSE.WebAppMvc.Models;
+﻿using KSE.WebAppMvc.Controllers;
+using KSE.WebAppMvc.Models;
 using KSE.WebAppMvc.Services;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -9,9 +10,9 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
-namespace KSE.WebAppMvc.Controllers
+namespace KSE.WebAppMvc.V1.Controllers
 {
-    public class AuthController : Controller
+    public class AuthController : MainController
     {
         private readonly IAuthService _authService;
 
@@ -20,53 +21,62 @@ namespace KSE.WebAppMvc.Controllers
             _authService = authService;
         }
 
-        [HttpGet]
-        [Route("nova-conta")]
-        public async Task<IActionResult> Register()
+        [HttpGet("nova-conta")]
+        
+        public async Task<IActionResult> Register(string returnUrl = null)
         {
+            
             return View();
         }
 
-        [HttpPost]
-        [Route("nova-conta")]
+        [HttpPost("nova-conta")]
+        
         public async Task<IActionResult> Register(UserRegister userRegister)
         {
             if (!ModelState.IsValid) return View(userRegister);
 
             var rs = await _authService.Registro(userRegister);
 
+            if (HasErrorResponse(rs.ResponseResult)) return View(userRegister);
+
             await RealizarLogi(rs);
 
             return RedirectToAction("Index", "Home");
         }
 
-        [HttpGet]
-        [Route("login")]
-        public async Task<IActionResult> Login()
+        [HttpGet("Login")]
+        
+        public async Task<IActionResult> Login(string returnUrl = null)
         {
+            ViewData["returnUrl"] = returnUrl;
             return View();
         }
 
-        [HttpPost]
-        [Route("login")]
-        public async Task<IActionResult> Login(UserLogin userLogin)
+        [HttpPost("Login")]        
+        public async Task<IActionResult> Login(UserLogin userLogin, string returnUrl = null)
         {
+            ViewData["returnUrl"] = returnUrl;
             if (!ModelState.IsValid) return View(userLogin);
 
-            var rs = await _authService.Login(userLogin);            
+            var rs = await _authService.Login(userLogin);
+            
+            if (HasErrorResponse(rs.ResponseResult)) return View(userLogin);
 
             await RealizarLogi(rs);
 
-            return RedirectToAction("Index", "Home");
+            if (string.IsNullOrEmpty(returnUrl)) return RedirectToAction("Index", "Home");
+
+            return LocalRedirect(returnUrl);
+            
         }
 
-        [HttpGet]
-        [Route("sair")]
+        [HttpGet("sair")]        
         public async Task<IActionResult> Logout()
         {
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);            
+            
             return RedirectToAction("Index", "Home");
         }
-
 
         private async Task RealizarLogi(UserResponseLogin userResponseLogin)
         {

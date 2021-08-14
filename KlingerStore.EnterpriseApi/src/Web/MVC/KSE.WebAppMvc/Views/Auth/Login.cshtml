@@ -6,8 +6,9 @@
 
 <div class="card">
     <div class="card-body">
+        <vc:summary></vc:summary>
         <h4 class="card-title mb-4">Entrar</h4>
-        <form asp-action="Login">
+        <form asp-route-returnurl="@ViewData["returnUrl"]" method="post">
             <div class="form-group">
                 <div class="input-group">
                     <div class="input-group-prepend">
