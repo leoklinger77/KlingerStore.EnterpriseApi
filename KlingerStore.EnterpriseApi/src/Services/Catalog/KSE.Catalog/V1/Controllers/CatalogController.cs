@@ -31,8 +31,7 @@ namespace KSE.Catalog.V1.Controllers
         [ClaimsAuthorize("Catalog", "Read")]
         [HttpGet("Product/{id}")]        
         public async Task<Product> GetByProductId(Guid id)
-        {
-            throw new Exception("Erro!");
+        {            
             return await _productRepository.FindByIdProduct(id);
         }
     }

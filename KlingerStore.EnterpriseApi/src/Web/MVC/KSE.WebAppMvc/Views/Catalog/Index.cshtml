@@ -104,7 +104,8 @@
                         <a asp-controller="Catalog" asp-action="GetProduct" asp-route-id="@productItem.Id" class="img-wrap"> <img src="~/imagens/produtos/@productItem.Image"> </a>
                         <figcaption class="info-wrap">
                             <a asp-controller="Catalog" asp-action="GetProduct" asp-route-id="@productItem.Id" class="title">@productItem.Name</a>
-                            <div class="price mt-1">@productItem.Value.ToString("C")</div>
+                            <div class="price mt-1">@this.CurrencyFormat(productItem.Value)</div>
+                            <div class="price mt-1">@this.StockMessage(productItem.QuantityStock)</div>
                         </figcaption>
                     </div>
                 </div>
