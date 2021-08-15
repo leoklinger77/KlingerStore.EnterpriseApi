@@ -1,4 +1,5 @@
 ﻿using KSE.Authentication.Models;
+using KSE.WebApi.Core.Identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;

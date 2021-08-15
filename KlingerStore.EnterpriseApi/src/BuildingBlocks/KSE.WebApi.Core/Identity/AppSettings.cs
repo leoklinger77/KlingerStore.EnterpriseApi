@@ -1,4 +1,4 @@
-﻿namespace KSE.Authentication.Extensions
+﻿namespace KSE.WebApi.Core.Identity
 {
     public class AppSettings
     {

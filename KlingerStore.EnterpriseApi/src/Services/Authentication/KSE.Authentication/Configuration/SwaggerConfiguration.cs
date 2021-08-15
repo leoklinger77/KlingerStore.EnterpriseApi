@@ -10,13 +10,15 @@ namespace KSE.Authentication.Configuration
         public static IServiceCollection SwaggerConfig(this IServiceCollection services)
         {
             services.AddSwaggerGen(s =>
-            {
-                s.SwaggerDoc("V1", new OpenApiInfo
+            {               
+                s.SwaggerDoc("V1", new OpenApiInfo()
                 {
-                    Title = "KlingerStore Enterprise Identity Api",
-                    Description = "Api de Authentication",
-                    Contact = new OpenApiContact() {Name="Leandro Klinger", Email = "Leandro.klingeroliveira@gmail.com" },
-                    License = new OpenApiLicense() { Name = "Leandro Klinger", Url = new Uri("http://opensource.org/licenses/mit" )},
+                    Title = "KlingerStore Enterprise Authentication Api",
+                    Version = "V1",
+                    Description = "Api Authentication",
+                    Contact = new OpenApiContact() { Email = "leandro.klingeroliveira@gmail.com", Name = "Leandro Klinger" },
+                    TermsOfService = new Uri("https://opensource.org/licenses/MIT"),
+                    License = new OpenApiLicense() { Name = "MIT", Url = new Uri("https://opensource.org/licenses/MIT") }
                 });
             });
 

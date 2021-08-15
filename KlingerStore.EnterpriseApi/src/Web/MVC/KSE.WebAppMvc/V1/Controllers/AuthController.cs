@@ -1,6 +1,6 @@
 ﻿using KSE.WebAppMvc.Controllers;
 using KSE.WebAppMvc.Models;
-using KSE.WebAppMvc.Services;
+using KSE.WebAppMvc.Services.Interfaces;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
@@ -35,13 +35,13 @@ namespace KSE.WebAppMvc.V1.Controllers
         {
             if (!ModelState.IsValid) return View(userRegister);
 
-            var rs = await _authService.Registro(userRegister);
+            var rs = await _authService.Register(userRegister);
 
             if (HasErrorResponse(rs.ResponseResult)) return View(userRegister);
 
             await RealizarLogi(rs);
 
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "Catalog");
         }
 
         [HttpGet("Login")]
@@ -64,7 +64,7 @@ namespace KSE.WebAppMvc.V1.Controllers
 
             await RealizarLogi(rs);
 
-            if (string.IsNullOrEmpty(returnUrl)) return RedirectToAction("Index", "Home");
+            if (string.IsNullOrEmpty(returnUrl)) return RedirectToAction("Index", "Catalog");
 
             return LocalRedirect(returnUrl);
             
@@ -75,7 +75,7 @@ namespace KSE.WebAppMvc.V1.Controllers
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);            
             
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "Catalog");
         }
 
         private async Task RealizarLogi(UserResponseLogin userResponseLogin)

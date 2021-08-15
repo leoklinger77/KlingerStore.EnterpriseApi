@@ -28,9 +28,8 @@ namespace KSE.WebAppMvc
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddIdentityConfig();
-            services.AddWebAppConfig();
-
-            services.RegisterService();
+            services.AddWebAppConfig(Configuration);
+            services.RegisterService(Configuration);
         }
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {            

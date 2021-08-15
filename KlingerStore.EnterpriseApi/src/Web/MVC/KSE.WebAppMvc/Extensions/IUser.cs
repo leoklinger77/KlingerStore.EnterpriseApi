@@ -14,6 +14,6 @@ namespace KSE.WebAppMvc.Extensions
         bool IsAuthentication();
         bool HasRoles(string role);
         IEnumerable<Claim> FindClaims();
-        HttpContext FindHttoContext();
+        HttpContext FindHttpContext();
     }
 }

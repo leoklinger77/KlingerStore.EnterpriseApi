@@ -1,6 +1,7 @@
 using KSE.Authentication.Configuration;
 using KSE.Authentication.Data;
 using KSE.Authentication.Extensions;
+using KSE.WebApi.Core.Identity;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -48,8 +49,7 @@ namespace KSE.Authentication
 
             app.UseHttpsRedirection();
             app.UseRouting();
-            app.UseAuthorization();
-            app.UseAuthentication();
+            app.UseAuthConfiguration();
 
             app.UseEndpoints(endpoints =>
             {

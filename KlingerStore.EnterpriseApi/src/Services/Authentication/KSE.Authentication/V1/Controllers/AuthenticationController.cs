@@ -3,7 +3,6 @@ using KSE.Authentication.Extensions;
 using KSE.Authentication.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Options;
 using System.Threading.Tasks;
 
 namespace KSE.Authentication.V1.Controllers
@@ -15,7 +14,7 @@ namespace KSE.Authentication.V1.Controllers
         private readonly UserManager<IdentityUser> _userManager;
         private readonly GeneretorToken _token;
 
-        public AuthenticationController(SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager, IOptions<AppSettings> appSettings, GeneretorToken token)
+        public AuthenticationController(SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager, GeneretorToken token)
         {
             _signInManager = signInManager;
             _userManager = userManager;
@@ -25,8 +24,6 @@ namespace KSE.Authentication.V1.Controllers
         [HttpPost("Register")]
         public async Task<ActionResult> Register(UserRegister userRegister)
         {
-            return new StatusCodeResult(403);
-
             if (!ModelState.IsValid) return CustomResponse(ModelState);
 
             var user = new IdentityUser

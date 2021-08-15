@@ -1,21 +1,23 @@
-﻿@inject IUser AppUser 
-<ul class="navbar-nav">
-    @if (AppUser.IsAuthentication())
-    {
-        <li class="nav-item">
-            <a class="nav-link text-dark" title="Manage">Olá @AppUser.FindUserEmail()!</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link text-dark"asp-controller="Auth" asp-action="Logout">Sair</a>
-        </li>
-    }
-    else
-    {
-        <li class="nav-item">
-            <a class="nav-link text-dark" asp-controller="Auth" asp-action="Register">Registrar</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link text-dark" asp-controller="Auth" asp-action="Login">Entrar</a>
-        </li>
-    }
-</ul>
+﻿@inject IUser AppUser
+
+@if (AppUser.IsAuthentication())
+{
+    <div class="text">
+        <span class="text-muted">Olá! @AppUser.FindUserEmail()</span>
+        <div>
+            <a href="#">Conta</a> |
+            <a asp-controller="Auth" asp-action="Logout"> Sair</a>
+        </div>
+    </div>
+}
+else
+{
+    <div class="text">
+        
+        <div>
+            <a asp-controller="Auth" asp-action="Login">Entrar</a> |
+            <a asp-controller="Auth" asp-action="Register"> Registrar</a>
+        </div>
+    </div>
+}
+

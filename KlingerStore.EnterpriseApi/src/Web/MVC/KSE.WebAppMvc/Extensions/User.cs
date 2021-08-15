@@ -23,7 +23,7 @@ namespace KSE.WebAppMvc.Extensions
             return _accessor.HttpContext.User.Claims;
         }
 
-        public HttpContext FindHttoContext()
+        public HttpContext FindHttpContext()
         {
             return _accessor.HttpContext;
         }
