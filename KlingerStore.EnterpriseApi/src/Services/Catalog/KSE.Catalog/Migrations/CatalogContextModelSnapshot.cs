@@ -28,9 +28,15 @@ namespace KSE.Catalog.Migrations
                     b.Property<int>("Code")
                         .HasColumnType("int");
 
+                    b.Property<DateTime>("InsertDate")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("varchar(250)");
+
+                    b.Property<DateTime?>("UpdateDate")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
@@ -66,6 +72,9 @@ namespace KSE.Catalog.Migrations
 
                     b.Property<int>("QuantityStock")
                         .HasColumnType("int");
+
+                    b.Property<DateTime?>("UpdateDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<decimal>("Value")
                         .HasColumnType("decimal(18,2)");

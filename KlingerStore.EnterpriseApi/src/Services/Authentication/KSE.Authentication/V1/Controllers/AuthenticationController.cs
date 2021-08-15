@@ -1,6 +1,6 @@
-﻿using KSE.Authentication.Controllers;
-using KSE.Authentication.Extensions;
+﻿using KSE.Authentication.Extensions;
 using KSE.Authentication.Models;
+using KSE.WebApi.Core.Controllers;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;

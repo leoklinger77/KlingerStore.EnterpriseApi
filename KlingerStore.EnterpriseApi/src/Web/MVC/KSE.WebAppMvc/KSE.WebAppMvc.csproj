@@ -17,4 +17,8 @@
     <PackageReference Include="Refit" Version="5.1.67" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\BuildingBlocks\Core\KSE.Core\KSE.Core.csproj" />
+  </ItemGroup>
+
 </Project>

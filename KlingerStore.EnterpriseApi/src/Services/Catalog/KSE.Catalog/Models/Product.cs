@@ -1,7 +1,6 @@
-﻿using KSE.Core.Interfaces;
-using KSE.Core.DomainObjets;
+﻿using KSE.Core.DomainObjets;
+using KSE.Core.Interfaces;
 using System;
-using KSE.Catalog.Extensions.Exceptions;
 
 namespace KSE.Catalog.Models
 {
@@ -13,20 +12,18 @@ namespace KSE.Catalog.Models
         public string Name { get; private set; }
         public string Description { get; private set; }
         public bool Active { get; private set; }
-        public decimal Value { get; private set; }
-        public DateTime InsertDate { get; private set; }
+        public decimal Value { get; private set; }        
         public string Image { get; private set; }
         public int QuantityStock { get; private set; }
         protected Product() { }
 
-        public Product(Guid categoryId, string name, string description, bool active, decimal value, DateTime insertDate, string image, Dimensions dimensions)
+        public Product(Guid categoryId, string name, string description, bool active, decimal value, string image, Dimensions dimensions)
         {
             CategoryId = categoryId;
             Name = name;
             Description = description;
             Active = active;
-            Value = value;
-            InsertDate = insertDate;
+            Value = value;            
             Image = image;
             Dimensions = dimensions;
 
@@ -48,7 +45,7 @@ namespace KSE.Catalog.Models
         public void DebitStock(int quantity)
         {
             if (quantity < 0) quantity *= -1;
-            if (!HasStock(quantity)) throw new DomainException("Estoque insuficiente");
+            if (!HasStock(quantity)) throw new Extensions.Exceptions.DomainException("Estoque insuficiente");
             QuantityStock -= quantity;
         }
         public void ReplenishStock(int quantity)

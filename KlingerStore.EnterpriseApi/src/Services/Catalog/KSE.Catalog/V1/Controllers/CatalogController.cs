@@ -1,6 +1,6 @@
-﻿using KSE.Catalog.Controllers;
-using KSE.Catalog.Interfaces;
+﻿using KSE.Catalog.Interfaces;
 using KSE.Catalog.Models;
+using KSE.WebApi.Core.Controllers;
 using KSE.WebApi.Core.Identity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

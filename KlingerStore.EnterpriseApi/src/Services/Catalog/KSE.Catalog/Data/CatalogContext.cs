@@ -1,5 +1,7 @@
-﻿using KSE.Catalog.Models;
+﻿using FluentValidation.Results;
+using KSE.Catalog.Models;
 using KSE.Core.Interfaces;
+using KSE.Core.Messages;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
@@ -15,13 +17,16 @@ namespace KSE.Catalog.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Ignore<Event>();
+            modelBuilder.Ignore<ValidationResult>();
+
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(CatalogContext).Assembly);
 
             foreach (var property in modelBuilder.Model.GetEntityTypes().SelectMany(e => e.GetProperties().Where(p => p.ClrType == typeof(string))))
                 property.SetColumnType("varchar(255)");
 
             foreach (var relationship in modelBuilder.Model.GetEntityTypes().SelectMany(e => e.GetForeignKeys()))
-                relationship.DeleteBehavior = DeleteBehavior.ClientSetNull;           
+                relationship.DeleteBehavior = DeleteBehavior.ClientSetNull;
 
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(CatalogContext).Assembly);
         }

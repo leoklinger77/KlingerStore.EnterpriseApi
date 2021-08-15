@@ -1,9 +1,11 @@
 ﻿using KSE.WebAppMvc.Extensions;
+using KSE.WebAppMvc.Extensions.DataAnnotation;
 using KSE.WebAppMvc.Extensions.Polly;
 using KSE.WebAppMvc.Services;
 using KSE.WebAppMvc.Services.Handlers;
 using KSE.WebAppMvc.Services.Interfaces;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.DataAnnotations;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Polly;
@@ -15,6 +17,8 @@ namespace KSE.WebAppMvc.Configuration
     {
         public static void RegisterService(this IServiceCollection services, IConfiguration configuration)
         {
+            services.AddSingleton<IValidationAttributeAdapterProvider, CpfValidationAttributeAdapterProvider>();
+
             services.AddTransient<HttpClientAuthorizationHandler>();
             services.AddHttpClient<IAuthService, AuthService>();
 

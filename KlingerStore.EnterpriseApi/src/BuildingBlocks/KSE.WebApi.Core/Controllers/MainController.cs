@@ -2,8 +2,9 @@
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using System.Collections.Generic;
 using System.Linq;
+using FluentValidation.Results;
 
-namespace KSE.Authentication.Controllers
+namespace KSE.WebApi.Core.Controllers
 {
     [ApiController]
     public abstract class MainController : Controller
@@ -29,6 +30,16 @@ namespace KSE.Authentication.Controllers
             {
                 AddErros(erros.ToString());
             }
+            return CustomResponse();
+        }
+
+        protected ActionResult CustomResponse(ValidationResult modelState)
+        {
+            foreach (var item in modelState.Errors)
+            {
+                AddErros(item.ErrorMessage);
+            }
+
             return CustomResponse();
         }
 
