@@ -1,5 +1,6 @@
 ﻿using KSE.WebAppMvc.Extensions.Exceptions;
 using Microsoft.AspNetCore.Http;
+using Polly.CircuitBreaker;
 using Refit;
 using System.Net;
 using System.Threading.Tasks;
@@ -33,6 +34,10 @@ namespace KSE.WebAppMvc.Extensions.Middleware
             {
                 HandleRequestExceptionAsync(httpContext, ex.StatusCode);
             }
+            catch (BrokenCircuitException)
+            {
+                HandlerCircuitBreakerExceptionAsync(httpContext);
+            }
         }
 
         private static void HandleRequestExceptionAsync(HttpContext context, HttpStatusCode statusCode)
@@ -44,6 +49,11 @@ namespace KSE.WebAppMvc.Extensions.Middleware
             }
 
             context.Response.StatusCode = (int)statusCode;
+        }
+
+        private static void HandlerCircuitBreakerExceptionAsync(HttpContext context)
+        {
+            context.Response.Redirect("/sistema-indisponivel");
         }
     }
 }

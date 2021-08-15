@@ -1,23 +1,29 @@
 ﻿using KSE.WebAppMvc.Controllers;
 using KSE.WebAppMvc.Models;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace KSE.WebAppMvc.V1.Controllers
 {
     public class HomeController : MainController
     {
-        public IActionResult Index()
-        {
-            return View();
-        }
-
-        [Authorize]
+        
+        [HttpGet]
         public IActionResult Privacy()
         {
             return View();
         }
-                
+        
+        [HttpGet("sistema-indisponivel")]
+        public IActionResult SystemUnavailable()
+        {            
+            return View("Error", new ErrorViewModel
+            {
+                Message = "O sistem está temporariamente indisponível, isto pode ocorrer em momento de sobrecarga de usuário.",
+                Title = "Sistema indisponível.",
+                ErroCode = 500
+            });
+        }
+
         [HttpGet("erro/{id:length(3,3)}")]
         public IActionResult Error(int id)
         {
