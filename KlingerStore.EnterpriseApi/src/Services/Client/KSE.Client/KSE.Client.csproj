@@ -7,7 +7,7 @@
     <DockerfileContext>..\..\..\..</DockerfileContext>
   </PropertyGroup>
 
-  <ItemGroup>
+  <ItemGroup>    
     <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="9.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning.ApiExplorer" Version="5.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.1.0">
@@ -25,12 +25,12 @@
   <ItemGroup>
     <Folder Include="Application\Querys\" />
     <Folder Include="Extensions\" />
-    <Folder Include="Services\" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\BuildingBlocks\Core\KSE.Core\KSE.Core.csproj" />
     <ProjectReference Include="..\..\..\BuildingBlocks\KSE.WebApi.Core\KSE.WebApi.Core.csproj" />
+    <ProjectReference Include="..\..\..\BuildingBlocks\MessageBus\KSE.MessageBus\KSE.MessageBus.csproj" />
   </ItemGroup>
 
 

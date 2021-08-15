@@ -4,8 +4,10 @@ using KSE.Client.Application.Events;
 using KSE.Client.Data;
 using KSE.Client.Data.Repository;
 using KSE.Client.Models.Interfaces;
+using KSE.Client.Services;
 using KSE.Core.Mediatr;
 using MediatR;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace KSE.Client.Configuration
@@ -22,7 +24,7 @@ namespace KSE.Client.Configuration
             services.AddScoped<INotificationHandler<RegisteredCustomerEvent>, ClientEventHandler>();
                          
             services.AddScoped<IClientRepository, ClientRepository>();
-            services.AddScoped<ClientContext>();
+            services.AddScoped<ClientContext>();            
         }
     }
 }

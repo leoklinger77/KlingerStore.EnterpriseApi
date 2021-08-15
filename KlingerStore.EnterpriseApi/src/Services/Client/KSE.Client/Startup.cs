@@ -30,15 +30,13 @@ namespace KSE.Client
         }
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<ClientContext>(option => option.UseSqlServer(Configuration.GetConnectionString("Connection")));
-
-            services.AddWebAppConfig(Configuration);
-            services.SwaggerConfig();
-
             services.AddMediatR(typeof(Startup));
 
+            services.AddDbContext<ClientContext>(option => option.UseSqlServer(Configuration.GetConnectionString("Connection")));
+            services.AddMessageBusConfiguration(Configuration);
+            services.AddWebAppConfig(Configuration);
+            services.SwaggerConfig();
             services.RegisterService();
-
         }
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {

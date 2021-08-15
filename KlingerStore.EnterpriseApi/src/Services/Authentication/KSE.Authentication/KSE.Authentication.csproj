@@ -7,7 +7,7 @@
     <DockerfileContext>..\..\..\..</DockerfileContext>
   </PropertyGroup>
 
-  <ItemGroup>    
+  <ItemGroup>        
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -24,6 +24,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\BuildingBlocks\Core\KSE.Core\KSE.Core.csproj" />
     <ProjectReference Include="..\..\..\BuildingBlocks\KSE.WebApi.Core\KSE.WebApi.Core.csproj" />
+    <ProjectReference Include="..\..\..\BuildingBlocks\MessageBus\KSE.MessageBus\KSE.MessageBus.csproj" />
   </ItemGroup>
 </Project>

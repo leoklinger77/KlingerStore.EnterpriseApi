@@ -1,7 +1,6 @@
+using Api.Klinger.Extensions;
 using KSE.Authentication.Configuration;
 using KSE.Authentication.Data;
-using KSE.Authentication.Extensions;
-using KSE.WebApi.Core.Identity;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -31,30 +30,13 @@ namespace KSE.Authentication
         }
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<ApplicationDbContext>(option => option.UseSqlServer(Configuration.GetConnectionString("Connection")));            
-            services.IdentityConfig(Configuration);
-            services.AddControllers();
-            services.SwaggerConfig();
-
-            services.AddScoped<GeneretorToken>();
+            services.AddDbContext<ApplicationDbContext>(option => option.UseSqlServer(Configuration.GetConnectionString("Connection")));
+            services.AddMessageBusConfiguration(Configuration);
+            services.AddWebAppConfig(Configuration);
         }        
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            app.SwaggerApp();
-
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
-
-            app.UseHttpsRedirection();
-            app.UseRouting();
-            app.UseAuthConfiguration();
-
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllers();
-            });
+            app.AppWebAppConfig(env);
         }
     }
 }
