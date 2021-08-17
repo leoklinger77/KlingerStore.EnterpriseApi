@@ -1,0 +1,24 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <UserSecretsId>236e1a7c-da59-4b37-a6e1-f277a9510607</UserSecretsId>
+    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    <DockerfileContext>..\..\..\..\..</DockerfileContext>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="FluentValidation" Version="10.3.0" />
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.10.14" />
+    <PackageReference Include="MongoDB.Driver" Version="2.13.1" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\BuildingBlocks\Core\KSE.Core\KSE.Core.csproj" />
+    <ProjectReference Include="..\..\..\..\BuildingBlocks\KSE.WebApi.Core\KSE.WebApi.Core.csproj" />
+    <ProjectReference Include="..\..\..\..\BuildingBlocks\MessageBus\KSE.MessageBus\KSE.MessageBus.csproj" />
+  </ItemGroup>
+
+
+</Project>

@@ -27,8 +27,7 @@ namespace KSE.Catalog.V1.Controllers
         {
             return await _productRepository.FindAllProduct();
         }
-
-        [ClaimsAuthorize("Catalog", "Read")]
+                
         [HttpGet("Product/{id}")]        
         public async Task<Product> GetByProductId(Guid id)
         {            

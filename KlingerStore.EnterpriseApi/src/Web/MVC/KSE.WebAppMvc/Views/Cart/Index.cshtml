@@ -1,0 +1,129 @@
+﻿@model CartViewModel
+@{
+    ViewData["Title"] = "Carrinho de Compras";
+}
+
+<br />
+<div class="row">
+    <aside class="col-lg-9">
+        <div class="card">
+            <vc:summary></vc:summary>
+            <table class="table table-borderless table-shopping-cart">
+                <thead class="text-muted">
+                    <tr class="small text-uppercase">
+                        <th scope="col">Produto</th>
+                        <th scope="col" width="120">Quantidade</th>
+                        <th scope="col" width="120">Preço</th>
+                        <th scope="col" class="text-right" width="200"> </th>
+                    </tr>
+                </thead>
+                @if (Model.Itens.Any())
+                {
+                    <tbody>
+                        @foreach (var item in Model.Itens)
+                        {
+                            <tr>
+                                <td>
+                                    <figure class="itemside align-items-center">
+                                        <div class="aside"><img src="~/imagens/produtos/@item.Image" class="img-sm"></div>
+                                        <figcaption class="info">
+                                            <a href="#" class="title text-dark">@item.Name</a>
+                                        </figcaption>
+                                    </figure>
+                                </td>
+                                <td>
+                                    <form asp-controller="Cart" asp-action="UpdateItemCart" method="post">
+                                        <input type="hidden" asp-for="@item.ProductId" name="ProductId" />
+                                        <select id="quantityCart" asp-for="@item.Quantity" name="Quantity" class="form-control">
+                                            <option>1</option>
+                                            <option>2</option>
+                                            <option>3</option>
+                                            <option>4</option>
+                                            <option>5</option>
+                                        </select>
+                                        <button type="submit" style="display:none" id="updateItemCart">Alterar</button>
+                                    </form>
+
+                                </td>
+                                <td>
+                                    <div class="price-wrap">
+                                        <var class="price">@item.Value</var>
+                                        <small class="text-muted"> @(item.Value * item.Quantity)  </small>
+                                    </div>
+                                </td>
+
+                                <td class="text-right">
+                                    <a data-original-title="Save to Wishlist" title="" href="" class="btn btn-light" data-toggle="tooltip"> <i class="fa fa-heart"></i></a>
+                                    <a asp-controller="Cart" asp-action="RemoveItemCart" asp-route-ProductId="@item.ProductId" class="btn btn-light"> Remover</a>
+                                </td>
+
+
+                            </tr>
+                        }
+
+                    </tbody>
+                }
+
+            </table>
+            @if (!Model.Itens.Any())
+            {
+                <div class="card-body border-top">
+                    <p class="icontext"><i class="icon text-success fa fa-truck"></i> Seu Carrinho está vazio.</p>
+                </div>
+            }
+            else
+            {
+                <div class="card-body border-top">
+                    <p class="icontext"><i class="icon text-success fa fa-truck"></i> Entrega gratuita em 1-2 semanas</p>
+                </div>
+            }
+
+
+        </div>
+
+    </aside>
+    <aside class="col-lg-3">
+
+        <div class="card mb-3">
+            <div class="card-body">
+                <form>
+                    <div class="form-group">
+                        <label>Possui Cupom?</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control" name="" placeholder="Coupon code">
+                            <span class="input-group-append">
+                                <button class="btn btn-primary">Aplicar</button>
+                            </span>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-body">
+                <dl class="dlist-align">
+                    <dt>Preço Total:</dt>
+                    <dd class="text-right">@Model.TotalValue</dd>
+                </dl>
+                <dl class="dlist-align">
+                    <dt>Disconto:</dt>
+                    <dd class="text-right text-danger">R$0,00</dd>
+                </dl>
+                <dl class="dlist-align">
+                    <dt>Total:</dt>
+                    <dd class="text-right text-dark b"><strong>@Model.TotalValue</strong></dd>
+                </dl>
+                <hr>
+                <p class="text-center mb-3">
+                    <img src="~/imagens/payments.png" height="26">
+                </p>
+                <a href="#" class="btn btn-primary btn-block"> Comprar Agora</a>
+                <a href="#" class="btn btn-light btn-block">Continuar Comprando</a>
+            </div>
+        </div>
+
+    </aside>
+
+
+</div>

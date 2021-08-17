@@ -19,57 +19,59 @@
         </aside>
         <main class="col-md-6 border-left">
             <article class="content-body">
+                <form asp-controller="Cart" asp-action="AddItemCart" method="post">
 
-                <h2 class="title">@Model.Name</h2>
+                    <input type="hidden" name="ProductId" id="ProductId" value="@Model.Id" />
 
-                <div class="rating-wrap my-3">
-                    <ul class="rating-stars">
-                        <li style="width:80%" class="stars-active">
-                            <img src="bootstrap-ecommerce-html/images/icons/stars-active.svg" alt="">
-                        </li>
-                        <li>
-                            <img src="bootstrap-ecommerce-html/images/icons/starts-disable.svg" alt="">
-                        </li>
-                    </ul>
-                    <small class="label-rating text-muted">132 Avaliações</small>
-                    <small class="label-rating text-success"> <i class="fa fa-clipboard-check"></i> @this.StockMessage(Model.QuantityStock) </small>
-                </div> 
+                    <h2 class="title">@Model.Name</h2>
 
-                <div class="mb-3">
-                    <var class="price h4">@this.CurrencyFormat(Model.Value)</var>
-                    <span class="text-muted"></span>
-                </div>
+                    <div class="rating-wrap my-3">
+                        <ul class="rating-stars">
+                            <li style="width:80%" class="stars-active">
+                                <img src="bootstrap-ecommerce-html/images/icons/stars-active.svg" alt="">
+                            </li>
+                            <li>
+                                <img src="bootstrap-ecommerce-html/images/icons/starts-disable.svg" alt="">
+                            </li>
+                        </ul>
+                        <small class="label-rating text-muted">132 Avaliações</small>
+                        <small class="label-rating text-success"> <i class="fa fa-clipboard-check"></i> @this.StockMessage(Model.QuantityStock) </small>
+                    </div>
 
-                <p>@Model.Description</p>
+                    <div class="mb-3">
+                        <var class="price h4">@this.CurrencyFormat(Model.Value)</var>
+                        <span class="text-muted"></span>
+                    </div>
 
-                <dl class="row">
-                    <dt class="col-sm-3">Model#</dt>
-                    <dd class="col-sm-9"></dd>
+                    <p>@Model.Description</p>
 
-                    <dt class="col-sm-3">Color</dt>
-                    <dd class="col-sm-9"></dd>
+                    <dl class="row">
+                        <dt class="col-sm-3">Model#</dt>
+                        <dd class="col-sm-9"></dd>
 
-                    <dt class="col-sm-3">Delivery</dt>
-                    <dd class="col-sm-9"></dd>
-                </dl>
+                        <dt class="col-sm-3">Color</dt>
+                        <dd class="col-sm-9"></dd>
 
-                <hr>
-                <div class="row">
-                    <div class="form-group col-md flex-grow-0">
-                        <label>Quantidade</label>
-                        <div class="input-group mb-3 input-spinner">
-                            <div class="input-group-prepend">
-                                <button class="btn btn-light" type="button" id="button-plus"> + </button>
-                            </div>
-                            <input type="text" class="form-control" value="1">
-                            <div class="input-group-append">
-                                <button class="btn btn-light" type="button" id="button-minus"> &minus; </button>
-                            </div>
+                        <dt class="col-sm-3">Delivery</dt>
+                        <dd class="col-sm-9"></dd>
+                    </dl>
+
+                    <hr>
+                    <div class="row">
+                        <div class="form-group col-md flex-grow-0">
+                            <label>Quantidade</label>
+                            <select id="Quantity" name="Quantity" class="form-control">
+                                <option>1</option>
+                                <option>2</option>
+                                <option>3</option>
+                                <option>4</option>
+                                <option>5</option>
+                            </select>
                         </div>
-                    </div>                     
-                </div> 
-                <a href="#" class="btn  btn-primary"> Comprar Agora </a>
-                <a href="#" class="btn  btn-outline-primary"> <span class="text">Adicionar Carrinho</span> <i class="fas fa-shopping-cart"></i>  </a>
+                    </div>
+                    <a href="#" class="btn  btn-primary"> Comprar Agora </a>
+                    <button type="submit" class="btn  btn-outline-primary"> <span class="text">Adicionar Carrinho</span> <i class="fas fa-shopping-cart"></i>  </button>
+                </form>
             </article> 
         </main> 
     </div> 

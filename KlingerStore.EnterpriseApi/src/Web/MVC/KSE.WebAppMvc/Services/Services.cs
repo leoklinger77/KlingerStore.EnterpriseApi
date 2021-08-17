@@ -15,9 +15,13 @@ namespace KSE.WebAppMvc.Services
         }
         
         protected async Task<T> DeserializeResponse<T>(HttpResponseMessage responseMessage)
-        {
+        {   
             return JsonSerializer.Deserialize<T>(await responseMessage.Content.ReadAsStringAsync(), new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
         }
+
+        private async Task<bool> ResponseIsNull(HttpResponseMessage responseMessage) 
+            => string.IsNullOrEmpty(await responseMessage.Content.ReadAsStringAsync());
+
 
         protected async Task<dynamic> ReturnResponse<T>(HttpResponseMessage response)
         {
@@ -28,6 +32,8 @@ namespace KSE.WebAppMvc.Services
                     ResponseResult = await DeserializeResponse<ResponseResult>(response)
                 };
             }
+
+            if (await ResponseIsNull(response)) return new ResponseResult();
 
             return await DeserializeResponse<T>(response);
         }

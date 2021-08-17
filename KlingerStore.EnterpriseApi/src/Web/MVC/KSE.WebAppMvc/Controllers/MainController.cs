@@ -18,5 +18,14 @@ namespace KSE.WebAppMvc.Controllers
             }
             return false;
         }
+
+        protected void AddError(string message)
+        {
+            ModelState.AddModelError(string.Empty, message);
+        }
+        protected bool OperationValid()
+        {
+            return ModelState.ErrorCount == 0;
+        }
     }
 }

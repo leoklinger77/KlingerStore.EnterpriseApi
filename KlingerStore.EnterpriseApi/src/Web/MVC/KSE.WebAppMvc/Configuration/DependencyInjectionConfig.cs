@@ -20,13 +20,27 @@ namespace KSE.WebAppMvc.Configuration
             services.AddSingleton<IValidationAttributeAdapterProvider, CpfValidationAttributeAdapterProvider>();
 
             services.AddTransient<HttpClientAuthorizationHandler>();
-            services.AddHttpClient<IAuthService, AuthService>();
+
+            services.AddHttpClient<IAuthService, AuthService>()
+                .AddHttpMessageHandler<HttpClientAuthorizationHandler>()
+                .AddPolicyHandler(PollyExtension.WaitAndTry())
+                .AddTransientHttpErrorPolicy(p => p.CircuitBreakerAsync(5, TimeSpan.FromSeconds(30)));
+
+            services.AddHttpClient<ICartService, CartService>()
+                .AddHttpMessageHandler<HttpClientAuthorizationHandler>()
+                .AddPolicyHandler(PollyExtension.WaitAndTry())
+                .AddTransientHttpErrorPolicy(p => p.CircuitBreakerAsync(5, TimeSpan.FromSeconds(30)));
 
             services.AddHttpClient<ICatalogService, CatalogService>()
                 .AddHttpMessageHandler<HttpClientAuthorizationHandler>()
                 .AddPolicyHandler(PollyExtension.WaitAndTry())
                 .AddTransientHttpErrorPolicy(p => p.CircuitBreakerAsync(5, TimeSpan.FromSeconds(30)));
 
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
+            services.AddScoped<IUser, User>();
+
+            #region Refit
             //Refit - Apenas exemplo
             services.AddHttpClient("Refit", options =>
             {
@@ -34,10 +48,7 @@ namespace KSE.WebAppMvc.Configuration
             })
             .AddHttpMessageHandler<HttpClientAuthorizationHandler>()
             .AddTypedClient(Refit.RestService.For<ICatalogServiceRefit>);
-
-            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-
-            services.AddScoped<IUser, User>();
+            #endregion           
         }
     }
 }

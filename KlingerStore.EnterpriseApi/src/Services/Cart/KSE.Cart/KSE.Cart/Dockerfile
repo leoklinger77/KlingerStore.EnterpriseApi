@@ -7,10 +7,10 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:3.1 AS build
 WORKDIR /src
-COPY ["src/Services/Cart/KSE.Cart/KSE.Cart.csproj", "src/Services/Cart/KSE.Cart/"]
-RUN dotnet restore "src/Services/Cart/KSE.Cart/KSE.Cart.csproj"
+COPY ["src/Services/Cart/KSE.Cart/KSE.Cart/KSE.Cart.csproj", "src/Services/Cart/KSE.Cart/KSE.Cart/"]
+RUN dotnet restore "src/Services/Cart/KSE.Cart/KSE.Cart/KSE.Cart.csproj"
 COPY . .
-WORKDIR "/src/src/Services/Cart/KSE.Cart"
+WORKDIR "/src/src/Services/Cart/KSE.Cart/KSE.Cart"
 RUN dotnet build "KSE.Cart.csproj" -c Release -o /app/build
 
 FROM build AS publish

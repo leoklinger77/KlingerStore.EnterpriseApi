@@ -52,8 +52,13 @@ $(document).ready(function () {
     } // end if
 
 
-
+    $('#quantityCart').change(function () {
+        $("#updateItemCart").click();
+    })
 
 
 });
 // jquery end
+
+
+
