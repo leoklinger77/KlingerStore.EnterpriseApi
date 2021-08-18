@@ -1,11 +1,9 @@
-﻿using KSE.Core.DomainObjets;
-using System;
+﻿using System;
 
 namespace KSE.Client.ViewModels
 {
-    public class AddressViewModel : Entity
-    {
-        public ClientViewModel Client { get; set; }
+    public class AddressViewModel
+    {        
         public Guid ClientId { get; set; }
         public string Street { get; set; }
         public string Number { get; set; }

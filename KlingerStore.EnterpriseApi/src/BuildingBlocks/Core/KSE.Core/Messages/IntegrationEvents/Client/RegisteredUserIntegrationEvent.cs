@@ -11,6 +11,8 @@ namespace KSE.Core.Messages.IntegrationEvents.Client
 
         public RegisteredUserIntegrationEvent(Guid id, string name, string email, string cpf)
         {
+            AggregateId = id;
+
             Id = id;
             Name = name;
             Email = email;

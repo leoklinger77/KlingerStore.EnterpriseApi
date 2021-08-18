@@ -11,8 +11,7 @@ namespace KSE.Cart.Configuration
     {
         public static void RegisterService(this IServiceCollection services)
         {
-            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-            
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();            
             services.AddScoped<IAspNetUser, AspNetUser>();
             
             

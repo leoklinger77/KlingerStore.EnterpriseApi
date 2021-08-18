@@ -31,6 +31,7 @@ namespace KSE.Client
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMediatR(typeof(Startup));
+            services.AddAutoMapper(typeof(Startup));
 
             services.AddDbContext<ClientContext>(option => option.UseSqlServer(Configuration.GetConnectionString("Connection")));
             services.AddMessageBusConfiguration(Configuration);

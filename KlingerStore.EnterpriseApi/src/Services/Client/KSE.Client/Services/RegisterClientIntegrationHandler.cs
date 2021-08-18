@@ -32,7 +32,7 @@ namespace KSE.Client.Services
 
         private async Task<ResponseMessage> RegisteredCLient(RegisteredUserIntegrationEvent message)
         {
-            var clientCommand = new RegisterClientCommand(Guid.NewGuid(), message.Name, message.Cpf, message.Email);
+            var clientCommand = new RegisterClientCommand(message.AggregateId, message.Name, message.Cpf, message.Email);
 
             ValidationResult success;
 

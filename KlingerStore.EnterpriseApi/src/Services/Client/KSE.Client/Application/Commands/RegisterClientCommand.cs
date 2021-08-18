@@ -14,7 +14,7 @@ namespace KSE.Client.Application.Commands
 
         public RegisterClientCommand(Guid id, string name, string cpf, string email)
         {
-            AggregateId = Id;
+            AggregateId = id;
 
             Id = id;
             Name = name;

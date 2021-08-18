@@ -1,6 +1,8 @@
-﻿using KSE.Client.Models.Interfaces;
+﻿using KSE.Client.Models;
+using KSE.Client.Models.Interfaces;
 using KSE.Core.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -33,6 +35,16 @@ namespace KSE.Client.Data.Repository
         public void Dispose()
         {
             _clientContext?.DisposeAsync();
+        }
+
+        public async Task<Models.Client> GetClient(Guid id)
+        {
+            return await _clientContext.Client.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id);
+        }
+
+        public async Task<Address> GetAddress(Guid id)
+        {
+            return await _clientContext.Address.AsNoTracking().FirstOrDefaultAsync(x => x.ClientId == id);
         }
     }
 }

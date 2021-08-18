@@ -1,4 +1,5 @@
 ﻿using KSE.Core.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -8,6 +9,9 @@ namespace KSE.Client.Models.Interfaces
     {
         Task Insert(Client client);
         Task<IEnumerable<Client>> FindAll();
-        Task<Client> FindByCpf(string cpf);        
+        Task<Client> FindByCpf(string cpf);
+        
+        Task<Client> GetClient(Guid id);
+        Task<Address> GetAddress(Guid id);
     }
 }
