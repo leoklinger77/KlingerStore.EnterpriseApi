@@ -1,4 +1,6 @@
 ﻿using KSE.WebAppMvc.Controllers;
+using KSE.WebAppMvc.Models;
+using KSE.WebAppMvc.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -10,6 +12,8 @@ namespace KSE.WebAppMvc.V1.Controllers
     [Route("client")]
     public class ClientController : MainController
     {
+        
+
         [HttpGet("meus-pedidos")]
         public async Task<IActionResult> MyOrders()
         {
@@ -19,7 +23,7 @@ namespace KSE.WebAppMvc.V1.Controllers
         [HttpGet("meu-perfil")]
         public async Task<IActionResult> Profile()
         {
-            return View();
+            return View(new ClientViewModel());
         }
 
         [HttpGet("endereco")]
@@ -39,5 +43,12 @@ namespace KSE.WebAppMvc.V1.Controllers
         {
             return View();
         }
+        [HttpGet("produtos-favoritos")]
+        public async Task<IActionResult> FavoriteProduct()
+        {
+            return View();
+        }
+
+        
     }
 }

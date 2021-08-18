@@ -15,14 +15,14 @@
                     <div class=" col-md-6">
                         <div class="form-group">
                             <label asp-for="Name" class="control-label">Nome</label>
-                            <input asp-for="Name" class="form-control" />
+                            <input asp-for="Name.FirtName()" class="form-control" />
                             <span asp-validation-for="Name" class="text-danger"></span>
                         </div>
                     </div>
                     <div class=" col-md-6">
                         <div class="form-group">
                             <label asp-for="Name" class="control-label">Sobrenome</label>
-                            <input asp-for="Name" class="form-control" />
+                            <input asp-for="Name.LastName()" class="form-control" />
                             <span asp-validation-for="Name" class="text-danger"></span>
                         </div>
                     </div>

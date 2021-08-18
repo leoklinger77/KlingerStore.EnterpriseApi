@@ -25,5 +25,21 @@ namespace KSE.WebAppMvc.Extensions.Razor
             }
             return sBuilder.ToString();
         }
+        public static string UnityPerProdut(this RazorPage page, int quantity)
+        {
+            return quantity > 1 ? $"{quantity} unidades" : $"{quantity} unidade";
+        }
+
+        public static string SelectOptionPerQuantity(this RazorPage page, int quantity, int valueSelect = 0)
+        {
+            var sb = new StringBuilder();
+            for (int i = 1; i <= quantity; i++)
+            {
+                var select = "";
+                if (i == valueSelect) select = "selected";
+                sb.Append($"<option {select} value={i}>{i}</option>");
+            }
+            return sb.ToString();
+        }
     }
 }
