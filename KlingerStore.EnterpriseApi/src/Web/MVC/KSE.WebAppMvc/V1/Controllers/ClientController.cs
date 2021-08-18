@@ -1,10 +1,6 @@
 ﻿using KSE.WebAppMvc.Controllers;
-using KSE.WebAppMvc.Models;
 using KSE.WebAppMvc.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace KSE.WebAppMvc.V1.Controllers
@@ -26,16 +22,13 @@ namespace KSE.WebAppMvc.V1.Controllers
         }
 
         [HttpGet("meu-perfil")]
-        public async Task<IActionResult> Profile()
-        {
-            return View(await _clientService.GetClient());
-        }
+        public async Task<IActionResult> Profile() 
+            => View(await _clientService.GetClient());
+        
 
         [HttpGet("endereco")]
-        public async Task<IActionResult> Address()
-        {
-            return View(await _clientService.GetAddress());
-        }
+        public async Task<IActionResult> Address() 
+            => View(await _clientService.GetAddress());
 
         [HttpGet("seguranca")]
         public async Task<IActionResult> Security()

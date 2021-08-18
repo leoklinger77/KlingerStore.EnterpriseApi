@@ -1,4 +1,5 @@
-﻿using KSE.WebAppMvc.Services.Interfaces;
+﻿using KSE.WebAppMvc.Extensions.Exceptions;
+using KSE.WebAppMvc.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
@@ -6,16 +7,23 @@ namespace KSE.WebAppMvc.Extensions.ViewComponents
 {
     public class CartViewComponent : ViewComponent
     {
-        private readonly ICartService _cartService;
+        private readonly ICartGatewayPurchaseService _cartService;
 
-        public CartViewComponent(ICartService cartService)
+        public CartViewComponent(ICartGatewayPurchaseService cartService)
         {
             _cartService = cartService;
         }
 
         public async Task<IViewComponentResult> InvokeAsync()
-        {
-            return View(await _cartService.GetCart() ?? new Models.CartViewModel());
+        {            
+            try
+            {                 
+                return View(await _cartService.GetQuantityCart());
+            }
+            catch (CustomHttpRequestException)
+            {
+                return View(0);
+            }
         }
     }
 }

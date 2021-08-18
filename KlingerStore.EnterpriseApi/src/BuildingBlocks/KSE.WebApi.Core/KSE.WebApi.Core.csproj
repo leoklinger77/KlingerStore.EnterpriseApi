@@ -7,6 +7,11 @@
   <ItemGroup>
     <PackageReference Include="FluentValidation" Version="10.3.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="3.1.0" />
+    <PackageReference Include="Microsoft.Extensions.Http.Polly" Version="3.1.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Core\KSE.Core\KSE.Core.csproj" />
   </ItemGroup>
 
 </Project>

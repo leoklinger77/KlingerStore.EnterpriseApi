@@ -18,7 +18,6 @@ namespace KSE.WebAppMvc.Configuration
         public static void RegisterService(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddSingleton<IValidationAttributeAdapterProvider, CpfValidationAttributeAdapterProvider>();
-
             services.AddTransient<HttpClientAuthorizationHandler>();
 
             services.AddHttpClient<IAuthService, AuthService>()
@@ -26,7 +25,7 @@ namespace KSE.WebAppMvc.Configuration
                 .AddPolicyHandler(PollyExtension.WaitAndTry())
                 .AddTransientHttpErrorPolicy(p => p.CircuitBreakerAsync(5, TimeSpan.FromSeconds(30)));
 
-            services.AddHttpClient<ICartService, CartService>()
+            services.AddHttpClient<ICartGatewayPurchaseService, CartGatewayPurchaseService>()
                 .AddHttpMessageHandler<HttpClientAuthorizationHandler>()
                 .AddPolicyHandler(PollyExtension.WaitAndTry())
                 .AddTransientHttpErrorPolicy(p => p.CircuitBreakerAsync(5, TimeSpan.FromSeconds(30)));

@@ -12,13 +12,11 @@ namespace KSE.WebAppMvc.V1.Controllers
     [Route("Cart")]
     public class CartController : MainController
     {
-        private readonly ICartService _cartService;
-        private readonly ICatalogService _catalogService;
+        private readonly ICartGatewayPurchaseService _cartService;
 
-        public CartController(ICartService cartService, ICatalogService catalogService)
+        public CartController(ICartGatewayPurchaseService cartService)
         {
             _cartService = cartService;
-            _catalogService = catalogService;
         }
 
         [HttpGet]
@@ -28,17 +26,8 @@ namespace KSE.WebAppMvc.V1.Controllers
         }
 
         [HttpPost("add-item")]
-        public async Task<IActionResult> AddItemCart(ItemProductViewModel item)
+        public async Task<IActionResult> AddItemCart(CartItemViewModel item)
         {
-            var product = await _catalogService.FindById(item.ProductId);
-
-            ValidationItemCart(product, item.Quantity);
-            if (!OperationValid()) return View("Index", await _cartService.GetCart());
-
-            item.Name = product.Name;
-            item.Value = product.Value;
-            item.Image = product.Image;            
-
             if (HasErrorResponse(await _cartService.AddItemCart(item))) return View("Index", await _cartService.GetCart());
 
             return RedirectToAction(nameof(Index));
@@ -47,15 +36,8 @@ namespace KSE.WebAppMvc.V1.Controllers
         [HttpPost("update-item")]
         public async Task<IActionResult> UpdateItemCart(Guid productId, int quantity)
         {
-            ValidationItemCart(await _catalogService.FindById(productId), quantity);
-            if (!OperationValid()) return View("Index", await _cartService.GetCart());
-
-            if (HasErrorResponse(await _cartService.UpdateItemCart(productId,
-                new ItemProductViewModel
-                {
-                    ProductId = productId,                    
-                    Quantity = quantity                    
-                }))) return View("Index", await _cartService.GetCart());
+            if (HasErrorResponse(await _cartService.UpdateItemCart(productId, new CartItemViewModel { ProductId = productId, Quantity = quantity })))
+                return View("Index", await _cartService.GetCart());
 
             return RedirectToAction(nameof(Index));
         }
@@ -64,13 +46,7 @@ namespace KSE.WebAppMvc.V1.Controllers
         [AutoValidateAntiforgeryToken]
         public async Task<IActionResult> RemoveItemCart(Guid productId)
         {
-            if (await _catalogService.FindById(productId) is null)
-            {
-                AddError("Produto inesxistente!");
-                return View("Index", await _cartService.GetCart());
-            }
-
-            if (HasErrorResponse(await _cartService.RemoveItemCart(productId))) return View("Index", await _cartService.GetCart());
+            if (HasErrorResponse(await _cartService.DeleteItemCart(productId))) return View("Index", await _cartService.GetCart());
 
             return RedirectToAction(nameof(Index));
         }
@@ -79,7 +55,7 @@ namespace KSE.WebAppMvc.V1.Controllers
         {
             if (product is null) AddError("Produto inesxistente!");
             if (quantity < 1) AddError("");
-            if (quantity > product.QuantityStock) AddError($"O producto {product.Name} possui {product.QuantityStock} quantidades em estoque!" );
+            if (quantity > product.QuantityStock) AddError($"O producto {product.Name} possui {product.QuantityStock} quantidades em estoque!");
         }
     }
 }

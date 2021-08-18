@@ -10,27 +10,27 @@
 
     <link href="images/favicon.ico" rel="shortcut icon" type="image/x-icon">
 
-    
+
     <script src="~/lib/jquery/dist/jquery.js" type="text/javascript"></script>
 
-    
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link href="~/lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet" type="text/css" />    
 
-   
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link href="~/lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet" type="text/css" />
+
+
     <link href="~/lib/font-awesome/css/all.css" type="text/css" rel="stylesheet">
 
-    
+
     <link href="~/css/responsive.css" rel="stylesheet" media="only screen and (max-width: 1200px)" />
     <link rel="stylesheet" href="~/css/site.css" />
 
-    
+
     <script src="~/js/site.js" type="text/javascript"></script>
 
     <script type="text/javascript">
-        $(document).ready(function () {            
+        $(document).ready(function () {
 
-        });       
+        });
     </script>
 
 </head>
@@ -59,18 +59,12 @@
                         </form>
                     </div>
                     <div class="col-lg-4 col-sm-6 col-12">
-                        <div class="widgets-wrap float-md-right">
-                            <div class="widget-header  mr-3">
-                                <a href="#" class="icon icon-sm rounded-circle border"><i class="fa fa-shopping-cart"></i></a>
-                                <span class="badge badge-pill badge-danger notify">0</span>
-                            </div>
-                            <div class="widget-header icontext">
-                                
-                                <div class="text">
-                                    <partial name="_LoginPartial" />
-                                </div>
-                            </div>
 
+                        <div class="widgets-wrap float-md-right">
+                            <div class="widget-header icontext">
+                                <vc:cart></vc:cart>
+                                <partial name="_LoginPartial" />
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -101,7 +95,7 @@
                             <li> <a href="#">Sobre nós</a></li>
                             <li> <a href="#">Carreira</a></li>
                             <li> <a href="#">Encontrar uma loja</a></li>
-                            <li> <a href="#">Regras e termos</a></li>                            
+                            <li> <a href="#">Regras e termos</a></li>
                         </ul>
                     </aside>
                     <aside class="col-md col-6">
@@ -110,7 +104,7 @@
                             <li> <a href="#">Contate-nós</a></li>
                             <li> <a href="#">Reembolso de dinheiro</a></li>
                             <li> <a href="#">Status do pedido</a></li>
-                            <li> <a href="#">Informação de envio</a></li>                            
+                            <li> <a href="#">Informação de envio</a></li>
                         </ul>
                     </aside>
                     <aside class="col-md col-6">

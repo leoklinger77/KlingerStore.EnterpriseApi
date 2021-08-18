@@ -1,6 +1,6 @@
-﻿@model CartViewModel
+﻿@model int
 
 <div class="widget-header  mr-3">
     <a asp-controller="Cart" asp-action="Index" class="icon icon-sm rounded-circle border"><i class="fa fa-shopping-cart"></i></a>
-    <span class="badge badge-pill badge-danger notify">@Model.Itens?.Count()</span>
+    <span class="badge badge-pill badge-danger notify">@Model</span>
 </div>

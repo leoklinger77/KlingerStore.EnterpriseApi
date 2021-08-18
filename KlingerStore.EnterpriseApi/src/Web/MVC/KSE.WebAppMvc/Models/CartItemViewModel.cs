@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace KSE.WebAppMvc.Models
 {
-    public class ItemProductViewModel
+    public class CartItemViewModel
     {
         public Guid ProductId { get; set; }
         public string Name { get; set; }
@@ -15,6 +15,6 @@ namespace KSE.WebAppMvc.Models
     public class CartViewModel
     {
         public decimal TotalValue { get; set; }
-        public List<ItemProductViewModel> Itens { get; set; } = new List<ItemProductViewModel>();
+        public List<CartItemViewModel> Itens { get; set; } = new List<CartItemViewModel>();
     }
 }

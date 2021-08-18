@@ -47,7 +47,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MessageBus", "MessageBus", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KSE.MessageBus", "src\BuildingBlocks\MessageBus\KSE.MessageBus\KSE.MessageBus.csproj", "{104CF170-CC0E-4B1E-AE24-27FBEB2D42E3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KSE.Cart", "src\Services\Cart\KSE.Cart\KSE.Cart\KSE.Cart.csproj", "{261596F9-409C-4950-80CC-47A2D7AEA6EC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KSE.Cart", "src\Services\Cart\KSE.Cart\KSE.Cart\KSE.Cart.csproj", "{261596F9-409C-4950-80CC-47A2D7AEA6EC}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ApiGateway", "ApiGateway", "{49B86D7B-08DC-4FA0-98EE-AEBB482A29FA}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "GatewayPurchase", "GatewayPurchase", "{083158D5-50AA-43F5-821F-511AA6F3383B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KSE.Gateway.Purchase", "src\Api Gateway\KSE.Gateway.Purchases\KSE.Gateway.Purchase\KSE.Gateway.Purchase.csproj", "{2A9088E4-B3C9-4612-8E71-A8530C98B8F2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -95,6 +101,10 @@ Global
 		{261596F9-409C-4950-80CC-47A2D7AEA6EC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{261596F9-409C-4950-80CC-47A2D7AEA6EC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{261596F9-409C-4950-80CC-47A2D7AEA6EC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2A9088E4-B3C9-4612-8E71-A8530C98B8F2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2A9088E4-B3C9-4612-8E71-A8530C98B8F2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2A9088E4-B3C9-4612-8E71-A8530C98B8F2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2A9088E4-B3C9-4612-8E71-A8530C98B8F2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -120,6 +130,8 @@ Global
 		{25299755-D792-4006-8321-26C6D7A713B1} = {59050F80-A4D3-471C-AFB2-65B475B2608D}
 		{104CF170-CC0E-4B1E-AE24-27FBEB2D42E3} = {25299755-D792-4006-8321-26C6D7A713B1}
 		{261596F9-409C-4950-80CC-47A2D7AEA6EC} = {08287166-307B-473C-8EC5-D45B95B198BE}
+		{083158D5-50AA-43F5-821F-511AA6F3383B} = {49B86D7B-08DC-4FA0-98EE-AEBB482A29FA}
+		{2A9088E4-B3C9-4612-8E71-A8530C98B8F2} = {083158D5-50AA-43F5-821F-511AA6F3383B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {2EBD51FA-50F6-4363-9092-EE3E013209FA}

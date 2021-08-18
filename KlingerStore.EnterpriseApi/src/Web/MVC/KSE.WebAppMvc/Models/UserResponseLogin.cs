@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using KSE.Core.Communication;
+using System.Collections.Generic;
 
 namespace KSE.WebAppMvc.Models
 {

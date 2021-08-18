@@ -1,4 +1,5 @@
-﻿using KSE.WebAppMvc.Extensions.Exceptions;
+﻿using KSE.Core.Communication;
+using KSE.WebAppMvc.Extensions.Exceptions;
 using KSE.WebAppMvc.Models;
 using System.Net.Http;
 using System.Text;

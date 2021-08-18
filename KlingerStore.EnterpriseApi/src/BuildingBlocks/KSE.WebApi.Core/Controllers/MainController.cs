@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc.ModelBinding;
 using System.Collections.Generic;
 using System.Linq;
 using FluentValidation.Results;
+using KSE.Core.Communication;
 
 namespace KSE.WebApi.Core.Controllers
 {
@@ -10,6 +11,7 @@ namespace KSE.WebApi.Core.Controllers
     public abstract class MainController : Controller
     {
         protected ICollection<string> Erros = new List<string>();
+
         protected ActionResult CustomResponse(object result = null)
         {
             if (OperationVation())
@@ -47,13 +49,27 @@ namespace KSE.WebApi.Core.Controllers
         {
             return !Erros.Any();
         }
+
         protected void AddErros(string erro)
         {
             Erros.Add(erro);
         }
+
         protected void ClearErros()
         {
             Erros.Clear();
         }
+
+        protected bool ResponseHasError(ResponseResult response)
+        {
+            if (response is null || !response.errors.Messagens.Any()) return false;
+
+            foreach (var item in response.errors.Messagens)
+            {
+                AddErros(item);
+            }
+            return true;
+        }
+
     }
 }

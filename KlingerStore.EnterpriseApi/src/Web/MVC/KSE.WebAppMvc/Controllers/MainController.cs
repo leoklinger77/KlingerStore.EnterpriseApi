@@ -1,4 +1,4 @@
-﻿using KSE.WebAppMvc.Models;
+﻿using KSE.Core.Communication;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 
