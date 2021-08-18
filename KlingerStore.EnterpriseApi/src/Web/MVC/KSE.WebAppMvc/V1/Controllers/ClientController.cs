@@ -12,7 +12,12 @@ namespace KSE.WebAppMvc.V1.Controllers
     [Route("client")]
     public class ClientController : MainController
     {
-        
+        private readonly IClientService _clientService;
+
+        public ClientController(IClientService clientService)
+        {
+            _clientService = clientService;
+        }
 
         [HttpGet("meus-pedidos")]
         public async Task<IActionResult> MyOrders()
@@ -23,13 +28,13 @@ namespace KSE.WebAppMvc.V1.Controllers
         [HttpGet("meu-perfil")]
         public async Task<IActionResult> Profile()
         {
-            return View(new ClientViewModel());
+            return View(await _clientService.GetClient());
         }
 
         [HttpGet("endereco")]
         public async Task<IActionResult> Address()
         {
-            return View();
+            return View(await _clientService.GetAddress());
         }
 
         [HttpGet("seguranca")]

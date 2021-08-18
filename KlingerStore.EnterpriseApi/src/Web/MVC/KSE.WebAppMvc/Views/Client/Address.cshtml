@@ -1,17 +1,78 @@
-﻿@model IEnumerable<ProductViewModel>
+﻿@model AddressViewModel
 @{
     ViewData["Title"] = "Endereço";
 }
 <br />
 <div class="row">
-    <partial name="_Menu" />
+    <partial name="_MenuClientProfile" />
     <main class="col-md-9">
         <article class="card">
             <header class="card-header">
-                <strong class="d-inline-block mr-3">Order ID: 6123456789</strong>
-                <span>Order Date: 16 December 2018</span>
+                <strong class="d-inline-block mr-3">Meu Endereço</strong>
+                <span></span>
             </header>
-          
+            <div class="card-body">
+                <div class="row">
+                    <div class=" col-md-3">
+                        <div class="form-group">
+                            <label asp-for="ZipCode" class="control-label"></label>
+                            <input asp-for="ZipCode" class="form-control" />
+                            <span asp-validation-for="ZipCode" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class=" col-md-6">
+                        <div class="form-group">
+                            <label asp-for="Street" class="control-label"></label>
+                            <input asp-for="Street" class="form-control" />
+                            <span asp-validation-for="Street" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class=" col-md-3">
+                        <div class="form-group">
+                            <label asp-for="Number" class="control-label"></label>
+                            <input asp-for="Number" class="form-control" />
+                            <span asp-validation-for="Number" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class=" col-md-4">
+                        <div class="form-group">
+                            <label asp-for="Complement" class="control-label"></label>
+                            <input asp-for="Complement" class="form-control" />
+                            <span asp-validation-for="Complement" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class=" col-md-6">
+                        <div class="form-group">
+                            <label asp-for="District" class="control-label"></label>
+                            <input asp-for="District" class="form-control" />
+                            <span asp-validation-for="District" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class=" col-md-4">
+                        <div class="form-group">
+                            <label asp-for="City" class="control-label"></label>
+                            <input asp-for="City" class="form-control" />
+                            <span asp-validation-for="City" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class=" col-md-6">
+                        <div class="form-group">
+                            <label asp-for="State" class="control-label"></label>
+                            <input asp-for="State" class="form-control" />
+                            <span asp-validation-for="State" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row col-md-6">
+                    <div class="form-group">
+                        <input type="submit" value="Atualizar" class="btn btn-outline-primary" />
+                    </div>
+                </div>
+            </div>
         </article> 
     </main>
 </div> 

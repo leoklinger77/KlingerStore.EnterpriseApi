@@ -17,15 +17,6 @@ namespace KSE.Client.Application.Querys
             _mapper = mapper;
         }
 
-        public async Task<AddressViewModel> GetAddress(Guid id)
-        {
-            var address = await _clientRepository.GetAddress(id);
-
-            if (address is null) return null;
-
-            return _mapper.Map<AddressViewModel>(address);
-        }
-
         public async Task<ClientViewModel> GetClient(Guid id)
         {
             var client = await _clientRepository.GetClient(id);
@@ -34,5 +25,14 @@ namespace KSE.Client.Application.Querys
 
             return _mapper.Map<ClientViewModel>(client);
         }
+
+        public async Task<AddressViewModel> GetAddress(Guid id)
+        {
+            var address = await _clientRepository.GetAddress(id);
+
+            if (address is null) return null;
+
+            return _mapper.Map<AddressViewModel>(address);
+        }        
     }
 }

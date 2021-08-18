@@ -17,7 +17,7 @@ namespace KSE.WebAppMvc.Services
             _httpClient = httpClient;
         }
         public async Task<ClientViewModel> GetClient()
-            => await ReturnResponse<AddressViewModel>(await _httpClient.GetAsync("/V1/Client"));
+            => await ReturnResponse<ClientViewModel>(await _httpClient.GetAsync("/V1/Client"));
         
         public async Task<AddressViewModel> GetAddress()
             => await ReturnResponse<AddressViewModel>(await _httpClient.GetAsync("/V1/Client/Address"));

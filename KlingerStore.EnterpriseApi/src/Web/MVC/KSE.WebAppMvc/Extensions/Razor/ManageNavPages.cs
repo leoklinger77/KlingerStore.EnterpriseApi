@@ -10,6 +10,7 @@ namespace KSE.WebAppMvc.Extensions.Razor
         public static string Profile => "V1.Controllers.ClientController.Profile";        
         public static string Address => "V1.Controllers.ClientController.Address";        
         public static string Security => "V1.Controllers.ClientController.Security";
+        public static string TwoTactorAuthentication => "V1.Controllers.AuthController.TwoTactorAuthentication";
 
         public static string MyOrdersNavClass(ViewContext viewContext) => PageNavClass(viewContext, MyOrders);
         public static string ReturnsAndRefundsNavClass(ViewContext viewContext) => PageNavClass(viewContext, ReturnsAndRefunds);
@@ -17,6 +18,7 @@ namespace KSE.WebAppMvc.Extensions.Razor
         public static string ProfileNavClass(ViewContext viewContext) => PageNavClass(viewContext, Profile);
         public static string AddressNavClass(ViewContext viewContext) => PageNavClass(viewContext, Address);
         public static string SecurityNavClass(ViewContext viewContext) => PageNavClass(viewContext, Security);
+        public static string TwoTactorAuthenticationNavClass(ViewContext viewContext) => PageNavClass(viewContext, TwoTactorAuthentication);
 
         private static string PageNavClass(ViewContext viewContext, string page)
         {

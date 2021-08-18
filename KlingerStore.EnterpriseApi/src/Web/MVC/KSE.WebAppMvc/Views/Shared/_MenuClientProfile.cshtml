@@ -7,6 +7,7 @@
         <a class="list-group-item @ManageNavPages.ProfileNavClass(ViewContext)" asp-controller="Client" asp-action="Profile"> Perfil </a>
         <a class="list-group-item @ManageNavPages.AddressNavClass(ViewContext)" asp-controller="Client" asp-action="Address"> Endereço </a>
         <a class="list-group-item @ManageNavPages.SecurityNavClass(ViewContext)" asp-controller="Client" asp-action="Security"> Segurança </a>
+        <a class="list-group-item @ManageNavPages.TwoTactorAuthenticationNavClass(ViewContext)" asp-controller="Auth" asp-action="TwoTactorAuthentication"> 2FA Authenticação </a>
     </ul>
     <br>
     <a class="btn btn-light btn-block" asp-controller="Auth" asp-action="Logout"> <i class="fa fa-power-off"></i> <span class="text">Sair</span> </a>

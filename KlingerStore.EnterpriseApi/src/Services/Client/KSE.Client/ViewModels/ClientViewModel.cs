@@ -6,8 +6,8 @@ namespace KSE.Client.ViewModels
     public class ClientViewModel
     {
         public string Name { get; set; }
-        public Cpf Cpf { get; set; }
-        public Email Email { get; set; }
+        public string Cpf { get; set; }
+        public string Email { get; set; }
         public ClientStatus Status { get; set; }
         public AddressViewModel Address { get; set; }
 

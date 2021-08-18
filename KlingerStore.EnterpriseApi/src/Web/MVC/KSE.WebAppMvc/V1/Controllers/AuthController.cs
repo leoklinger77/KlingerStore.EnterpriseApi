@@ -78,6 +78,13 @@ namespace KSE.WebAppMvc.V1.Controllers
             return RedirectToAction("Index", "Catalog");
         }
 
+        [HttpGet("2fa-authenticacao")]
+        public async Task<IActionResult> TwoTactorAuthentication()
+        {
+            return View();
+        }
+
+
         private async Task RealizarLogi(UserResponseLogin userResponseLogin)
         {
             var token = FindTokenFormat(userResponseLogin.AccessToken);

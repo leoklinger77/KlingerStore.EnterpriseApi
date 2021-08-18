@@ -1,12 +1,14 @@
 ﻿using KSE.Client.Application.Querys;
 using KSE.WebApi.Core.Controllers;
 using KSE.WebApi.Core.User;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
 namespace KSE.Client.V1.Controllers
 {
-    [Route("Client")]
+    [Authorize]
+    [Route("V1/Client")]
     public class ClientController : MainController
     {
         private readonly IClientQuery _clientQuery;
@@ -27,6 +29,6 @@ namespace KSE.Client.V1.Controllers
         public async Task<IActionResult> GetAddress()
         {
             return CustomResponse(await _clientQuery.GetAddress(_aspNetUser.UserId));
-        }
+        }        
     }
 }
