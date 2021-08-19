@@ -15,12 +15,14 @@ namespace KSE.Gateway.Purchase.V1.Controllers
     {
         private readonly ICartService _cartService;
         private readonly ICatalogService _catalogService;
+        private readonly IOrderService _orderService;
 
         public CartController(ICartService cartService,
-                              ICatalogService catalogService)
+                              ICatalogService catalogService, IOrderService orderService)
         {
             _cartService = cartService;
             _catalogService = catalogService;
+            _orderService = orderService;
         }
 
         [HttpGet]
@@ -73,6 +75,19 @@ namespace KSE.Gateway.Purchase.V1.Controllers
             }
 
             return CustomResponse(await _cartService.DeleteItemCart(productId));
+        }
+
+        [HttpPost("apply-voucher")]
+        public async Task<IActionResult> ApplyVoucher([FromBody] string voucherCode)
+        {
+            var voucher = await _orderService.GetVoucherPerCode(voucherCode);
+            if (voucher is null)
+            {
+                AddErros("Voucher inválido ou não encontrado!");
+                return CustomResponse();
+            }
+            var response = await _cartService.ApplyVoucherCart(voucher);
+            return CustomResponse(response);
         }
 
         private async Task ValidItemCart(ItemProductDTO product, int quantity)

@@ -9,7 +9,7 @@ namespace KSE.Core.Tools
         {
 			return new string(input.Where(char.IsDigit).ToArray());
         }
-		public static bool IsCpf(string cpf)
+		public static bool IsCpf(this string cpf)
 		{
 			cpf = cpf.Trim();
 			cpf = cpf.Replace(".", "").Replace("-", "");
@@ -47,7 +47,7 @@ namespace KSE.Core.Tools
 			digito = digito + resto.ToString();
 			return cpf.EndsWith(digito);
 		}		
-		public static bool IsEmail(string email)
+		public static bool IsEmail(this string email)
         {
 			var regexEmail = new Regex(@"^(?("")("".+?""@)|(([0-9a-zA-Z]((\.(?!\.))|[-!#\$%&'\*\+/=\?\^`\{\}\|~\w])*)(?<=[0-9a-zA-Z])@))(?(\[)(\[(\d{1,3}\.){3}\d{1,3}\])|(([0-9a-zA-Z][-\w]*[0-9a-zA-Z]\.)+[a-zA-Z]{2,6}))$");
 			return regexEmail.IsMatch(email);

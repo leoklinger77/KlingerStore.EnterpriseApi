@@ -33,7 +33,7 @@
         "ASPNETCORE_ENVIRONMENT": "Production"
       }
     },
-    "KSE.Authentication": {
+    "KSE.Cart": {
       "commandName": "Project",
       "launchBrowser": true,
       "launchUrl": "swagger",

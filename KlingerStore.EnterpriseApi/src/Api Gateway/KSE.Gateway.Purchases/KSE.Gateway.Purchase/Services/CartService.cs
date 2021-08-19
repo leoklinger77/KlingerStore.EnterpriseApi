@@ -1,6 +1,7 @@
 ﻿using KSE.Core.Communication;
 using KSE.Gateway.Purchase.Extensions;
 using KSE.Gateway.Purchase.Models.Cart;
+using KSE.Gateway.Purchase.Models.Order;
 using KSE.Gateway.Purchase.Services.Interfaces;
 using Microsoft.Extensions.Options;
 using System;
@@ -30,6 +31,7 @@ namespace KSE.Gateway.Purchase.Services
         public async Task<ResponseResult> DeleteItemCart(Guid productId) 
             => await ReturnResponse<ResponseResult>(await _httpClient.DeleteAsync($"V1/Cart/{productId}"));
 
-       
+        public async Task<ResponseResult> ApplyVoucherCart(VoucherDTO voucher) 
+            => await ReturnResponse<ResponseResult>(await _httpClient.PostAsync($"V1/Cart/apply-voucher", FindContext(voucher)));
     }
 }

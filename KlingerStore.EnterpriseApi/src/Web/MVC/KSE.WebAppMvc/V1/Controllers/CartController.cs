@@ -36,7 +36,12 @@ namespace KSE.WebAppMvc.V1.Controllers
         [HttpPost("update-item")]
         public async Task<IActionResult> UpdateItemCart(Guid productId, int quantity)
         {
-            if (HasErrorResponse(await _cartService.UpdateItemCart(productId, new CartItemViewModel { ProductId = productId, Quantity = quantity })))
+            if (HasErrorResponse(await _cartService.UpdateItemCart(productId,
+                                                                    new CartItemViewModel
+                                                                    {
+                                                                        ProductId = productId,
+                                                                        Quantity = quantity
+                                                                    })))
                 return View("Index", await _cartService.GetCart());
 
             return RedirectToAction(nameof(Index));

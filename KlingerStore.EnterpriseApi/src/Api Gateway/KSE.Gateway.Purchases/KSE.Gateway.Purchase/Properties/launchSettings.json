@@ -33,7 +33,7 @@
         "ASPNETCORE_ENVIRONMENT": "Production"
       }
     },
-    "KSE.Authentication": {
+    "KSE.GetewayPurchase": {
       "commandName": "Project",
       "launchBrowser": true,
       "launchUrl": "swagger",
