@@ -72,13 +72,13 @@
 
             <div class="card mb-3">
                 <div class="card-body">
-                    <form>
+                    <form asp-controller="Cart" asp-action="ApplyVoucher" method="post">
                         <div class="form-group">
-                            <label>Possui Cupom?</label>
+                            <label>Possui Voucher?</label>
                             <div class="input-group">
-                                <input type="text" class="form-control" name="" placeholder="Coupon code">
+                                <input type="text" class="form-control" id="voucherCode" name="voucherCode" value="@Model.Voucher?.Code" placeholder="Código do Voucher ">
                                 <span class="input-group-append">
-                                    <button class="btn btn-primary">Aplicar</button>
+                                    <button type="submit" class="btn btn-primary">Aplicar</button>
                                 </span>
                             </div>
                         </div>
@@ -88,17 +88,23 @@
 
             <div class="card">
                 <div class="card-body">
-                    <dl class="dlist-align">
-                        <dt>Preço Total:</dt>
-                        <dd class="text-right">@Model.TotalValue</dd>
-                    </dl>
-                    <dl class="dlist-align">
-                        <dt>Disconto:</dt>
-                        <dd class="text-right text-danger">R$0,00</dd>
-                    </dl>
+
+                    @{
+                        if (Model.VoucherUsed)
+                        {
+                            <dl class="dlist-align">
+                                <dt>Preço Total:</dt>
+                                <dd class="text-right">@this.CurrencyFormat(Model.TotalValue + Model.Discount)</dd>
+                            </dl>
+                            <dl class="dlist-align">
+                                <dt>Disconto:</dt>
+                                <dd class="text-right text-danger">@this.CurrencyFormat(Model.Discount)</dd>
+                            </dl>
+                        }
+                    }
                     <dl class="dlist-align">
                         <dt>Total:</dt>
-                        <dd class="text-right text-dark b"><strong>@Model.TotalValue</strong></dd>
+                        <dd class="text-right text-dark b"  ><strong>@this.CurrencyFormat(Model.TotalValue)</strong></dd>
                     </dl>
                     <hr>
                     <p class="text-center mb-3">

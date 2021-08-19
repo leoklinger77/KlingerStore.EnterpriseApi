@@ -56,11 +56,15 @@ namespace KSE.WebAppMvc.V1.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        private void ValidationItemCart(ProductViewModel product, int quantity)
+        [HttpPost("apply-voucher")]
+        public async Task<IActionResult> ApplyVoucher(string voucherCode)
         {
-            if (product is null) AddError("Produto inesxistente!");
-            if (quantity < 1) AddError("");
-            if (quantity > product.QuantityStock) AddError($"O producto {product.Name} possui {product.QuantityStock} quantidades em estoque!");
+            var response = await _cartService.ApplyVoucher(voucherCode);
+
+            if (HasErrorResponse(response)) return View("Index", await _cartService.GetCart());
+
+            return RedirectToAction("Index");
         }
+
     }
 }

@@ -5,6 +5,6 @@
         public string Code { get; set; }
         public decimal? Percentage { get; set; }
         public decimal? DiscountValue { get; set; }
-        public int TypeDiscount { get; set; }
+        public int TypeDiscountVoucher { get; set; }
     }
 }

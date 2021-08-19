@@ -15,6 +15,10 @@ namespace KSE.Cart.Models
         public Guid Id { get; set; }
         public Guid ClientId { get; set; }
         public decimal TotalValue { get; set; }
+        public bool VoucherUsed { get; set; }
+        public decimal Discount { get; set; }
+        public Voucher Voucher { get; set; }
+
         public List<CartItem> Itens { get; set; } = new List<CartItem>();        
         
         [JsonIgnore]
@@ -27,9 +31,44 @@ namespace KSE.Cart.Models
         }
         public Cart() { }
 
-        internal void CalcularTotalCart()
+        public void ApplyVoucher(Voucher voucher)
+        {
+            Voucher = voucher;
+            VoucherUsed = true;
+            CalculateTotalCart();
+        }
+
+        public void CalculateDiscountAmount()
+        {
+            if (!VoucherUsed) return;
+
+            decimal discount = 0;
+            var value = TotalValue;
+
+            if (Voucher.TypeDiscountVoucher == TypeDiscountVoucher.Percentage)
+            {
+                if (Voucher.Percentage.HasValue)
+                {
+                    discount = (value * Voucher.Percentage.Value) / 100;
+                    value -= discount;
+                }
+            }
+            else
+            {
+                if (Voucher.DiscountValue.HasValue)
+                {
+                    discount = Voucher.DiscountValue.Value;
+                    value -= discount;
+                }
+            }
+            TotalValue = value < 0 ? 0 : value;
+            Discount = discount;
+        }
+
+        internal void CalculateTotalCart()
         {
             TotalValue = Itens.Sum(x => x.CalcValue());
+            CalculateDiscountAmount();
         }
         internal bool CartItemExists(CartItem item)
         {
@@ -53,7 +92,7 @@ namespace KSE.Cart.Models
             }
 
             Itens.Add(item);
-            CalcularTotalCart();
+            CalculateTotalCart();
         }
         internal void UpdateItem(CartItem item)
         {
@@ -61,7 +100,7 @@ namespace KSE.Cart.Models
 
             Itens.Remove(FindByProductId(item.ProductId));
             Itens.Add(item);            
-            CalcularTotalCart();
+            CalculateTotalCart();
         }
         internal void UpdateUnits(CartItem item, int quantity)
         {
@@ -75,7 +114,7 @@ namespace KSE.Cart.Models
             if (itemExists is null) throw new Exception("O Item não pertence ao pedido");
             Itens.Remove(itemExists);
 
-            CalcularTotalCart();
+            CalculateTotalCart();
         }
 
         internal bool IsValid()

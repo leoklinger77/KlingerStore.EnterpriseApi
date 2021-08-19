@@ -21,7 +21,7 @@ namespace KSE.Order.Application.Querys
 
             if (voucher is null) return null;
 
-            if (voucher.ValidForUse()) return null;
+            if (!voucher.ValidForUse()) return null;
 
             return _mapper.Map<VoucherDTO>(voucher);
         }

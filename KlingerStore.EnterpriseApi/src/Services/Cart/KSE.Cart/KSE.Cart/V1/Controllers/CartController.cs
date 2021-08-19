@@ -20,7 +20,7 @@ namespace KSE.Cart.V1.Controllers
         public CartController(IAspNetUser user, ICartRepository cartRepository)
         {
             _user = user;
-            _cartRepository = cartRepository;            
+            _cartRepository = cartRepository;
         }
 
         [HttpGet]
@@ -30,17 +30,17 @@ namespace KSE.Cart.V1.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddItemCart([FromBody]CartItem item)
+        public async Task<IActionResult> AddItemCart([FromBody] CartItem item)
         {
             Models.Cart cart = await FindCartClient();
 
-            if(cart == null)
-                cart = await NewCart(item);            
-            else            
+            if (cart == null)
+                cart = await NewCart(item);
+            else
                 await CartExist(cart, item);
 
             CartIsValid(cart);
-            if (!OperationVation()) return CustomResponse();            
+            if (!OperationVation()) return CustomResponse();
             return CustomResponse();
         }
 
@@ -72,19 +72,32 @@ namespace KSE.Cart.V1.Controllers
             if (!OperationVation()) return CustomResponse();
             await _cartRepository.Update(cart.Id, cart);
             return CustomResponse();
-        }        
+        }
+
+        [HttpPost("apply-voucher")]
+        public async Task<IActionResult> ApplyVoucher(Voucher voucher)
+        {
+            var cart = await FindCartClient();
+            cart.ApplyVoucher(voucher);
+            await _cartRepository.Update(cart.Id, cart);
+
+            return CustomResponse();
+
+        }
 
         private async Task<Models.Cart> FindCartClient()
         {
             return await _cartRepository.GetClient(_user.UserId);
         }
+
         private async Task<Models.Cart> NewCart(CartItem item)
         {
             var cart = new Models.Cart(_user.UserId);
             cart.AddItem(item);
 
-            return await _cartRepository.Create(cart);               
+            return await _cartRepository.Create(cart);
         }
+
         private async Task CartExist(Models.Cart cart, CartItem item)
         {
             var cartDb = cart.CartItemExists(item);
@@ -93,7 +106,7 @@ namespace KSE.Cart.V1.Controllers
 
             if (cartDb)
             {
-                cart.FindByProductId(item.ProductId);                
+                cart.FindByProductId(item.ProductId);
             }
             await _cartRepository.Update(cart.Id, cart);
         }
@@ -131,5 +144,5 @@ namespace KSE.Cart.V1.Controllers
             carrinho.ValidationResult.Errors.ToList().ForEach(e => AddErros(e.ErrorMessage));
             return false;
         }
-    }    
+    }
 }

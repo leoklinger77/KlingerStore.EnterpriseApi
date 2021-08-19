@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 namespace KSE.Order.V1.Controllers
 {
     [Authorize]
+    [Route("v1/voucher")]
     public class VoucherController : MainController
     {
         private readonly IVoucherQuery _voucherQuery;
@@ -18,7 +19,7 @@ namespace KSE.Order.V1.Controllers
             _voucherQuery = voucherQuery;
         }
         
-        [HttpGet("voucher/{code}")]
+        [HttpGet("{code}")]
         [ProducesResponseType(typeof(VoucherDTO), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         public async Task<IActionResult> GetPerCode(string code)

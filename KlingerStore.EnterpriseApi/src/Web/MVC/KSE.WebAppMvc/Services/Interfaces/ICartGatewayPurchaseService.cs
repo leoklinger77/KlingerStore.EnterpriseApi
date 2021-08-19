@@ -12,5 +12,6 @@ namespace KSE.WebAppMvc.Services.Interfaces
         Task<ResponseResult> AddItemCart(CartItemViewModel product);
         Task<ResponseResult> UpdateItemCart(Guid productId, CartItemViewModel product);
         Task<ResponseResult> DeleteItemCart(Guid productId);
+        Task<ResponseResult> ApplyVoucher(string code);
     }
 }

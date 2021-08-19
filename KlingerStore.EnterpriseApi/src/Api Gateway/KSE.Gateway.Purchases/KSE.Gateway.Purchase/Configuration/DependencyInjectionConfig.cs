@@ -24,10 +24,18 @@ namespace KSE.Gateway.Purchase.Configuration
                 .AddPolicyHandler(PollyExtension.WaitAndTry())
                 .AddTransientHttpErrorPolicy(p => p.CircuitBreakerAsync(5, TimeSpan.FromSeconds(30)));
 
+            services.AddHttpClient<IOrderService, OrderService>()
+                .AddHttpMessageHandler<HttpClientAuthorizationHandler>()
+                .AddPolicyHandler(PollyExtension.WaitAndTry())
+                .AddTransientHttpErrorPolicy(p => p.CircuitBreakerAsync(5, TimeSpan.FromSeconds(30)));
+
             services.AddHttpClient<ICatalogService, CatalogService>()
                 .AddHttpMessageHandler<HttpClientAuthorizationHandler>()
                 .AddPolicyHandler(PollyExtension.WaitAndTry())
                 .AddTransientHttpErrorPolicy(p => p.CircuitBreakerAsync(5, TimeSpan.FromSeconds(30)));
+
+
+            
         }
     }
 }

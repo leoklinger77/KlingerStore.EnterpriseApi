@@ -16,7 +16,18 @@ namespace KSE.Gateway.Purchase.Services
 
         protected async Task<T> DeserializeResponse<T>(HttpResponseMessage responseMessage)
         {
-            return JsonSerializer.Deserialize<T>(await responseMessage.Content.ReadAsStringAsync(), new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+            try
+            {
+                var result = await responseMessage.Content.ReadAsStringAsync();
+
+                return JsonSerializer.Deserialize<T>(result, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+            }
+            catch (System.Exception e)
+            {
+
+                throw;
+            }
+
         }
         protected bool TreatErrosResponse(HttpResponseMessage response)
         {

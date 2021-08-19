@@ -30,7 +30,7 @@ namespace KSE.Client.Application.Querys
         {
             var address = await _clientRepository.GetAddress(id);
 
-            if (address is null) return null;
+            if (address is null) return new AddressViewModel() { ClientId = id};
 
             return _mapper.Map<AddressViewModel>(address);
         }        

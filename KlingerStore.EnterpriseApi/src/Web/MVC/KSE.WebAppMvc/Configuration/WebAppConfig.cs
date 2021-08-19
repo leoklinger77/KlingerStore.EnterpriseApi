@@ -20,9 +20,7 @@ namespace KSE.WebAppMvc.Configuration
         {
             if (env.IsDevelopment())
             {
-                //app.UseDeveloperExceptionPage();
-                app.UseExceptionHandler("/erro/500");
-                app.UseStatusCodePagesWithRedirects("/erro/{0}");
+                app.UseDeveloperExceptionPage();                
             }
             else
             {

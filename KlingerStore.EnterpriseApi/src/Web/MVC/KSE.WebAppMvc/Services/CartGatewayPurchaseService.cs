@@ -29,6 +29,9 @@ namespace KSE.WebAppMvc.Services
             => await ReturnResponse<ResponseResult>(await _httpClient.DeleteAsync($"/V1/Cart/{productId}"));
 
         public async Task<ResponseResult> UpdateItemCart(Guid productId, CartItemViewModel product)
-            => await ReturnResponse<ResponseResult>(await _httpClient.PutAsync($"/V1/Cart/{productId}", FindContext(product)));            
+            => await ReturnResponse<ResponseResult>(await _httpClient.PutAsync($"/V1/Cart/{productId}", FindContext(product)));
+
+        public async Task<ResponseResult> ApplyVoucher(string code)
+            => await ReturnResponse<ResponseResult>(await _httpClient.PostAsync($"/V1/Cart/apply-voucher", FindContext(code)));
     }
 }
