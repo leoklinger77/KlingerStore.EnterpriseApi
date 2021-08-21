@@ -9,7 +9,7 @@ namespace KSE.WebAppMvc.Extensions.Razor
         public static string FavoriteProduct => "V1.Controllers.ClientController.FavoriteProduct";        
         public static string Profile => "V1.Controllers.ClientController.Profile";        
         public static string Address => "V1.Controllers.ClientController.Address";        
-        public static string Security => "V1.Controllers.ClientController.Security";
+        public static string Security => "V1.Controllers.AuthController.Security";
         public static string TwoTactorAuthentication => "V1.Controllers.AuthController.TwoTactorAuthentication";
 
         public static string MyOrdersNavClass(ViewContext viewContext) => PageNavClass(viewContext, MyOrders);

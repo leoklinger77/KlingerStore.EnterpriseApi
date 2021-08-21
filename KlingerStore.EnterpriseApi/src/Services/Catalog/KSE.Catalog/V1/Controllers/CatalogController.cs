@@ -1,7 +1,6 @@
 ﻿using KSE.Catalog.Interfaces;
 using KSE.Catalog.Models;
 using KSE.WebApi.Core.Controllers;
-using KSE.WebApi.Core.Identity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -32,6 +31,11 @@ namespace KSE.Catalog.V1.Controllers
         public async Task<Product> GetByProductId(Guid id)
         {            
             return await _productRepository.FindByIdProduct(id);
+        }
+        [HttpGet("Product/list/{productIds}")]
+        public async Task<IEnumerable<Product>> ObterProdutosPorId(string productIds)
+        {
+            return await _productRepository.FindAllProductPerIds(productIds);
         }
     }
 }

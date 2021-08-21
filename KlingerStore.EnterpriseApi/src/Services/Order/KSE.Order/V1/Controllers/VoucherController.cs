@@ -1,5 +1,5 @@
 ﻿using KSE.Order.Application.DTO;
-using KSE.Order.Application.Querys;
+using KSE.Order.Application.Querys.Interfaces;
 using KSE.WebApi.Core.Controllers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

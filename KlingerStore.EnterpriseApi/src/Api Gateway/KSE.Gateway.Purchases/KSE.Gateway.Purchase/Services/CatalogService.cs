@@ -3,6 +3,7 @@ using KSE.Gateway.Purchase.Models.Cart;
 using KSE.Gateway.Purchase.Services.Interfaces;
 using Microsoft.Extensions.Options;
 using System;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 
@@ -20,5 +21,8 @@ namespace KSE.Gateway.Purchase.Services
 
         public async Task<ItemProductDTO> FindById(Guid id)
             => await ReturnResponse<ItemProductDTO>(await _httpClient.GetAsync($"V1/Catalog/Product/{id}"));
+
+        public async Task<IEnumerable<ItemProductDTO>> GetItens(IEnumerable<Guid> productIds)
+            => await ReturnResponse<IEnumerable<ItemProductDTO>>(await _httpClient.GetAsync($"V1/Catalog/Product/list/{string.Join(",", productIds)}"));
     }
 }

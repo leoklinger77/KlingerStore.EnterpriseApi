@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using KSE.Order.Application.DTO;
+using KSE.Order.Application.Querys.Interfaces;
 using KSE.Order.Domain.Interfaces;
 using System.Threading.Tasks;
 

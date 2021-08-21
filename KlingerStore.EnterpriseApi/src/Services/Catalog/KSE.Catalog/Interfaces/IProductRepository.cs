@@ -20,5 +20,6 @@ namespace KSE.Catalog.Interfaces
 
         Task Insert(Category category);
         Task Update(Category category);
+        Task<IEnumerable<Product>> FindAllProductPerIds(string productIds);
     }
 }

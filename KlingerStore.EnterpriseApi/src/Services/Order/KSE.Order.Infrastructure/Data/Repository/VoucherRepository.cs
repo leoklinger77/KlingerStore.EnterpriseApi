@@ -21,10 +21,14 @@ namespace KSE.Order.Infrastructure.Data.Repository
         {
             return await _orderContext.Voucher.FirstOrDefaultAsync(x => x.Code == code);
         }
+        public void Update(Voucher voucher)
+        {
+            _orderContext.Update(voucher);
+        }
 
         public void Dispose()
         {
             _orderContext?.DisposeAsync();
-        }
+        }        
     }
 }

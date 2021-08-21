@@ -7,5 +7,6 @@ namespace KSE.Order.Domain.Interfaces
     public interface IVoucherRepository : IRepository<Voucher>
     {
         Task<Voucher> GetVoucherPerCode(string code);
+        void Update(Voucher voucher);
     }
 }

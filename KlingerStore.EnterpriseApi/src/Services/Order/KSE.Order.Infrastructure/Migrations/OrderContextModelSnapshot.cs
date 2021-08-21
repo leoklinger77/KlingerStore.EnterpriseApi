@@ -17,7 +17,139 @@ namespace KSE.Order.Infrastructure.Migrations
             modelBuilder
                 .HasAnnotation("ProductVersion", "3.1.0")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
+                .HasAnnotation("Relational:Sequence:.OrderSequel", "'OrderSequel', '', '1000', '1', '', '', 'Int32', 'False'")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+            modelBuilder.Entity("KSE.Order.Domain.Domain.Order", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("ClientId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Code")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("varchar(255)")
+                        .HasDefaultValue("NEXT VALUE FOR OrderSequel");
+
+                    b.Property<decimal>("Discount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<DateTime>("InsertDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("OrderStatus")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("TotalValue")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<DateTime?>("UpdateDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("VoucherId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("VoucherUsed")
+                        .HasColumnType("bit");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("VoucherId");
+
+                    b.ToTable("TB_Order");
+                });
+
+            modelBuilder.Entity("KSE.Order.Domain.Domain.OrderItem", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("InsertDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("OrderId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("ProductId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("ProductImage")
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<string>("ProductName")
+                        .IsRequired()
+                        .HasColumnType("varchar(250)");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("UnityValue")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<DateTime?>("UpdateDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OrderId");
+
+                    b.ToTable("TB_OrderItem");
+                });
+
+            modelBuilder.Entity("KSE.Order.Domain.Domain.ShippingAddress", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("City")
+                        .IsRequired()
+                        .HasColumnType("varchar(200)");
+
+                    b.Property<string>("Complement")
+                        .IsRequired()
+                        .HasColumnType("varchar(200)");
+
+                    b.Property<string>("District")
+                        .IsRequired()
+                        .HasColumnType("varchar(200)");
+
+                    b.Property<DateTime>("InsertDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Number")
+                        .IsRequired()
+                        .HasColumnType("varchar(20)");
+
+                    b.Property<Guid>("OrderId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("State")
+                        .IsRequired()
+                        .HasColumnType("varchar(100)");
+
+                    b.Property<string>("Street")
+                        .IsRequired()
+                        .HasColumnType("varchar(200)");
+
+                    b.Property<DateTime?>("UpdateDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ZipCode")
+                        .IsRequired()
+                        .HasColumnType("char(8)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OrderId")
+                        .IsUnique();
+
+                    b.ToTable("TB_ShippingAddress");
+                });
 
             modelBuilder.Entity("KSE.Order.Domain.Domain.Voucher", b =>
                 {
@@ -59,6 +191,29 @@ namespace KSE.Order.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("TB_Voucher");
+                });
+
+            modelBuilder.Entity("KSE.Order.Domain.Domain.Order", b =>
+                {
+                    b.HasOne("KSE.Order.Domain.Domain.Voucher", "Voucher")
+                        .WithMany()
+                        .HasForeignKey("VoucherId");
+                });
+
+            modelBuilder.Entity("KSE.Order.Domain.Domain.OrderItem", b =>
+                {
+                    b.HasOne("KSE.Order.Domain.Domain.Order", "Order")
+                        .WithMany("OrderItens")
+                        .HasForeignKey("OrderId")
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("KSE.Order.Domain.Domain.ShippingAddress", b =>
+                {
+                    b.HasOne("KSE.Order.Domain.Domain.Order", "Order")
+                        .WithOne("ShippingAddress")
+                        .HasForeignKey("KSE.Order.Domain.Domain.ShippingAddress", "OrderId")
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

@@ -12,6 +12,6 @@ namespace KSE.Gateway.Purchase.Services.Interfaces
         Task<ResponseResult> AddItemCart(ItemCartDTO product);
         Task<ResponseResult> UpdateItemCart(Guid productId, ItemCartDTO product);
         Task<ResponseResult> DeleteItemCart(Guid productId);
-        Task<ResponseResult> ApplyVoucherCart(VoucherDTO voucher);
+        Task<ResponseResult> ApplyVoucherCart(VoucherDTO voucher);        
     }
 }

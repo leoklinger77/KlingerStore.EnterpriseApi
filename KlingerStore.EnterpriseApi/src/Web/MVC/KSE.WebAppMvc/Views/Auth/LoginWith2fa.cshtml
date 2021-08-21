@@ -1,0 +1,40 @@
+﻿@model UserLoginWith2fa
+@{
+    ViewData["Title"] = "LoginWith2fa";
+}
+
+<p>Seu login é protegido por um aplicativo autenticador. Digite seu código de autenticador abaixo.</p>
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="PostLoginWith2fa" method="post" >
+            <input asp-for="Email" type="hidden"  />
+            <input asp-for="RememberMe" type="hidden" />
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="TwoFactorCode"></label>
+                <input asp-for="TwoFactorCode" class="form-control" autocomplete="off" />
+                <span asp-validation-for="TwoFactorCode" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <div class="checkbox">
+                    <label asp-for="RememberMachine">
+                        <input asp-for="RememberMachine" />
+                        @Html.DisplayNameFor(m => m.RememberMachine)
+                    </label>
+                </div>
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">Conecte-se</button>
+            </div>
+        </form>
+    </div>
+</div>
+<p>
+    Não tem acesso ao seu dispositivo autenticador? Você pode
+    <a id="recovery-code-login" >Faça login com um código de recuperação</a>.
+</p>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+

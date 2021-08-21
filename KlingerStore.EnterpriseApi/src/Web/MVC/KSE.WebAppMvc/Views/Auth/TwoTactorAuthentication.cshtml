@@ -1,19 +1,72 @@
-﻿
-@{
-    ViewData["Title"] = "TwoTactorAuthentication";
-}
+﻿@model TwoFactorAuthenticator
 
+@{
+    ViewData["Title"] = "Autenticação de dois fatores (2FA)";
+}
 <br />
-<div class="row">    
+<div class="row">
     <partial name="_MenuClientProfile" />
     <main class="col-md-9">
         <article class="card">
             <header class="card-header">
-                <strong class="d-inline-block mr-3">Authenticação de dois fatores</strong>
+                <strong class="d-inline-block mr-3">Autenticação de dois fatores (2FA)</strong>
                 <span></span>
             </header>
+            <div class="card-body">
+                <h5>Aplicativo de autenticação</h5>
+                <div>
 
+
+                    @if (!Model.HasAuthenticator)
+                    {
+                        <a id="enable-authenticator" class="btn btn-default">Adicionar aplicativo autenticador</a>
+                    }
+                    else
+                    {
+                        <a asp-action="EnableAuthenticator" asp-controller="Auth" id="enable-authenticator" class="btn btn-outline-primary">Configurar aplicativo autenticador</a>
+                        <a asp-action="ResetAuthenticator" asp-controller="Auth" id="reset-authenticator" class="btn btn-outline-primary">Redefinir aplicativo autenticador</a>
+                    }
+                </div>
+                <br />
+                <div>
+
+
+                    @if (Model.Is2faEnabled)
+                    {
+                        if (Model.RecoveryCodesLeft == 0)
+                        {
+                            <div class="alert alert-danger">
+                                <strong>Você não tem mais códigos de recuperação.</strong>
+                                <p>Você deve <a>gerar um novo conjunto de códigos de recuperação</a> antes de fazer login com um código de recuperação.</p>
+                            </div>
+                        }
+                        else if (Model.RecoveryCodesLeft == 1)
+                        {
+                            <div class="alert alert-danger">
+                                <strong>Você tem 1 código de recuperação restante.</strong>
+                                <p>Você deve <a>gerar um novo conjunto de códigos de recuperação</a>.</p>
+                            </div>
+                        }
+                        else if (Model.RecoveryCodesLeft <= 3)
+                        {
+                            <div class="alert alert-warning">
+                                <strong>You have @Model.RecoveryCodesLeft recovery codes left.</strong>
+                                <p>Você deve <a>gerar um novo conjunto de códigos de recuperação</a>.</p>
+                            </div>
+                        }
+
+                        if (Model.IsMachineRemembered)
+                        {
+                            <form method="post" style="display: inline-block">
+                                <button type="submit" class="btn btn-default">Esqueça este navegador</button>
+                            </form>
+                        }
+                        <a class="btn btn-outline-danger">Desativar 2FA</a>
+                        <a class="btn btn-outline-primary">Redefinir códigos de recuperação</a>
+                    }
+                </div>
+
+            </div>
         </article>
     </main>
 </div>
-

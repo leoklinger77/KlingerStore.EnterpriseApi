@@ -1,4 +1,7 @@
-﻿using KSE.Core.DomainObjets;
+﻿
+using FluentValidation;
+using FluentValidation.Results;
+using KSE.Core.DomainObjets;
 using KSE.Core.Interfaces;
 using KSE.Order.Domain.Domain.Enumerations;
 using System;
@@ -15,6 +18,8 @@ namespace KSE.Order.Domain.Domain
         public DateTime ShelfLife { get; private set; }
         public bool Active { get; private set; }
         public bool Used { get; private set; }
+        
+        public ValidationResult ValidationResult;
 
         protected Voucher() { }
 
@@ -41,6 +46,38 @@ namespace KSE.Order.Domain.Domain
         public bool VoucherValid()
         {
             return Active;
+        }
+        public void DebitBalance()
+        {            
+            Quantity = -1;
+            if (Quantity >= 1) return;
+            AlreadyUsed();
+        }
+
+        public override bool IsValid()
+        {
+            ValidationResult = new VoucherValidate().Validate(this);
+            return ValidationResult.IsValid;
+        }
+
+        
+
+        public class VoucherValidate : AbstractValidator<Voucher>
+        {
+            public VoucherValidate()
+            {
+                RuleFor(x => x.SelfLiveValid())
+                    .NotEqual(true)
+                    .WithMessage("Este voucher ja foi expirado.");
+
+                RuleFor(x => x.VoucherQuantityValid())
+                    .NotEqual(true)
+                    .WithMessage("Este voucher já foi utilizado.");
+
+                RuleFor(x => x.VoucherValid())
+                    .NotEqual(true)
+                    .WithMessage("Este voucher não está mais ativo.");
+            }
         }
     }
 }

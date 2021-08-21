@@ -25,7 +25,7 @@ namespace KSE.WebAppMvc.Configuration
                 .AddPolicyHandler(PollyExtension.WaitAndTry())
                 .AddTransientHttpErrorPolicy(p => p.CircuitBreakerAsync(5, TimeSpan.FromSeconds(30)));
 
-            services.AddHttpClient<ICartGatewayPurchaseService, CartGatewayPurchaseService>()
+            services.AddHttpClient<IGatewayPurchaseService, CartGatewayPurchaseService>()
                 .AddHttpMessageHandler<HttpClientAuthorizationHandler>()
                 .AddPolicyHandler(PollyExtension.WaitAndTry())
                 .AddTransientHttpErrorPolicy(p => p.CircuitBreakerAsync(5, TimeSpan.FromSeconds(30)));

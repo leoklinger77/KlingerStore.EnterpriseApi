@@ -1,0 +1,75 @@
+﻿@model TransactionOrderViewModel
+@{
+    ViewData["Title"] = "Endereço";
+}
+
+@{
+    ViewData["Title"] = "Novo Endereço";
+}
+
+<div class="modal fade" id="enderecoModal" tabindex="-1" role="dialog" aria-labelledby="enderecoModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div id="myModalContent">
+
+                <div class="modal-header">
+                    <h4 class="modal-title">@ViewData["Title"]</h4>
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">×</span><span class="sr-only">Fechar</span>
+                    </button>
+                </div>
+
+                <form asp-action="PostAddress" asp-controller="Client" method="post">
+                    <div class="modal-body">
+
+                        <div class="form-group">
+                            <label asp-for="Address.ZipCode"></label>
+                            <input asp-for="Address.ZipCode" class="form-control" />
+                            <span asp-validation-for="Address.ZipCode" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Address.Street"></label>
+                            <input asp-for="Address.Street" class="form-control" />
+                            <span asp-validation-for="Address.Street" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Address.Number"></label>
+                            <input asp-for="Address.Number" class="form-control" />
+                            <span asp-validation-for="Address.Number" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Address.Complement"></label>
+                            <input asp-for="Address.Complement" class="form-control" />
+                            <span asp-validation-for="Address.Complement" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Address.District"></label>
+                            <input asp-for="Address.District" class="form-control" />
+                            <span asp-validation-for="Address.District" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Address.City"></label>
+                            <input asp-for="Address.City" class="form-control" />
+                            <span asp-validation-for="Address.City" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Address.State"></label>
+                            <input asp-for="Address.State" class="form-control" />
+                            <span asp-validation-for="Address.State" class="text-danger"></span>
+                        </div>
+
+                        <div class="modal-footer">
+                            <div>
+                                <input type="submit" value="Cadastrar Endereço" class="btn btn-success" />
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    BuscaCep();
+</script>

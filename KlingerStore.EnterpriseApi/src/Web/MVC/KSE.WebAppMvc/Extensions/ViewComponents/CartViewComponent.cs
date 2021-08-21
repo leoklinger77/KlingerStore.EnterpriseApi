@@ -7,9 +7,9 @@ namespace KSE.WebAppMvc.Extensions.ViewComponents
 {
     public class CartViewComponent : ViewComponent
     {
-        private readonly ICartGatewayPurchaseService _cartService;
+        private readonly IGatewayPurchaseService _cartService;
 
-        public CartViewComponent(ICartGatewayPurchaseService cartService)
+        public CartViewComponent(IGatewayPurchaseService cartService)
         {
             _cartService = cartService;
         }

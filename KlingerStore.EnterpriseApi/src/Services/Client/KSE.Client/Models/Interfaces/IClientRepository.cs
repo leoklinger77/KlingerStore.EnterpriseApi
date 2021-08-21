@@ -8,6 +8,7 @@ namespace KSE.Client.Models.Interfaces
     public interface IClientRepository : IRepository<Client>
     {
         Task Insert(Client client);
+        Task Insert(Address address);
         Task<IEnumerable<Client>> FindAll();
         Task<Client> FindByCpf(string cpf);
         

@@ -37,10 +37,7 @@ namespace KSE.Cart.Repository
         public async Task Update(Guid id, Models.Cart cart) =>
             await _cart.ReplaceOneAsync(x => x.Id == id, cart);
 
-        public async Task Remove(Models.Cart cart) =>
-            await _cart.DeleteOneAsync(x => x.Id == cart.Id);
-
-        public async Task Remove(Guid id) =>
-            await _cart.DeleteOneAsync(x => x.Id == id);
+        public async Task Delete(Guid id) =>
+            await _cart.DeleteOneAsync(x => x.Id == id);       
     }
 }

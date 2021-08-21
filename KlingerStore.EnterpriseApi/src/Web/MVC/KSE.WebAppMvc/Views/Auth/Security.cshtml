@@ -1,0 +1,52 @@
+﻿@model UserUpdatePassword
+@{
+    ViewData["Title"] = "Segurança";
+}
+<br />
+<div class="row">
+    <partial name="_MenuClientProfile" />
+    <main class="col-md-9">
+        <article class="card">
+            <header class="card-header">
+                <strong class="d-inline-block mr-3">Configuração de Acesso</strong>
+                <span></span>
+            </header>
+            <div class="card-body">
+                <form asp-controller="Auth" asp-action="Security" method="post">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="row">
+                        <div class=" col-md-5">
+                            <div class="form-group">
+                                <label asp-for="Password"></label>
+                                <input asp-for="Password" class="form-control" />
+                                <span asp-validation-for="Password" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class=" col-md-5">
+                            <div class="form-group">
+                                <label asp-for="NewPassword"></label>
+                                <input asp-for="NewPassword" class="form-control" />
+                                <span asp-validation-for="NewPassword" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class=" col-md-5">
+                            <div class="form-group">
+                                <label asp-for="ConfirmPassword"></label>
+                                <input asp-for="ConfirmPassword" class="form-control" />
+                                <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Atualizar senha</button>
+                </form>
+            </div>
+        </article>
+    </main>
+</div>
+@section Scripts {
+<partial name="_ValidationScriptsPartial" />
+}

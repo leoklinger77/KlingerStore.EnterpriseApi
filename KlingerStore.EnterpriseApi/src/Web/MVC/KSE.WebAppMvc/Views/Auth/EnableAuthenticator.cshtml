@@ -1,0 +1,76 @@
+﻿@model TwoFactorAuthenticator
+@{
+    ViewData["Title"] = "Configurar aplicativo autenticador";
+}
+<br />
+<div class="row">
+    <partial name="_MenuClientProfile" />
+    <main class="col-md-9">
+        <article class="card">
+            <header class="card-header">
+                <strong class="d-inline-block mr-3">Configuração de Acesso</strong>
+                <span></span>
+            </header>
+            <div class="card-body">
+                @if (true)
+                {
+                    <vc:summary></vc:summary>
+                    <div>
+                        <p>Para usar um aplicativo autenticador, siga as seguintes etapas:</p>
+                        <ol class="list">
+                            <li>
+                                <p>
+                                    Baixe um aplicativo autenticador de dois fatores como o Microsoft Authenticator para
+                                    <a href="https://go.microsoft.com/fwlink/?Linkid=825072">Android</a> e
+                                    <a href="https://go.microsoft.com/fwlink/?Linkid=825073">iOS</a> or
+                                    Google Authenticator para
+                                    <a href="https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2&amp;hl=en">Android</a> e
+                                    <a href="https://itunes.apple.com/us/app/google-authenticator/id388497605?mt=8">iOS</a>.
+                                </p>
+                            </li>
+                            <li>
+                                <p>Digitalize o código QR ou insira esta chave <kbd>@Model.LoadSharedKeyAndQrCodeUri.SharedKey</kbd> em seu aplicativo autenticador de dois fatores. Espaços e invólucro não importam.</p>
+
+                                <div id="qrCode"></div>
+                                <div id="qrCodeData" data-url="@Html.Raw(@Model.LoadSharedKeyAndQrCodeUri.AuthenticatorUri)"></div><br />
+                            </li>
+                              
+                            <li>
+                                <p>
+                                    Depois de digitalizar o código QR ou inserir a chave acima, seu aplicativo de autenticação de dois fatores irá fornecer-lhe
+                                    com um código único. Digite o código na caixa de confirmação abaixo.
+                                </p>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <form asp-action="TwoTactorAuthenticationVerified" method="post">
+                                            <div class="form-group">
+                                                <label asp-for="Code" class="control-label">Código de verificação</label>
+                                                <input asp-for="Code" class="form-control" autocomplete="off" />
+                                                <span asp-validation-for="Code" class="text-danger"></span>
+                                            </div>
+                                            <button type="submit" class="btn btn-primary">Verificar</button>
+                                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </li>
+                        </ol>
+                    </div>
+                }                
+            </div>
+        </article>
+    </main>
+</div>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+
+    <script type="text/javascript" src="~/lib/qrcode.js"></script>
+    <script type="text/javascript">
+    new QRCode(document.getElementById("qrCode"),
+        {
+            text: "@Html.Raw(Model.LoadSharedKeyAndQrCodeUri.AuthenticatorUri)",
+            width: 150,
+            height: 150
+        });
+    </script>
+}

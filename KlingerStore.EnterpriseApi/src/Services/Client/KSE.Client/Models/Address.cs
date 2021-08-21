@@ -6,7 +6,7 @@ namespace KSE.Client.Models
     public class Address : Entity
     {
         public Client Client { get; set; }
-        public Guid ClientId { get; set; }
+        public Guid ClientId { get; private set; }
         public string Street { get; private set; }
         public string Number { get; private set; }
         public string Complement { get; private set; }
@@ -27,6 +27,13 @@ namespace KSE.Client.Models
             State = state;
 
             IsValid();
+        }
+
+        public void AddCliente(Guid clientId)
+        {
+            if (clientId == Guid.Empty) return;
+
+            ClientId = clientId;
         }
 
         public override bool IsValid()

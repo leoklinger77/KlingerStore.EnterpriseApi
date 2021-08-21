@@ -4,12 +4,13 @@ using KSE.WebAppMvc.Models;
 using KSE.WebAppMvc.Services.Interfaces;
 using Microsoft.Extensions.Options;
 using System;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace KSE.WebAppMvc.Services
 {
-    public class CartGatewayPurchaseService : Services, ICartGatewayPurchaseService
+    public class CartGatewayPurchaseService : Services, IGatewayPurchaseService
     {
         private readonly HttpClient _httpClient;
         public CartGatewayPurchaseService(HttpClient httpClient, IOptions<AppSettings> settings)
@@ -33,5 +34,11 @@ namespace KSE.WebAppMvc.Services
 
         public async Task<ResponseResult> ApplyVoucher(string code)
             => await ReturnResponse<ResponseResult>(await _httpClient.PostAsync($"/V1/Cart/apply-voucher", FindContext(code)));
+
+        public async Task<ResponseResult> FinishOrder(TransactionOrderViewModel transactionOrder)
+            => await ReturnResponse<ResponseResult>(await _httpClient.PostAsync($"/V1/Order/createOrder", FindContext(transactionOrder)));
+
+        public async Task<IEnumerable<OrderViewModel>> GetListOrder()
+            => await ReturnResponse<IEnumerable<OrderViewModel>>(await _httpClient.GetAsync($"/V1/Order/FindAll"));
     }
 }

@@ -1,0 +1,23 @@
+﻿@model TransactionOrderViewModel
+<article class="card-body border-top">
+    <dl class="row">
+        @{
+        if (Model.VoucherUsed)
+        {
+        <dt class="col-sm-10">Subtotal: <span class="float-right text-muted">@Model.Itens.Sum(i => i.Quantity) itens</span></dt>
+        <dd class="col-sm-2 text-right">
+            <strong>@this.CurrencyFormat(Model.TotalValue + Model.Discount)</strong>
+        </dd>
+
+        <dt class="col-sm-10">Desconto: <span class="float-right text-muted">@Model.VoucherCode</span></dt>
+        <dd class="col-sm-2 text-danger text-right">
+            <strong>@this.CurrencyFormat(Model.Discount)</strong>
+        </dd>
+        }
+        }
+        <dt class="col-sm-10">Total:</dt>
+        <dd class="col-sm-2 text-right">
+            <strong class="h5 text-dark">@this.CurrencyFormat(Model.TotalValue)</strong>
+        </dd>
+    </dl>
+</article>

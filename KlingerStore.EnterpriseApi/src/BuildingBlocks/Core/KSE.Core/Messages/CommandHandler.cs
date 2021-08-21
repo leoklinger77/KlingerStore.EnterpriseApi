@@ -18,7 +18,14 @@ namespace KSE.Core.Messages
         }
         protected async Task<ValidationResult> PersistData(IUnitOfWork uow)
         {
-            if (!await uow.Commit()) AddError("Houve um erro ao persistir os dados.");
+            try
+            {
+                if (!await uow.Commit()) AddError("Houve um erro ao persistir os dados.");
+            }
+            catch (System.Exception e)
+            {
+                throw;
+            }            
 
             return ValidationResult;
         }

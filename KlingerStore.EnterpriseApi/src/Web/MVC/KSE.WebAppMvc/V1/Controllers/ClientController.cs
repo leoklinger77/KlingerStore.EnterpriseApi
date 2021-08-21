@@ -3,6 +3,7 @@ using KSE.WebAppMvc.Controllers;
 using KSE.WebAppMvc.Models;
 using KSE.WebAppMvc.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace KSE.WebAppMvc.V1.Controllers
@@ -35,13 +36,18 @@ namespace KSE.WebAppMvc.V1.Controllers
 
             return View(address is ResponseResult ? new AddressViewModel() : address);
         }
-            
 
-        [HttpGet("seguranca")]
-        public async Task<IActionResult> Security()
+        [HttpPost("endereco")]
+        public async Task<IActionResult> PostAddress(AddressViewModel address)
         {
-            return View();
+            if (!ModelState.IsValid) return View("Address", ModelState);
+
+            if (HasErrorResponse(await _clientService.CreateAddress(address))) TempData["Erros"] = 
+                    ModelState.Values.SelectMany(x => x.Errors.Select(x => x.ErrorMessage)).ToList();
+
+            return RedirectToAction("ShippingAddress", "Order");
         }
+
 
         [HttpGet("devolucoes-reembolsos")]
         public async Task<IActionResult> ReturnsAndRefunds()

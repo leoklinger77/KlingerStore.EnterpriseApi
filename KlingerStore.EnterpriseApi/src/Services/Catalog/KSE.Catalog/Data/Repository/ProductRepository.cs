@@ -5,6 +5,7 @@ using KSE.Core.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace KSE.Catalog.Repository
@@ -63,6 +64,20 @@ namespace KSE.Catalog.Repository
         public void Dispose()
         {
             _context?.DisposeAsync();
+        }
+
+        public async Task<IEnumerable<Product>> FindAllProductPerIds(string productIds)
+        {
+            var idsGuid = productIds.Split(',')
+                .Select(id => (Ok: Guid.TryParse(id, out var x), Value: x));
+
+            if (!idsGuid.All(nid => nid.Ok)) return new List<Product>();
+
+            var idsValue = idsGuid.Select(id => id.Value);
+
+            return await _context.Product.AsNoTracking()
+                .Where(p => idsValue.Contains(p.Id) && p.Active).ToListAsync();
+
         }
     }
 }

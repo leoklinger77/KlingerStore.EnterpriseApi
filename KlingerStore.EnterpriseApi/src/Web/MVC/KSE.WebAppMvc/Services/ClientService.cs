@@ -1,4 +1,5 @@
-﻿using KSE.WebAppMvc.Extensions;
+﻿using KSE.Core.Communication;
+using KSE.WebAppMvc.Extensions;
 using KSE.WebAppMvc.Models;
 using KSE.WebAppMvc.Services.Interfaces;
 using Microsoft.Extensions.Options;
@@ -21,5 +22,8 @@ namespace KSE.WebAppMvc.Services
         
         public async Task<AddressViewModel> GetAddress()
             => await ReturnResponse<AddressViewModel>(await _httpClient.GetAsync("/V1/Client/Address"));
+
+        public async Task<ResponseResult> CreateAddress(AddressViewModel address)
+            => await ReturnResponse<ResponseResult>(await _httpClient.PostAsync("/V1/Client/Address", FindContext(address)));
     }
 }

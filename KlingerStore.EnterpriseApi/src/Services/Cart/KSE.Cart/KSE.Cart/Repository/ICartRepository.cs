@@ -1,6 +1,4 @@
-﻿using MongoDB.Bson;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Threading.Tasks;
 
 namespace KSE.Cart.Repository
@@ -10,6 +8,7 @@ namespace KSE.Cart.Repository
         Task<Models.Cart> GetClient(Guid id);
         Task<Models.Cart> Get(Guid id);
         Task<Models.Cart> Create(Models.Cart cart);
-        Task Update(Guid id, Models.Cart cart);        
+        Task Update(Guid id, Models.Cart cart);
+        Task Delete(Guid id);
     }
 }

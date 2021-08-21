@@ -9,6 +9,12 @@ namespace KSE.Order.Configuration
         public AutoMapper()
         {
             CreateMap<Voucher, VoucherDTO>().ReverseMap();
+
+            CreateMap<Domain.Domain.Order, OrderDTO>()
+                .ForMember(dest => dest.VoucherCode, opt => opt.MapFrom(x => x.Voucher.Code));                
+            
+            CreateMap<OrderItem, OrderItemDTO>().ReverseMap();
+            CreateMap<ShippingAddress, ShippingAddressDTO>().ReverseMap();
         }
     }
 }

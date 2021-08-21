@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using KSE.Core.Tools;
+using KSE.MessageBus;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace KSE.Order.Configuration
@@ -7,8 +9,7 @@ namespace KSE.Order.Configuration
     {
         public static void  AddMessageBusConfiguration(this IServiceCollection services, IConfiguration configuration)
         {
-            ;
-            
+            services.AddMessageBus(configuration.GetMessageQueueConnection("MessageBus"));            
         }
     }
 }

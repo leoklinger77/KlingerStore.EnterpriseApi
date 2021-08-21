@@ -23,6 +23,7 @@ namespace KSE.Client.Configuration
             //Command
             services.AddScoped<IMediatrHandler, MediatrHandler>();
             services.AddScoped<IRequestHandler<RegisterClientCommand, ValidationResult>, ClientCommandHandler>();
+            services.AddScoped<IRequestHandler<AddressCommandHandler, ValidationResult>, ClientCommandHandler>();            
 
             //Event
             services.AddScoped<INotificationHandler<RegisteredCustomerEvent>, ClientEventHandler>();

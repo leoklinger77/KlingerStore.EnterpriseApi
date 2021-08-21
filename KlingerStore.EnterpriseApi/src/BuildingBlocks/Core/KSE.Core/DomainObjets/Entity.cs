@@ -71,7 +71,7 @@ namespace KSE.Core.DomainObjets
 
         public virtual bool IsValid()
         {
-            throw new NotImplementedException();
+            return true;
         }
     }
 }

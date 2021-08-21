@@ -46,5 +46,10 @@ namespace KSE.Client.Data.Repository
         {
             return await _clientContext.Address.AsNoTracking().FirstOrDefaultAsync(x => x.ClientId == id);
         }
+
+        public async Task Insert(Address address)
+        {
+            await _clientContext.Address.AddAsync(address);
+        }
     }
 }

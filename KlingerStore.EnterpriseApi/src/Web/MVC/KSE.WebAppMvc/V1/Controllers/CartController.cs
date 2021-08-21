@@ -12,9 +12,9 @@ namespace KSE.WebAppMvc.V1.Controllers
     [Route("Cart")]
     public class CartController : MainController
     {
-        private readonly ICartGatewayPurchaseService _cartService;
+        private readonly IGatewayPurchaseService _cartService;
 
-        public CartController(ICartGatewayPurchaseService cartService)
+        public CartController(IGatewayPurchaseService cartService)
         {
             _cartService = cartService;
         }

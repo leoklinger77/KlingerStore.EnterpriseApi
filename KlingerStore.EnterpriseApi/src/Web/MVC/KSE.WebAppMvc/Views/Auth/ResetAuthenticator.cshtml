@@ -1,0 +1,33 @@
+﻿
+@{
+    ViewData["Title"] = "Redefinir a chave do autenticador";
+}
+<br />
+<div class="row">
+    <partial name="_MenuClientProfile" />
+    <main class="col-md-9">
+        <article class="card">
+            <header class="card-header">
+                <strong class="d-inline-block mr-3">@ViewData["Title"]</strong>
+                <span></span>
+            </header>
+            <div class="card-body">
+                <div class="alert alert-warning" role="alert">
+                    <p>
+                        <span class="glyphicon glyphicon-warning-sign"></span>
+                        <strong>Se você redefinir a chave do autenticador, o aplicativo do autenticador não funcionará até que você o reconfigure.</strong>
+                    </p>
+                    <p>
+                        Este processo desativa 2FA até que você verifique seu aplicativo autenticador.
+                        Se você não concluir a configuração do aplicativo autenticador, poderá perder o acesso à sua conta.
+                    </p>
+                </div>
+                <div>
+                    <form asp-action="PostResetAuthenticator" method="post" class="form-group">
+                        <button id="reset-authenticator-button" class="btn btn-danger" type="submit">Redefinir a chave do autenticador</button>
+                    </form>
+                </div>
+            </div>
+        </article>
+    </main>
+</div>

@@ -13,5 +13,10 @@ namespace KSE.WebAppMvc.Models
         public string ZipCode { get; set; }
         public string City { get; set; }
         public string State { get; set; }
+
+        public override string ToString()
+        {
+            return $"{Street}, {Number} {Complement} - {District} - {City} - {State}";
+        }
     }
 }
