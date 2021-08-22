@@ -67,10 +67,10 @@ namespace KSE.Order.Infrastructure.Migrations
                     UpdateDate = table.Column<DateTime>(nullable: true),
                     OrderId = table.Column<Guid>(nullable: false),
                     ProductId = table.Column<Guid>(nullable: false),
-                    ProductName = table.Column<string>(type: "varchar(250)", nullable: false),
+                    Name = table.Column<string>(type: "varchar(250)", nullable: false),
                     Quantity = table.Column<int>(nullable: false),
-                    UnityValue = table.Column<decimal>(nullable: false),
-                    ProductImage = table.Column<string>(type: "varchar(255)", nullable: true)
+                    Value = table.Column<decimal>(nullable: false),
+                    Image = table.Column<string>(type: "varchar(255)", nullable: true)
                 },
                 constraints: table =>
                 {

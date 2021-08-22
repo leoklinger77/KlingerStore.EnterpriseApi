@@ -16,11 +16,11 @@ namespace KSE.Order.Domain.Domain
         public decimal Discount { get; private set; }
         public decimal TotalValue { get; private set; }
         public OrderStatus OrderStatus { get; private set; }
-        public ShippingAddress ShippingAddress { get; private set; }
+        public ShippingAddress Address { get; private set; }
         public Voucher Voucher { get; private set; }
 
-        private readonly List<OrderItem> _OrderItens;
-        public IReadOnlyCollection<OrderItem> OrderItens => _OrderItens;
+        private readonly List<OrderItem> _Itens;
+        public IReadOnlyCollection<OrderItem> Itens => _Itens;
 
         protected Order() { }
 
@@ -32,7 +32,7 @@ namespace KSE.Order.Domain.Domain
             VoucherUsed = voucherUsed;
             Discount = discount;
             TotalValue = totalValue;
-            _OrderItens = orderItens;
+            _Itens = orderItens;
         }
 
         public void AuthorizeOrder()
@@ -48,11 +48,11 @@ namespace KSE.Order.Domain.Domain
 
         public void AssignAddress(ShippingAddress address)
         {
-            ShippingAddress = address;
+            Address = address;
         }
         public void CalculateTotalOrder()
         {
-            TotalValue = _OrderItens.Sum(x => x.CalcValue());
+            TotalValue = _Itens.Sum(x => x.CalcValue());
             CalculateDiscountAmount();
         }
         public void CalculateDiscountAmount()

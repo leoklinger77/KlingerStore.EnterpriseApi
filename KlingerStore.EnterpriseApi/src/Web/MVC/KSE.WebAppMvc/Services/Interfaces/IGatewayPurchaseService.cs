@@ -15,6 +15,7 @@ namespace KSE.WebAppMvc.Services.Interfaces
         Task<ResponseResult> DeleteItemCart(Guid productId);
         Task<ResponseResult> ApplyVoucher(string code);
         Task<ResponseResult> FinishOrder(TransactionOrderViewModel transactionOrder);
-        Task<IEnumerable<OrderViewModel>> GetListOrder();
+        Task<IEnumerable<OrderViewModel>> GetFindAllOrder();
+        Task<OrderViewModel> GetLastOrder();
     }
 }

@@ -10,12 +10,12 @@ namespace KSE.Order.Infrastructure.Data.Mappings
         {
             builder.HasKey(x => x.Id);
 
-            builder.Property(x => x.ProductName)
+            builder.Property(x => x.Name)
                 .IsRequired()
                 .HasColumnType("varchar(250)");
 
             builder.HasOne(x => x.Order)
-                .WithMany(x => x.OrderItens);
+                .WithMany(x => x.Itens);
 
             builder.ToTable("TB_OrderItem");
         }

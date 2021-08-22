@@ -61,9 +61,9 @@ namespace KSE.WebAppMvc.V1.Controllers
         }
 
         [HttpGet("OrderCompleted")]
-        public async Task<IActionResult> OrderCompleted()
+        public async Task<IActionResult> OrderConfirmation()
         {
-            return View("Confirmar", await _gatewayPurchaseService.GetListOrder());
+            return View(await _gatewayPurchaseService.GetLastOrder());
         }
 
         private TransactionOrderViewModel MappingOrderAddress(CartViewModel cart, AddressViewModel address = null)

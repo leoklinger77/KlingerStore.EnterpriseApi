@@ -68,8 +68,15 @@ namespace KSE.Order.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<string>("Image")
+                        .HasColumnType("varchar(255)");
+
                     b.Property<DateTime>("InsertDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("varchar(250)");
 
                     b.Property<Guid>("OrderId")
                         .HasColumnType("uniqueidentifier");
@@ -77,21 +84,14 @@ namespace KSE.Order.Infrastructure.Migrations
                     b.Property<Guid>("ProductId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("ProductImage")
-                        .HasColumnType("varchar(255)");
-
-                    b.Property<string>("ProductName")
-                        .IsRequired()
-                        .HasColumnType("varchar(250)");
-
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
-                    b.Property<decimal>("UnityValue")
-                        .HasColumnType("decimal(18,2)");
-
                     b.Property<DateTime?>("UpdateDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<decimal>("Value")
+                        .HasColumnType("decimal(18,2)");
 
                     b.HasKey("Id");
 

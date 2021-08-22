@@ -7,26 +7,26 @@ namespace KSE.Order.Domain.Domain
     {
         public Guid OrderId { get; private set; }
         public Guid ProductId { get; private set; }
-        public string ProductName { get; private set; }
+        public string Name { get; private set; }
         public int Quantity { get; private set; }
-        public decimal UnityValue { get; private set; }
-        public string ProductImage { get; private set; }
+        public decimal Value { get; private set; }
+        public string Image { get; private set; }
 
         public Order Order { get; set; }
         protected OrderItem() { }
 
-        public OrderItem(Guid productId, string productName, int quantity, decimal unityValue, string productImage = null)
+        public OrderItem(Guid productId, string name, int quantity, decimal value, string image = null)
         {
             ProductId = productId;
-            ProductName = productName;
+            Name = name;
             Quantity = quantity;
-            UnityValue = unityValue;
-            ProductImage = productImage;
+            Value = value;
+            Image = image;
         }
 
         internal decimal CalcValue()
         {
-            return Quantity * UnityValue;
+            return Quantity * Value;
         }
     }
 }

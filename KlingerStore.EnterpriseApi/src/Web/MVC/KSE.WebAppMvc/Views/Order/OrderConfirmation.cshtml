@@ -9,7 +9,7 @@
         <vc:Summary></vc:Summary>
 
         @{
-        if (Model.OrderItens.Any())
+        if (Model.Itens.Any())
         {
         <div class="card">
             <div class="tracking-wrap">
@@ -38,12 +38,12 @@
                 </header>
                 <div class="row">
                     @{
-                    foreach (var item in Model.OrderItens)
+                    foreach (var item in Model.Itens)
                     {
                     <div class="col-md-6">
                         <figure class="itemside  mb-3">
                             <div class="aside">
-                                <img src="~/images/produtos/@item.Image" alt="@item.Name" class="border img-xs">
+                                <img src="~/imagens/produtos/@item.Image" alt="@item.Name" class="border img-xs">
                             </div>
                             <figcaption class="info">
                                 <p>

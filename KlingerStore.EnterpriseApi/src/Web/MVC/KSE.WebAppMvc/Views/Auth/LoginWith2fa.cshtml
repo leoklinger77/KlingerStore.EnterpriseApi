@@ -1,12 +1,13 @@
 ﻿@model UserLoginWith2fa
 @{
-    ViewData["Title"] = "LoginWith2fa";
+    ViewData["Title"] = "Autenticação de dois fatores";
 }
-
+<h1>@ViewData["Title"]</h1>
 <p>Seu login é protegido por um aplicativo autenticador. Digite seu código de autenticador abaixo.</p>
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="PostLoginWith2fa" method="post" >
+        
+        <form asp-action="LoginWith2fa" method="post" >
             <input asp-for="Email" type="hidden"  />
             <input asp-for="RememberMe" type="hidden" />
             <div asp-validation-summary="All" class="text-danger"></div>

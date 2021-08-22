@@ -38,6 +38,6 @@ namespace KSE.Cart.Repository
             await _cart.ReplaceOneAsync(x => x.Id == id, cart);
 
         public async Task Delete(Guid id) =>
-            await _cart.DeleteOneAsync(x => x.Id == id);       
+            await _cart.DeleteOneAsync(x => x.ClientId == id);       
     }
 }

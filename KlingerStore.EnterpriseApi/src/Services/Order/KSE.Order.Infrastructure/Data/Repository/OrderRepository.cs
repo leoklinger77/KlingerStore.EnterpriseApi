@@ -30,7 +30,7 @@ namespace KSE.Order.Infrastructure.Data.Repository
         public async Task<Domain.Domain.Order> GetById(Guid id)
         {
             return await _orderContext.Order
-                .Include(x => x.OrderItens)
+                .Include(x => x.Itens)
                 .AsNoTracking()
                 .Where(x => x.Id == id)
                 .FirstOrDefaultAsync();
@@ -38,9 +38,10 @@ namespace KSE.Order.Infrastructure.Data.Repository
         public async Task<Domain.Domain.Order> GetLastOrder(Guid id)
         {
             return await _orderContext.Order
-                .Include(x => x.OrderItens)
+                .Include(x => x.Itens)
+                .Include(x => x.Address)
                 .AsNoTracking()
-                .Where(x => x.Id == id && x.OrderStatus == OrderStatus.Authorized)
+                .Where(x => x.ClientId == id && x.OrderStatus == OrderStatus.Authorized)
                 .OrderByDescending(x => x.InsertDate)
                 .FirstOrDefaultAsync();
         }
@@ -55,7 +56,7 @@ namespace KSE.Order.Infrastructure.Data.Repository
         public async Task<IEnumerable<Domain.Domain.Order>> FindAllPerClient(Guid clientId)
         {
             return await _orderContext.Order
-                .Include(x => x.OrderItens)
+                .Include(x => x.Itens)
                 .AsNoTracking()
                 .Where(x => x.ClientId == clientId)
                 .ToListAsync();

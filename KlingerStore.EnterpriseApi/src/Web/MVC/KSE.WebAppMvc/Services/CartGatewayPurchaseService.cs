@@ -38,7 +38,10 @@ namespace KSE.WebAppMvc.Services
         public async Task<ResponseResult> FinishOrder(TransactionOrderViewModel transactionOrder)
             => await ReturnResponse<ResponseResult>(await _httpClient.PostAsync($"/V1/Order/createOrder", FindContext(transactionOrder)));
 
-        public async Task<IEnumerable<OrderViewModel>> GetListOrder()
-            => await ReturnResponse<IEnumerable<OrderViewModel>>(await _httpClient.GetAsync($"/V1/Order/FindAll"));
+        public async Task<IEnumerable<OrderViewModel>> GetFindAllOrder()
+            => await ReturnResponse<IEnumerable<OrderViewModel>>(await _httpClient.GetAsync($"/V1/Order/listorder"));
+
+        public async Task<OrderViewModel> GetLastOrder()
+            => await ReturnResponse<OrderViewModel>(await _httpClient.GetAsync($"/V1/Order/lastorder"));
     }
 }

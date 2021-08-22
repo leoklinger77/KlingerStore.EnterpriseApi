@@ -5,7 +5,7 @@ namespace KSE.WebAppMvc.Models
 {
     public class OrderViewModel
     {
-        public int Code { get; set; }
+        public string Code { get; set; }
         public int Status { get; set; }
         public DateTime InsertDate { get; set; }
         public decimal TotalValue { get; set; }
@@ -13,7 +13,7 @@ namespace KSE.WebAppMvc.Models
         public decimal Discount { get; set; }
         public bool VoucherUsed { get; set; }
 
-        public List<ItemPedidoViewModel> OrderItens { get; set; } = new List<ItemPedidoViewModel>();
+        public List<ItemPedidoViewModel> Itens { get; set; } = new List<ItemPedidoViewModel>();
 
 
         public class ItemPedidoViewModel
