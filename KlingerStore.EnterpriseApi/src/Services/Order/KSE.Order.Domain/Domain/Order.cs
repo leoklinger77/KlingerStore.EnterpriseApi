@@ -9,7 +9,7 @@ namespace KSE.Order.Domain.Domain
 {
     public class Order : Entity, IAggregateRoot
     {
-        public string Code { get; private set; }
+        public int Code { get; private set; }
         public Guid ClientId { get; private set; }
         public Guid? VoucherId { get; private set; }
         public bool VoucherUsed { get; private set; }
@@ -39,6 +39,16 @@ namespace KSE.Order.Domain.Domain
         {
             OrderStatus = OrderStatus.Authorized;
         }
+
+        public void FinishOrder()
+        {
+            OrderStatus = OrderStatus.PaidOut;
+        }
+        public void CanceledOrder()
+        {
+            OrderStatus = OrderStatus.canceled;
+        }
+
         public void AssignVoucher(Voucher voucher)
         {
             VoucherUsed = true;

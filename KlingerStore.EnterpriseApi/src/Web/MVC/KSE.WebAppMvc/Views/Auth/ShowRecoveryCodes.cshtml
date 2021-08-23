@@ -1,0 +1,38 @@
+﻿@model string[]
+@{
+    ViewData["Title"] = "Códigos de recuperação";
+}
+
+<div class="row">
+    <partial name="_MenuClientProfile" />
+    <main class="col-md-9">
+        <article class="card">
+            <header class="card-header">
+                <strong class="d-inline-block mr-3">@ViewData["Title"]</strong>
+                <span></span>
+            </header>
+            <div class="card-body">
+                <div class="alert alert-warning" role="alert">
+                    <p>
+                        <strong>Coloque esses códigos em um lugar seguro.</strong>
+                    </p>
+                    <p>
+                        Se você perder seu dispositivo e não tiver os códigos de recuperação, perderá o acesso à sua conta.
+                    </p>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        @for (var row = 0; row < Model.Length; row += 2)
+                        {
+                            <code class="recovery-code">@Model.[row]</code><text>&nbsp;</text><code class="recovery-code">@Model.[row + 1]</code><br />
+                        }
+                    </div>
+                </div>
+            </div>
+        </article>
+    </main>
+</div>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+

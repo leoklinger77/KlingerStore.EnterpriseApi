@@ -5,7 +5,7 @@ namespace KSE.WebAppMvc.Models
 {
     public class OrderViewModel
     {
-        public string Code { get; set; }
+        public int Code { get; set; }
         public int Status { get; set; }
         public DateTime InsertDate { get; set; }
         public decimal TotalValue { get; set; }

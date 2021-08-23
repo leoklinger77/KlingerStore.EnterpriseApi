@@ -12,5 +12,6 @@ namespace KSE.WebAppMvc.Services.Interfaces
         Task<ResponseResult> AuthenticatorVerified(TwoFactorAuthenticator twoFactor);
         Task<UserResponseLogin> LoginWith2fa(UserLoginWith2fa with2Fa);
         Task<ResponseResult> ResetAuthenticator();
+        Task<string[]> GenerateRecovery();
     }
 }

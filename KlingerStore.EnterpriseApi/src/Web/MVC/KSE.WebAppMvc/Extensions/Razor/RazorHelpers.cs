@@ -45,6 +45,6 @@ namespace KSE.WebAppMvc.Extensions.Razor
         public static string UniyPerProductTotalValue(this RazorPage page, int quantity, decimal value)
         {
             return $"R$ {quantity * value}";
-        }
+        }        
     }
 }

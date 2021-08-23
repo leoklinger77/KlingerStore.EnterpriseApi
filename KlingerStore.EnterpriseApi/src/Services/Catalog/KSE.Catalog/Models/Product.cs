@@ -52,6 +52,10 @@ namespace KSE.Catalog.Models
         {
             QuantityStock += quantity;
         }
+        public bool IsAvailable(int quantity)
+        {
+            return Active && QuantityStock >= quantity;
+        }
         public bool HasStock(int quantity)
         {
             return QuantityStock >= quantity;

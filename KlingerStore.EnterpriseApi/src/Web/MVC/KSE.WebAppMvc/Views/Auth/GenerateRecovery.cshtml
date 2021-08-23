@@ -1,0 +1,41 @@
+﻿
+@{
+    ViewData["Title"] = "GenerateRecovery";
+}
+
+<br />
+<div class="row">
+    <partial name="_MenuClientProfile" />
+    <main class="col-md-9">
+        <article class="card">
+            <header class="card-header">
+                <strong class="d-inline-block mr-3">@ViewData["Title"]</strong>
+                <span></span>
+            </header>
+            <div class="card-body">                
+                <div class="alert alert-warning" role="alert">
+                    <p>
+                        <span class="glyphicon glyphicon-warning-sign"></span>
+                        <strong>Coloque esses códigos em um lugar seguro.</strong>
+                    </p>
+                    <p>
+                        Se você perder seu dispositivo e não tiver os códigos de recuperação, perderá o acesso à sua conta.
+                    </p>
+                    <p>
+                        A geração de novos códigos de recuperação não altera as chaves usadas nos aplicativos autenticadores. Se você deseja mudar a chave
+                        usado em um aplicativo autenticador, você deve <a >redefina as chaves do autenticador.</a>
+                    </p>
+                </div>
+                <div>
+                    <form asp-action="ShowRecoveryCodes" method="post" class="form-group">
+                        <button class="btn btn-danger" type="submit">Gerar Códigos de Recuperação</button>
+                    </form>
+                </div>
+            </div>
+        </article>
+    </main>
+</div>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+

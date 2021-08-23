@@ -29,7 +29,7 @@
                                     <figure class="itemside align-items-center">
                                         <div class="aside"><img src="~/imagens/produtos/@item.Image" class="img-sm"></div>
                                         <figcaption class="info">
-                                            <a href="#" class="title text-dark">@item.Name</a>
+                                            <a asp-action="GetProduct" asp-controller="Catalog" asp-route-id="@item.ProductId" class="title text-dark">@item.Name</a>
                                         </figcaption>
                                     </figure>
                                 </td>
@@ -55,7 +55,7 @@
                                 </td>
 
                                 <td class="text-right">
-                                    <a data-original-title="Save to Wishlist" title="" href="" class="btn btn-light" data-toggle="tooltip"> <i class="fa fa-heart"></i></a>
+                                    <a  data-original-title="Save to Wishlist" title="" href="" class="btn btn-light" data-toggle="tooltip"> <i class="fa fa-heart"></i></a>
                                     <a asp-controller="Cart" asp-action="RemoveItemCart" asp-route-ProductId="@item.ProductId" class="btn btn-light"> Remover</a>
                                 </td>
 
@@ -111,7 +111,7 @@
                         <img src="~/imagens/payments.png" height="26">
                     </p>
                     <a asp-controller="Order" asp-action="ShippingAddress" class="btn btn-primary btn-block"> Comprar Agora</a>
-                    <a href="#" class="btn btn-light btn-block">Continuar Comprando</a>
+                    <a  asp-controller="Catalog" asp-action="Index" class="btn btn-light btn-block">Continuar Comprando</a>
                 </div>
             </div>
 

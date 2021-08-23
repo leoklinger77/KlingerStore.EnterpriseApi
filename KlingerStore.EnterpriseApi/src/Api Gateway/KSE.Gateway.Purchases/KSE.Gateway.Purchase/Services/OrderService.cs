@@ -21,7 +21,15 @@ namespace KSE.Gateway.Purchase.Services
         }
 
         public async Task<ResponseResult> FinishOrder(OrderDTO order)
-            => await ReturnResponse<ResponseResult>(await _httpClient.PostAsync($"v1/Order", FindContext(order)));
+        {
+            var response = await _httpClient.PostAsync($"v1/Order", FindContext(order));
+
+            if (!TreatErrosResponse(response)) return await DeserializeResponse<ResponseResult>(response);
+
+            return new ResponseResult();
+        }
+
+
 
         public async Task<IEnumerable<OrderDTO>> GetAllOrder()
             => await ReturnResponse<IEnumerable<OrderDTO>>(await _httpClient.GetAsync($"v1/Order/list-order"));

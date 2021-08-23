@@ -24,6 +24,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\..\BuildingBlocks\Core\KSE.Core\KSE.Core.csproj" />
     <ProjectReference Include="..\..\..\BuildingBlocks\KSE.WebApi.Core\KSE.WebApi.Core.csproj" />
+    <ProjectReference Include="..\..\..\BuildingBlocks\MessageBus\KSE.MessageBus\KSE.MessageBus.csproj" />
   </ItemGroup>
 
 </Project>

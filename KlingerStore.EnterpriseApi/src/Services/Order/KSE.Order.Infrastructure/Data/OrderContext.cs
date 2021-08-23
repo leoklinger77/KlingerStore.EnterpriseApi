@@ -38,7 +38,7 @@ namespace KSE.Order.Infrastructure.Data
             foreach (var relationship in modelBuilder.Model.GetEntityTypes().SelectMany(e => e.GetForeignKeys()))
                 relationship.DeleteBehavior = DeleteBehavior.ClientSetNull;
 
-            modelBuilder.HasSequence<int>("OrderSequel").StartsAt(1000).IncrementsBy(1);
+            modelBuilder.HasSequence<int>("MySequel").StartsAt(1000).IncrementsBy(1);
 
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(OrderContext).Assembly);
         }

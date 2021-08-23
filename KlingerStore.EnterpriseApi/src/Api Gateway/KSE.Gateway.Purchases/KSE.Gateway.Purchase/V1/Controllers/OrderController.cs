@@ -49,7 +49,9 @@ namespace KSE.Gateway.Purchase.V1.Controllers
 
             MappingOrder(carrinho, endereco, pedido);
 
-            return CustomResponse(await _orderService.FinishOrder(pedido));
+            var response = await _orderService.FinishOrder(pedido);
+
+            return CustomResponse(response);
         }
 
         [HttpGet("lastOrder")]

@@ -12,16 +12,18 @@ namespace KSE.WebAppMvc.V1.Controllers
     public class ClientController : MainController
     {
         private readonly IClientService _clientService;
+        private readonly IGatewayPurchaseService _gatewayPurchaseService;
 
-        public ClientController(IClientService clientService)
+        public ClientController(IClientService clientService, IGatewayPurchaseService gatewayPurchaseService)
         {
             _clientService = clientService;
+            _gatewayPurchaseService = gatewayPurchaseService;
         }
 
         [HttpGet("meus-pedidos")]
         public async Task<IActionResult> MyOrders()
         {
-            return View();
+            return View(await _gatewayPurchaseService.GetFindAllOrder());
         }
 
         [HttpGet("meu-perfil")]

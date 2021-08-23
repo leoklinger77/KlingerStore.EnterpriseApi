@@ -80,11 +80,10 @@ namespace KSE.WebAppMvc.V1.Controllers
 
             return LocalRedirect(returnUrl);
 
-        }
+        }        
 
         [AllowAnonymous]
         [HttpGet("LoginWith2fa")]
-
         public async Task<IActionResult> LoginWith2fa([Required] string email, string returnUrl = null)
         {
             ViewData["returnUrl"] = returnUrl;
@@ -99,7 +98,6 @@ namespace KSE.WebAppMvc.V1.Controllers
 
         [AllowAnonymous]
         [HttpPost("LoginWith2fa")]
-
         public async Task<IActionResult> LoginWith2fa(UserLoginWith2fa with2Fa, string returnUrl = null)
         {
             if (!ModelState.IsValid) return View("LoginWith2fa", ModelState);
@@ -115,6 +113,14 @@ namespace KSE.WebAppMvc.V1.Controllers
             return LocalRedirect(returnUrl);
         }
 
+        [AllowAnonymous]
+        [HttpGet("LoginWithRecoveryCode")]
+        public async Task<IActionResult> LoginWithRecoveryCode(string returnUrl = null)
+        {
+            ViewData["returnUrl"] = returnUrl;           
+            return View();
+        }
+        
         [HttpGet("sair")]
         public async Task<IActionResult> Logout()
         {
@@ -123,6 +129,18 @@ namespace KSE.WebAppMvc.V1.Controllers
             return RedirectToAction("Index", "Catalog");
         }
 
+
+
+        [HttpGet("GenerateRecovery")]
+        public async Task<IActionResult> GenerateRecovery()
+        {
+            return View();
+        }
+        [HttpPost("ShowRecoveryCodes")]
+        public async Task<IActionResult> ShowRecoveryCodes()
+        {
+            return View(await _authService.GenerateRecovery());
+        }
 
 
         [HttpGet("2fa-authenticacao")]
@@ -169,6 +187,20 @@ namespace KSE.WebAppMvc.V1.Controllers
             return RedirectToAction("EnableAuthenticator");
         }
 
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
         [HttpGet("seguranca")]
         public async Task<IActionResult> Security()
         {

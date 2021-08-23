@@ -35,6 +35,13 @@ namespace KSE.WebApi.Core.Controllers
             return CustomResponse();
         }
 
+        protected ActionResult CustomResponse(ResponseResult resposta)
+        {
+            ResponseHasError(resposta);
+
+            return CustomResponse();
+        }
+
         protected ActionResult CustomResponse(ValidationResult modelState)
         {
             foreach (var item in modelState.Errors)

@@ -27,5 +27,10 @@ namespace KSE.Order.Application.Querys
         {
             return _mapper.Map<OrderDTO>(await _orderRepository.GetLastOrder(clientId));
         }
+
+        public async Task<OrderDTO> GetOrderAuthorize()
+        {
+            return _mapper.Map<OrderDTO>(await _orderRepository.GetLastOrderAuthorize());
+        }
     }
 }

@@ -110,7 +110,8 @@ namespace KSE.Authentication.V1.Controllers
             var user = await _signInManager.GetTwoFactorAuthenticationUserAsync();
             if (user == null)
             {
-                throw new InvalidOperationException($"Não foi possível carregar o usuário de autenticação de dois fatores.");
+                AddErros($"Não foi possível carregar o usuário de autenticação de dois fatores.");
+                return CustomResponse();
             }
 
             var authenticatorCode = userLogin.TwoFactorCode.Replace(" ", string.Empty).Replace("-", string.Empty);
@@ -244,6 +245,17 @@ namespace KSE.Authentication.V1.Controllers
             return CustomResponse();
         }
 
+        [HttpGet("GenerateRecovery")]
+        public async Task<IActionResult> GenerateRecovery()
+        {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                return NotFound($"Não foi possível carregar o usuário com ID '{_userManager.GetUserId(User)}'.");
+            }
+
+            return CustomResponse(_userManager.GenerateNewTwoFactorRecoveryCodesAsync(user, 10).Result.ToArray());
+        }
 
 
 

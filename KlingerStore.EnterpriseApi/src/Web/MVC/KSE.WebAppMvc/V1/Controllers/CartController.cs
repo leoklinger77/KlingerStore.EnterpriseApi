@@ -32,6 +32,13 @@ namespace KSE.WebAppMvc.V1.Controllers
 
             return RedirectToAction(nameof(Index));
         }
+        [HttpPost("BuyNow")]
+        public async Task<IActionResult> CartBuyNow(CartItemViewModel item)
+        {
+            if (HasErrorResponse(await _cartService.AddItemCart(item))) return View("Index", await _cartService.GetCart());
+
+            return RedirectToAction("ShippingAddress","Order");
+        }
 
         [HttpPost("update-item")]
         public async Task<IActionResult> UpdateItemCart(Guid productId, int quantity)

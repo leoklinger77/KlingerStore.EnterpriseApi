@@ -9,5 +9,6 @@ namespace KSE.Order.Application.Querys.Interfaces
     {
         Task<OrderDTO> GetLastOrder(Guid clientId);
         Task<IEnumerable<OrderDTO>> GetFindAll(Guid clientId);
+        Task<OrderDTO> GetOrderAuthorize();
     }
 }

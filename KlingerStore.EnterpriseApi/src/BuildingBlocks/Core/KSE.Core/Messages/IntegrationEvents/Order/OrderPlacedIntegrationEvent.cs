@@ -8,8 +8,6 @@ namespace KSE.Core.Messages.IntegrationEvents.Order
 
         public OrderPlacedIntegrationEvent(Guid clientId)
         {
-            AggregateId = clientId;
-
             ClientId = clientId;
         }
     }

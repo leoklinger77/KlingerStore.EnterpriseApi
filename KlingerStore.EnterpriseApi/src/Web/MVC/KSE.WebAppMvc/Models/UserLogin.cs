@@ -29,4 +29,11 @@ namespace KSE.WebAppMvc.Models
 
         public bool RememberMe { get; set; }
     }
+    public class LoginWithRecovery
+    {        
+        [Required]
+        [DataType(DataType.Text)]
+        [Display(Name = "Código de recuperação")]
+        public string RecoveryCode { get; set; }
+    }
 }

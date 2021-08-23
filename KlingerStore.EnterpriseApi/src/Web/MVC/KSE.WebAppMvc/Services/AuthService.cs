@@ -21,6 +21,9 @@ namespace KSE.WebAppMvc.Services
         public async Task<ResponseResult> AuthenticatorVerified(TwoFactorAuthenticator twoFactor)
             => await ReturnResponse<ResponseResult>(await _httpClient.PostAsync("/V1/Authentication/Authenticator", FindContext(twoFactor)));
 
+        public async Task<string[]> GenerateRecovery()
+            => await ReturnResponse<string[]>(await _httpClient.GetAsync("/V1/Authentication/GenerateRecovery"));
+
         public async Task<TwoFactorAuthenticator> GetAuthenticator()
             => await ReturnResponse<TwoFactorAuthenticator>(await _httpClient.GetAsync("/V1/Authentication/Authenticator"));
 

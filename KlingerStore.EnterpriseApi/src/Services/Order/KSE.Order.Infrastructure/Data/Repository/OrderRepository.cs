@@ -45,6 +45,16 @@ namespace KSE.Order.Infrastructure.Data.Repository
                 .OrderByDescending(x => x.InsertDate)
                 .FirstOrDefaultAsync();
         }
+        public async Task<Domain.Domain.Order> GetLastOrderAuthorize()
+        {
+            return await _orderContext.Order
+                .Include(x => x.Itens)
+                .AsNoTracking()
+                .Where(x => x.OrderStatus == OrderStatus.Authorized)
+                .OrderByDescending(x => x.InsertDate)
+                .FirstOrDefaultAsync();
+        }
+
         public async Task<OrderItem> GetItemId(Guid id)
         {
             return await _orderContext.OrderItem

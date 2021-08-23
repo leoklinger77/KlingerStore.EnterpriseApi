@@ -1,8 +1,6 @@
 using KSE.Catalog.Configuration;
-using KSE.Catalog.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -29,12 +27,10 @@ namespace KSE.Catalog
         }
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<CatalogContext>(option => option.UseSqlServer(Configuration.GetConnectionString("Connection")));            
-
             services.AddWebAppConfig(Configuration);
             services.SwaggerConfig();
-            services.RegisterService();
-            
+            services.RegisterService(Configuration);
+            services.AddMessageBusConfiguration(Configuration);
         }       
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {

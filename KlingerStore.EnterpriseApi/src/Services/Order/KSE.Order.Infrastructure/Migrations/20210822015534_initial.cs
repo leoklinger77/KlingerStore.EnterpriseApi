@@ -3,12 +3,12 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace KSE.Order.Infrastructure.Migrations
 {
-    public partial class Initial : Migration
+    public partial class initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateSequence<int>(
-                name: "OrderSequel",
+                name: "MySequel",
                 startValue: 1000L);
 
             migrationBuilder.CreateTable(
@@ -39,7 +39,7 @@ namespace KSE.Order.Infrastructure.Migrations
                     Id = table.Column<Guid>(nullable: false),
                     InsertDate = table.Column<DateTime>(nullable: false),
                     UpdateDate = table.Column<DateTime>(nullable: true),
-                    Code = table.Column<string>(type: "varchar(255)", nullable: true, defaultValue: "NEXT VALUE FOR OrderSequel"),
+                    Code = table.Column<int>(nullable: false, defaultValueSql: "NEXT VALUE FOR MySequel"),
                     ClientId = table.Column<Guid>(nullable: false),
                     VoucherId = table.Column<Guid>(nullable: true),
                     VoucherUsed = table.Column<bool>(nullable: false),
@@ -142,7 +142,7 @@ namespace KSE.Order.Infrastructure.Migrations
                 name: "TB_Voucher");
 
             migrationBuilder.DropSequence(
-                name: "OrderSequel");
+                name: "MySequel");
         }
     }
 }

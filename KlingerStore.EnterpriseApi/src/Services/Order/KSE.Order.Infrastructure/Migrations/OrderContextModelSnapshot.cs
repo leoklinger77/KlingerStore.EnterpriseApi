@@ -17,7 +17,7 @@ namespace KSE.Order.Infrastructure.Migrations
             modelBuilder
                 .HasAnnotation("ProductVersion", "3.1.0")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("Relational:Sequence:.OrderSequel", "'OrderSequel', '', '1000', '1', '', '', 'Int32', 'False'")
+                .HasAnnotation("Relational:Sequence:.MySequel", "'MySequel', '', '1000', '1', '', '', 'Int32', 'False'")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
             modelBuilder.Entity("KSE.Order.Domain.Domain.Order", b =>
@@ -29,10 +29,10 @@ namespace KSE.Order.Infrastructure.Migrations
                     b.Property<Guid>("ClientId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("Code")
+                    b.Property<int>("Code")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("varchar(255)")
-                        .HasDefaultValue("NEXT VALUE FOR OrderSequel");
+                        .HasColumnType("int")
+                        .HasDefaultValueSql("NEXT VALUE FOR MySequel");
 
                     b.Property<decimal>("Discount")
                         .HasColumnType("decimal(18,2)");
@@ -203,7 +203,7 @@ namespace KSE.Order.Infrastructure.Migrations
             modelBuilder.Entity("KSE.Order.Domain.Domain.OrderItem", b =>
                 {
                     b.HasOne("KSE.Order.Domain.Domain.Order", "Order")
-                        .WithMany("OrderItens")
+                        .WithMany("Itens")
                         .HasForeignKey("OrderId")
                         .IsRequired();
                 });
@@ -211,7 +211,7 @@ namespace KSE.Order.Infrastructure.Migrations
             modelBuilder.Entity("KSE.Order.Domain.Domain.ShippingAddress", b =>
                 {
                     b.HasOne("KSE.Order.Domain.Domain.Order", "Order")
-                        .WithOne("ShippingAddress")
+                        .WithOne("Address")
                         .HasForeignKey("KSE.Order.Domain.Domain.ShippingAddress", "OrderId")
                         .IsRequired();
                 });

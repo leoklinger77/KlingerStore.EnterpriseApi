@@ -9,8 +9,8 @@ namespace KSE.Order.Infrastructure.Data.Mappings
         {
             builder.HasKey(x => x.Id);
 
-            builder.Property(x => x.Code)
-                .HasDefaultValue("NEXT VALUE FOR OrderSequel");
+            builder.Property(c => c.Code)
+                .HasDefaultValueSql("NEXT VALUE FOR MySequel");
 
             builder.HasMany(x => x.Itens)
                 .WithOne(x => x.Order)

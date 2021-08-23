@@ -11,7 +11,7 @@ namespace KSE.WebAppMvc.Extensions.DataAnnotation
     {
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
-            return ValidationMethods.IsCpf(value.ToString()) ? ValidationResult.Success : new ValidationResult("CPF em formato inválido");
+            return value.ToString().IsCpf() ? ValidationResult.Success : new ValidationResult("CPF em formato inválido");
         }
     }
 

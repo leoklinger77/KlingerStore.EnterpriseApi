@@ -6,7 +6,8 @@ namespace KSE.Order.Application.DTO
     public class OrderDTO
     {
         public Guid Id { get; set; }
-        public string Code { get; set; }
+        public Guid ClientId { get; set; }
+        public int Code { get; set; }
         public int Status { get; set; }
         public DateTime InsertDate { get; set; }
         public decimal TotalValue { get; set; }

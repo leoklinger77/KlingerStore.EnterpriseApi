@@ -10,7 +10,8 @@ namespace KSE.Order.Domain.Interfaces
     {
         Task<Domain.Order> GetById(Guid id);
         Task<Domain.Order> GetLastOrder(Guid id);
-        
+        Task<Domain.Order> GetLastOrderAuthorize();
+
         Task<IEnumerable<Domain.Order>> FindAllPerClient(Guid clientId);
         Task Insert(Domain.Order order);
         void Update(Domain.Order order);
