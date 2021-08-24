@@ -2,10 +2,10 @@
 {
     public enum TransactionStatus
     {
-        Authorized = 1,
-        Paid,
-        Refused,
-        Chargedback,
-        Cancelled
+        authorized = 1,
+        paid,
+        refused,
+        chargedback,
+        cancelled
     }
 }

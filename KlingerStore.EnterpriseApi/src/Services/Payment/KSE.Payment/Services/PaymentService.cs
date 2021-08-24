@@ -28,7 +28,7 @@ namespace KSE.Payment.Services
             var transacao = await _pagamentoFacade.AuthorizePayment(payment);
             var validationResult = new ValidationResult();
 
-            if (transacao.Status != Models.Enums.StatusTransaction.Autorizado)
+            if (transacao.Status != StatusTransaction.authorized)
             {
                 validationResult.Errors.Add(new ValidationFailure("Pagamento",
                         "Pagamento recusado, entre em contato com a sua operadora de cartão"));
@@ -39,72 +39,33 @@ namespace KSE.Payment.Services
             payment.AdicionarTransacao(transacao);
             _pagamentoRepository.InsertPayment(payment);
 
-            try
-            {
-                if (!await _pagamentoRepository.UnitOfWork.Commit())
-                {
-                    validationResult.Errors.Add(new ValidationFailure("Pagamento",
-                        "Houve um erro ao realizar o pagamento."));
-
-                    // Cancelar pagamento no gateway
-                    await CancelarPagamento(payment.OrderId);
-
-                    return new ResponseMessage(validationResult);
-                }
-
-                return new ResponseMessage(validationResult);
-            }
-            catch (Exception e)
-            {
-                throw;
-            }
-
-            
-        }
-
-        public async Task<ResponseMessage> CapturarPagamento(Guid pedidoId)
-        {
-            var transacoes = await _pagamentoRepository.FindTransactionPerOrderId(pedidoId);
-            var transacaoAutorizada = transacoes?.FirstOrDefault(t => t.Status == StatusTransaction.Autorizado);
-            var validationResult = new ValidationResult();
-
-            if (transacaoAutorizada == null) throw new DomainException($"Transação não encontrada para o pedido {pedidoId}");
-
-            var transacao = await _pagamentoFacade.CapturePayment(transacaoAutorizada);
-
-            if (transacao.Status != StatusTransaction.Pago)
-            {
-                validationResult.Errors.Add(new ValidationFailure("Pagamento",
-                    $"Não foi possível capturar o pagamento do pedido {pedidoId}"));
-
-                return new ResponseMessage(validationResult);
-            }
-
-            transacao.PaymentId = transacaoAutorizada.PaymentId;
-            _pagamentoRepository.InsertTransaction(transacao);
 
             if (!await _pagamentoRepository.UnitOfWork.Commit())
             {
                 validationResult.Errors.Add(new ValidationFailure("Pagamento",
-                    $"Não foi possível persistir a captura do pagamento do pedido {pedidoId}"));
+                    "Houve um erro ao realizar o pagamento."));
+
+                // Cancelar pagamento no gateway
+                await CancelarPagamento(payment.OrderId);
 
                 return new ResponseMessage(validationResult);
             }
 
             return new ResponseMessage(validationResult);
+
         }
 
         public async Task<ResponseMessage> CancelarPagamento(Guid pedidoId)
         {
             var transacoes = await _pagamentoRepository.FindTransactionPerOrderId(pedidoId);
-            var transacaoAutorizada = transacoes?.FirstOrDefault(t => t.Status == StatusTransaction.Autorizado);
+            var transacaoAutorizada = transacoes?.FirstOrDefault(t => t.Status == StatusTransaction.authorized);
             var validationResult = new ValidationResult();
 
             if (transacaoAutorizada == null) throw new DomainException($"Transação não encontrada para o pedido {pedidoId}");
 
-            var transacao = await _pagamentoFacade.CanceledPayment(transacaoAutorizada);
+            var transacao = await _pagamentoFacade.CanceledPayment(transacaoAutorizada.TID);
 
-            if (transacao.Status != StatusTransaction.Cancelado)
+            if (transacao.Status != StatusTransaction.cancelled)
             {
                 validationResult.Errors.Add(new ValidationFailure("Pagamento",
                     $"Não foi possível cancelar o pagamento do pedido {pedidoId}"));
@@ -125,6 +86,37 @@ namespace KSE.Payment.Services
 
             return new ResponseMessage(validationResult);
         }
-       
+
+        public async Task<ResponseMessage> CapturarPagamento(Guid pedidoId)
+        {
+            var payment = await _pagamentoRepository.FindPaymentPerOrderId(pedidoId);
+            var transacaoAutorizada = payment.Transaction?.FirstOrDefault(t => t.Status == StatusTransaction.authorized);
+            var validationResult = new ValidationResult();
+
+            if (transacaoAutorizada == null) throw new DomainException($"Transação não encontrada para o pedido {pedidoId}");
+
+            var transacao = await _pagamentoFacade.CapturingPayment(transacaoAutorizada.TID);
+
+            if (transacao.Status != StatusTransaction.paid)
+            {
+                validationResult.Errors.Add(new ValidationFailure("Pagamento",
+                    $"Não foi possível capturar o pagamento do pedido {pedidoId}"));
+
+                return new ResponseMessage(validationResult);
+            }
+
+            transacao.PaymentId = transacaoAutorizada.PaymentId;
+            _pagamentoRepository.InsertTransaction(transacao);
+
+            if (!await _pagamentoRepository.UnitOfWork.Commit())
+            {
+                validationResult.Errors.Add(new ValidationFailure("Pagamento",
+                    $"Não foi possível persistir a captura do pagamento do pedido {pedidoId}"));
+
+                return new ResponseMessage(validationResult);
+            }
+
+            return new ResponseMessage(validationResult);
+        }
     }
 }

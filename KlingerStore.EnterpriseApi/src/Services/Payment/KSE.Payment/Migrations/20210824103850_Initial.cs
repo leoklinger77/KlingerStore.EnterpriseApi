@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace KSE.Payment.Migrations
 {
-    public partial class Intial : Migration
+    public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -15,6 +15,7 @@ namespace KSE.Payment.Migrations
                     InsertDate = table.Column<DateTime>(nullable: false),
                     UpdateDate = table.Column<DateTime>(nullable: true),
                     OrderId = table.Column<Guid>(nullable: false),
+                    ClientId = table.Column<Guid>(nullable: false),
                     TypePayment = table.Column<int>(nullable: false),
                     Value = table.Column<decimal>(nullable: false)
                 },

@@ -25,6 +25,9 @@ namespace KSE.Payment.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid>("ClientId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<DateTime>("InsertDate")
                         .HasColumnType("datetime2");
 

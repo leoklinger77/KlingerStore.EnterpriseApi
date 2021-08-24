@@ -1,51 +1,35 @@
-﻿using System.IO;
-using System.Security.Cryptography;
-using System.Text;
+﻿using PagarMe;
 using System.Threading.Tasks;
 
 namespace KSE.Payment.KlingerPag.Service
 {
     public class CardHashCode
     {
-        public CardHashCode(KlingerPagService klingerPagService)
-        {
-            KlingerPagService = klingerPagService;
-        }
-
-        private readonly KlingerPagService KlingerPagService;        
-
+        private readonly string DefaultEncryptionKey;
         public string CardHolderName { get; set; }
         public string CardNumber { get; set; }
         public string CardExpirationDate { get; set; }
         public string CardCvv { get; set; }
 
+        public CardHashCode(string defaultEncryptionKey)
+        {
+            DefaultEncryptionKey = defaultEncryptionKey;
+        }                
+
         public async Task<string> GenerateAsync()
         {
-            try
-            {
-                using var aesAlg = Aes.Create();
+            PagarMeService.DefaultEncryptionKey = DefaultEncryptionKey;
 
-                aesAlg.IV = Encoding.Default.GetBytes(KlingerPagService.EncryptionKey);
-                aesAlg.Key = Encoding.Default.GetBytes(KlingerPagService.ApiKey);
+            CardHash card = new CardHash();
 
-                var encryptor = aesAlg.CreateEncryptor(aesAlg.Key, aesAlg.IV);
+            card.CardNumber = CardNumber;
+            card.CardHolderName = CardHolderName;
+            card.CardExpirationDate = CardExpirationDate;
+            card.CardCvv = CardCvv;
 
-                using var msEncrypt = new MemoryStream();
-                using var csEncrypt = new CryptoStream(msEncrypt, encryptor, CryptoStreamMode.Write);
+            string cardhash = card.Generate();
 
-                using (var swEncrypt = new StreamWriter(csEncrypt))
-                {
-                    swEncrypt.Write(CardHolderName + CardNumber + CardExpirationDate + CardCvv);
-                }
-
-                return Encoding.ASCII.GetString(msEncrypt.ToArray());
-
-            }
-            catch (System.Exception e)
-            {
-                throw;
-            }
-            
+            return cardhash;
         }
     }
 }

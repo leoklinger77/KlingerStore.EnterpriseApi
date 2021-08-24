@@ -48,7 +48,15 @@ namespace KSE.Payment.Data
                     entry.Property("InsertDate").IsModified = false;
                 }
             }
-            return await base.SaveChangesAsync() > 0;
+            try
+            {
+                return await base.SaveChangesAsync() > 0;
+            }
+            catch (Exception e)
+            {
+                throw;
+            }
+            
         }
     }
 }

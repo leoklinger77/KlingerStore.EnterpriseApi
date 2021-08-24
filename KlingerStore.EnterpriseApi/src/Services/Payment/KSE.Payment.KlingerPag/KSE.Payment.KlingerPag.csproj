@@ -5,8 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Pagar.me" Version="2.7.2" />
-    <PackageReference Include="PagarMe.Mpos" Version="2.0.0.1" />
+    <PackageReference Include="PagarMeCore" Version="1.0.0" />
   </ItemGroup>
 
 </Project>

@@ -31,7 +31,9 @@ namespace KSE.Payment.Data.Repository
 
         public async Task<Models.Payment> FindPaymentPerOrderId(Guid pedidoId)
         {
-            return await _context.Payment.AsNoTracking()
+            return await _context.Payment
+                .Include(x => x.Transaction)
+                .AsNoTracking()
                 .FirstOrDefaultAsync(p => p.OrderId == pedidoId);
         }
 

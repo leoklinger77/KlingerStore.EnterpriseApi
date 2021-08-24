@@ -8,6 +8,7 @@ using KSE.Order.Application.Events;
 using KSE.Order.Domain.Domain;
 using KSE.Order.Domain.Interfaces;
 using MediatR;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -36,7 +37,7 @@ namespace KSE.Order.Application.Commands
 
             var order = MapperComandAsync(message);
 
-            if(!await ApplyVoucher(message, order)) return ValidationResult;
+            if (!await ApplyVoucher(message, order)) return ValidationResult;
 
             order.IsValid();
 
@@ -79,7 +80,7 @@ namespace KSE.Order.Application.Commands
             {
                 AddError("O voucher informado não existe!");
                 return false;
-            }            
+            }
             if (!voucher.IsValid())
             {
                 voucher.ValidationResult.Errors.ToList().ForEach(x => AddError(x.ErrorMessage));
@@ -98,13 +99,13 @@ namespace KSE.Order.Application.Commands
 
             order.CalculateTotalOrder();
 
-            if(order.TotalValue != orderValueOriginal)
+            if (order.TotalValue != orderValueOriginal)
             {
                 AddError("O valor total do pedido não confere como cálculo do pedido.");
                 return false;
             }
 
-            if(order.Discount != orderDiscount)
+            if (order.Discount != orderDiscount)
             {
                 AddError("O valor total não confere com o cálculo do pedido.");
                 return false;
@@ -114,29 +115,65 @@ namespace KSE.Order.Application.Commands
 
         public async Task<bool> ProccessPayment(Domain.Domain.Order order, CreatedOrderCommand message)
         {
-            var pedidoIniciado = new OrderStartIntegrationEvent
-            {                
-                OrderId = order.Id,
-                ClientId = order.ClientId,                
-                TypeOrder = 1, 
-                Value = order.TotalValue,
-                NameCard = message.NameCart,
-                NumberCard = message.NumberCart,
-                ExpirationCard = message.ExpirationCArt,
-                CVV = message.CVVCart
-            };
-
-            var result = await _bus
-                .RequestAsync<OrderStartIntegrationEvent, ResponseMessage>(pedidoIniciado);
-
-            if (result.ValidationResult.IsValid) return true;
-
-            foreach (var erro in result.ValidationResult.Errors)
+            try
             {
-                AddError(erro.ErrorMessage);
+                List<OrderStartItems> itens = new List<OrderStartItems>();
+
+                foreach (var item in order.Itens)
+                {
+                    itens.Add(new OrderStartItems
+                    {
+                        Id = item.ProductId.ToString(),
+                        Quantity = item.Quantity,
+                        Title = item.Name,
+                        Tangible = true,
+                        Unit_price = item.Value.ToString()
+                    });
+                }
+
+                var pedidoIniciado = new OrderStartIntegrationEvent
+                {
+                    OrderId = order.Id,
+                    ClientId = order.ClientId,
+                    TypeOrder = 1,
+                    Value = order.TotalValue,
+                    NameCard = message.NameCart,
+                    NumberCard = message.NumberCart,
+                    ExpirationCard = message.ExpirationCArt,
+                    CVV = message.CVVCart,
+
+                    ClientName = "leandro Klinger",
+                    ClientEmail = "leandro@gmail.com",
+                    ClientDocument = "36018556820",
+                    ClientPhone = "+5511954665152",
+
+                    City = order.Address.City,
+                    State = order.Address.State,
+                    Neighborhood = order.Address.District,
+                    Street = order.Address.Street,
+                    Number = order.Address.Number,
+                    Zipcode = order.Address.ZipCode,
+
+                    Itens = itens
+                };
+
+                var result = await _bus
+                    .RequestAsync<OrderStartIntegrationEvent, ResponseMessage>(pedidoIniciado);
+
+                if (result.ValidationResult.IsValid) return true;
+
+                foreach (var erro in result.ValidationResult.Errors)
+                {
+                    AddError(erro.ErrorMessage);
+                }
+
+                return false;
+            }
+            catch (Exception e)
+            {
+                throw;
             }
 
-            return false;
         }
     }
 }
