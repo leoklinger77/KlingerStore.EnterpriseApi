@@ -33,5 +33,7 @@ namespace KSE.WebAppMvc.Models
         [Required(ErrorMessage = "Informe o código de segurança")]
         [DisplayName("Código de Segurança")]
         public string CvvCart { get; set; }
+
+        public int Installments { get; set; }
     }
 }

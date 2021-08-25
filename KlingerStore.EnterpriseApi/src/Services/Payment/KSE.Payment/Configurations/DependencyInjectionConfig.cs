@@ -26,6 +26,7 @@ namespace KSE.Payment.Configuration
             services.AddScoped<IPaymentFacade, PaymentCardCreditFacade>();
 
             services.AddScoped<IPaymentRepository, PaymentRepository>();
+            services.AddScoped<ITaxaTransactionRepository, TaxaTransactionRepository>();
             services.AddScoped<PaymentContext>();
 
 

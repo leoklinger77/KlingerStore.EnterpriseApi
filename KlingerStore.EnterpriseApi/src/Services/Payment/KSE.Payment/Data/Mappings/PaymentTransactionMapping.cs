@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace KSE.Payment.Data.Mappings
 {
-    public class PaymentTransaction : IEntityTypeConfiguration<Models.Payment>
+    public class PaymentTransactionMapping : IEntityTypeConfiguration<Models.Payment>
     {
         public void Configure(EntityTypeBuilder<Models.Payment> builder)
         {

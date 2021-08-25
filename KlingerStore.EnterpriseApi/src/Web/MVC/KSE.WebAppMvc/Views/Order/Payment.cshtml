@@ -118,6 +118,20 @@
                                     </div>
                                 </div>
 
+                                <div class="row">
+                                    <div class="col-md-4 col-sm-12">
+                                        <div class="text-left">
+                                            <label>Parcelas</label>
+                                            <select id="Installments" name="Installments"  class="form-control">
+                                                @{
+                                                    @Html.Raw(this.SelectInstallments(Model.TotalValue, 1))
+                                                }
+                                            </select>
+                                        </div>
+                                    </div>                                    
+
+                                </div>
+
                             </div>
                         </article>
 

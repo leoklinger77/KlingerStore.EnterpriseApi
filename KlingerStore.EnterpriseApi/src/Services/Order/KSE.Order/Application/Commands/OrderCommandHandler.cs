@@ -64,7 +64,7 @@ namespace KSE.Order.Application.Commands
                                               message.Address.City,
                                               message.Address.State);
 
-            var order = new Domain.Domain.Order(message.ClientId, message.TotalValue,
+            var order = new Domain.Domain.Order(message.ClientId, message.TotalValue, message.Installments, message.Taxa,
                                                     _mapper.Map<List<OrderItem>>(message.Itens), message.VoucherUsed, message.Discount);
 
             order.AssignAddress(address);

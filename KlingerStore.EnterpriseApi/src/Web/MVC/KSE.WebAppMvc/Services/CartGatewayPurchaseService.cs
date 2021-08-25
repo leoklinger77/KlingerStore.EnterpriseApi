@@ -46,11 +46,13 @@ namespace KSE.WebAppMvc.Services
             return ReturnOk();
         }
             
-
         public async Task<IEnumerable<OrderViewModel>> GetFindAllOrder()
             => await ReturnResponse<IEnumerable<OrderViewModel>>(await _httpClient.GetAsync($"/V1/Order/FindAll"));
 
         public async Task<OrderViewModel> GetLastOrder()
             => await ReturnResponse<OrderViewModel>(await _httpClient.GetAsync($"/V1/Order/lastorder"));
+
+        public async Task<OrderViewModel> GetOrderId(Guid orderId)
+        => await ReturnResponse<OrderViewModel>(await _httpClient.GetAsync($"/V1/Order/{orderId}"));
     }
 }

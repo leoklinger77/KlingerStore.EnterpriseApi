@@ -15,6 +15,8 @@ namespace KSE.Order.Domain.Domain
         public bool VoucherUsed { get; private set; }
         public decimal Discount { get; private set; }
         public decimal TotalValue { get; private set; }
+        public int Installments { get; private set; }
+        public double Jurus { get; private set; }
         public OrderStatus OrderStatus { get; private set; }
         public ShippingAddress Address { get; private set; }
         public Voucher Voucher { get; private set; }
@@ -24,7 +26,7 @@ namespace KSE.Order.Domain.Domain
 
         protected Order() { }
 
-        public Order(Guid clientId, decimal totalValue, List<OrderItem> orderItens,
+        public Order(Guid clientId, decimal totalValue, int installments, double jurus, List<OrderItem> orderItens,
                      bool voucherUsed = false, decimal discount = 0, Guid? voucherId = null)
         {
             ClientId = clientId;
@@ -33,6 +35,8 @@ namespace KSE.Order.Domain.Domain
             Discount = discount;
             TotalValue = totalValue;
             _Itens = orderItens;
+            Installments = installments;
+            Jurus = jurus;
         }
 
         public void AuthorizeOrder()

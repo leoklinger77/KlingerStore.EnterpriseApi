@@ -89,7 +89,7 @@ namespace KSE.Payment.Services
             }
 
 
-            if (transactionResponse.Transaction.Status != StatusTransaction.cancelled)
+            if (transactionResponse.Transaction.Status != StatusTransaction.refused)
             {
                 validationResult.Errors.Add(new ValidationFailure("Pagamento",
                     $"Não foi possível cancelar o pagamento do pedido {pedidoId}"));

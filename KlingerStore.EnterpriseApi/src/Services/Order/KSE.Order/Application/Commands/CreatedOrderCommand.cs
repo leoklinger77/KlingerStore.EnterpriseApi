@@ -20,6 +20,8 @@ namespace KSE.Order.Application.Commands
         public string VoucherCode { get; set; }
         public bool VoucherUsed { get; set; }
         public decimal Discount { get; set; }
+        public int Installments { get; set; }
+        public double Taxa { get; set; }
 
         public ShippingAddressDTO Address { get; set; }
 

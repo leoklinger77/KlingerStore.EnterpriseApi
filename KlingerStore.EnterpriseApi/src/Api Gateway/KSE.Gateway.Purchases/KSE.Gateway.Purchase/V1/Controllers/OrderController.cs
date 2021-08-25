@@ -1,10 +1,12 @@
 ﻿using KSE.Gateway.Purchase.Models.Cart;
 using KSE.Gateway.Purchase.Models.Client;
 using KSE.Gateway.Purchase.Models.Order;
+using KSE.Gateway.Purchase.Models.Payment;
 using KSE.Gateway.Purchase.Services.Interfaces;
 using KSE.WebApi.Core.Controllers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -20,21 +22,19 @@ namespace KSE.Gateway.Purchase.V1.Controllers
         private readonly ICartService _cartService;
         private readonly IOrderService _orderService;
         private readonly IClientService _clientService;
+        private readonly IPaymentService _paymentService;
 
-        public OrderController(ICatalogService catalogService, ICartService cartService, IOrderService orderService, IClientService clientService)
+        public OrderController(ICatalogService catalogService, 
+                                ICartService cartService, 
+                                IOrderService orderService, 
+                                IClientService clientService, 
+                                IPaymentService paymentService)
         {
             _catalogService = catalogService;
             _cartService = cartService;
             _orderService = orderService;
             _clientService = clientService;
-        }
-
-        [HttpGet("FindAll")]
-        public async Task<IActionResult> GetAllOrder()
-        {
-            var pedidos = await _orderService.GetAllOrder();
-
-            return pedidos == null ? NotFound() : CustomResponse(pedidos);
+            _paymentService = paymentService;
         }
 
         [HttpPost]
@@ -44,15 +44,24 @@ namespace KSE.Gateway.Purchase.V1.Controllers
             var carrinho = await _cartService.GetCart();
             var produtos = await _catalogService.GetItens(carrinho.Itens.Select(p => p.ProductId));
             var client = await _clientService.GetClient();
+            var taxa = await _paymentService.GetAllsTaxa();            
 
             if (!await ValidCartProduct(carrinho, produtos)) return CustomResponse();
 
-            MappingOrder(carrinho, client, pedido);
+            MappingOrder(carrinho, client, pedido, taxa);
 
             var response = await _orderService.FinishOrder(pedido);
 
             return CustomResponse(response);
         }
+
+        [HttpGet("FindAll")]
+        public async Task<IActionResult> GetAllOrder()
+        {
+            var pedidos = await _orderService.GetAllOrder();
+
+            return pedidos == null ? NotFound() : CustomResponse(pedidos);
+        }       
 
         [HttpGet("lastOrder")]
         public async Task<IActionResult> LastOrder()
@@ -66,6 +75,20 @@ namespace KSE.Gateway.Purchase.V1.Controllers
 
             return CustomResponse(order);
         }       
+
+        [HttpGet("{orderId}")]
+        public async Task<IActionResult> GetOrder(Guid orderId)
+        {
+            var order = await _orderService.GetOrderId(orderId);
+
+            if (order is null)
+            {
+                AddErros("Pedido não encontrado!");
+                return CustomResponse();
+            }
+
+            return CustomResponse(order);
+        }
 
         private async Task<bool> ValidCartProduct(CartDTO carrinho, IEnumerable<ItemProductDTO> produtos)
         {
@@ -122,7 +145,7 @@ namespace KSE.Gateway.Purchase.V1.Controllers
             return true;
         }
 
-        private void MappingOrder(CartDTO carrinho, ClientDTO client, OrderDTO pedido)
+        private void MappingOrder(CartDTO carrinho, ClientDTO client, OrderDTO pedido, IEnumerable<TaxaTransactionDTO> taxa)
         {
             pedido.VoucherCode = carrinho.Voucher?.Code;
             pedido.VoucherUsed = carrinho.VoucherUsed;
@@ -134,7 +157,7 @@ namespace KSE.Gateway.Purchase.V1.Controllers
             pedido.ClientName = client.Name;
             pedido.ClientPhone = "+55954665152";
             pedido.ClientDocument = client.Cpf;
-
+            pedido.Taxa = taxa.Where(x => x.Installments == pedido.Installments).First().Taxa;
             pedido.Address = client.Address;
         }
     }

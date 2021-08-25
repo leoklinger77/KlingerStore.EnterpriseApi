@@ -86,6 +86,8 @@ namespace KSE.Catalog.Services
         public async void CancelarPedidoSemEstoque(OrderAuthorizeIntegrationEvent message)
         {
             var pedidoCancelado = new OrderCanceledIntegrationEvent(message.ClientId, message.OrderId);
+            var pedidoEstornado= new OrderRefoundIntegrationEvent(message.ClientId, message.OrderId);
+            await _bus.PublishAsync(pedidoEstornado);
             await _bus.PublishAsync(pedidoCancelado);
         }
     }

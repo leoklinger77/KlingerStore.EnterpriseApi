@@ -5,6 +5,7 @@ using KSE.WebApi.Core.Controllers;
 using KSE.WebApi.Core.User;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Threading.Tasks;
 
 namespace KSE.Order.V1.Controllers
@@ -29,6 +30,14 @@ namespace KSE.Order.V1.Controllers
         {
             order.ClientId = _aspNetUser.UserId;
             return CustomResponse(await _mediatr.SendCommand(order));
+        }
+
+        [HttpGet("{orderId}")]
+        public async Task<IActionResult> GetOrder(Guid orderId)
+        {
+            var order = await _orderQuery.GetOrderId(orderId);
+
+            return order == null ? NotFound() : CustomResponse(order);
         }
 
         [HttpGet("last-order")]

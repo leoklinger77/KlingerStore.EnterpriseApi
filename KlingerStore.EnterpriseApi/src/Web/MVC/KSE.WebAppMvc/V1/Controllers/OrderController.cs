@@ -3,6 +3,7 @@ using KSE.WebAppMvc.Models;
 using KSE.WebAppMvc.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Threading.Tasks;
 
 namespace KSE.WebAppMvc.V1.Controllers
@@ -64,6 +65,18 @@ namespace KSE.WebAppMvc.V1.Controllers
         public async Task<IActionResult> OrderConfirmation()
         {
             return View(await _gatewayPurchaseService.GetLastOrder());
+        }
+
+        [HttpGet("meus-pedidos")]
+        public async Task<IActionResult> MyOrders()
+        {
+            return View(await _gatewayPurchaseService.GetFindAllOrder());
+        }
+
+        [HttpGet("detalhes-pedido")]
+        public async Task<IActionResult> OrderDetails(Guid orderId)
+        {
+            return View(await _gatewayPurchaseService.GetOrderId(orderId));
         }
 
         private TransactionOrderViewModel MappingOrderAddress(CartViewModel cart, AddressViewModel address = null)

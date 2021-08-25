@@ -37,6 +37,9 @@ namespace KSE.Gateway.Purchase.Services
         public async Task<OrderDTO> GetLastOrder()
             => await ReturnResponse<OrderDTO>(await _httpClient.GetAsync($"v1/Order/last-order"));
 
+        public async Task<OrderDTO> GetOrderId(Guid orderId)
+            => await ReturnResponse<OrderDTO>(await _httpClient.GetAsync($"v1/order/{orderId}"));
+
         public async Task<VoucherDTO> GetVoucherPerCode(string code)
             => await ReturnResponse<VoucherDTO>(await _httpClient.GetAsync($"v1/voucher/{code}"));
     }

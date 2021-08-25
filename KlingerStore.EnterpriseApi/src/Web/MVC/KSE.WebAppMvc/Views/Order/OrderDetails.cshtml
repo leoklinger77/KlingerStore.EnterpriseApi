@@ -1,0 +1,85 @@
+﻿@model OrderViewModel
+@{
+    ViewData["Title"] = "Meus Pedidos";
+}
+<br />
+<div class="row">
+    <partial name="_MenuClientProfile" />
+    <main class="col-md-9">
+
+        <article class="card">
+            <header class="card-header">
+                <strong class="d-inline-block mr-3">Pedido número: @Model.Code - @Html.Raw(this.ViewOrderStatus(Model.OrderStatus))</strong>
+                <span>Data do pedido: @Model.InsertDate.ToString("dd-MM-yyyy")</span>
+            </header>            
+            <div class="card-body">
+                <article class="card">
+                    <div class="card-body row no-gutters">
+                        <div class="col">
+                            <strong>Estimativa de entrega:</strong> <br>@DateTime.Now.AddDays(3).ToString("dd-MM-yyyy")
+                        </div>
+                        <div class="col">
+                            <strong>Transportadora:</strong> <br> Correios, | <i class="fa fa-phone"></i> +55 3003-0100
+                        </div>
+                        <div class="col">
+                            <strong>Status:</strong> <br> @Html.Raw(this.ViewOrderStatus(Model.OrderStatus))
+                        </div>
+                        <div class="col">
+                            <strong>Rastreio #:</strong> <br> @Guid.NewGuid()
+                        </div>
+                    </div>
+                </article>
+
+                <div class="tracking-wrap">
+                    <div class="step active">
+                        <span class="icon"> <i class="fa fa-check"></i> </span>
+                        <span class="text">Autorização</span>
+                    </div>
+                    <div class="step active">
+                        <span class="icon"> <i class="fa fa-check"></i> </span>
+                        <span class="text"> Confirmação</span>
+                    </div>
+                    <div class="step">
+                        <span class="icon"> <i class="fa fa-truck"></i> </span>
+                        <span class="text"> Coleta</span>
+                    </div>
+                    <div class="step">
+                        <span class="icon"> <i class="fa fa-box"></i> </span>
+                        <span class="text"> Transporte</span>
+                    </div>
+                    <div class="step">
+                        <span class="icon"> <i class="fa fa-user"></i> </span>
+                        <span class="text">Entregue</span>
+                    </div>
+                </div>
+
+
+                <hr>
+                <ul class="row">
+                    @foreach (var item in Model.Itens)
+                    {
+                        <li class="col-md-4">
+                            <figure class="itemside  mb-3">
+                                <div class="aside"><img src="~/imagens/produtos/@item.Image" class="img-sm border"></div>
+                                <figcaption class="info align-self-center">
+                                    <p class="title"> @item.Name </p>
+                                    <span class="text-muted">@this.CurrencyFormat(item.Value) </span>
+                                    <span class="text-muted"> - Qtd: @item.Quantity </span>
+                                </figcaption>
+                            </figure>
+                        </li>
+                    }
+                </ul>
+                <a asp-action="MyOrders" asp-controller="Order" class="btn btn-light"> <i class="fa fa-chevron-left"></i> Meus Pesdidos</a>
+                <a asp-action="MyOrders" asp-controller="Order" class="btn btn-outline-danger"> Cancelar Pedido</a>
+            </div> 
+
+        </article>
+
+
+
+
+        <br />
+
+    </main>
+</div>

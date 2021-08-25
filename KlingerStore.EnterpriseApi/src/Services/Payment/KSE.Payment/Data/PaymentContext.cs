@@ -18,6 +18,7 @@ namespace KSE.Payment.Data
 
         public DbSet<Models.Payment> Payment { get; set; }
         public DbSet<Models.Transaction> Transaction { get; set; }
+        public DbSet<Models.TaxaTransaction> TaxaTransaction { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

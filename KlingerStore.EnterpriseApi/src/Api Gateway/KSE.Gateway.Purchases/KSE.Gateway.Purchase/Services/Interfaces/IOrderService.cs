@@ -1,5 +1,6 @@
 ﻿using KSE.Core.Communication;
 using KSE.Gateway.Purchase.Models.Order;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -11,5 +12,6 @@ namespace KSE.Gateway.Purchase.Services.Interfaces
         Task<IEnumerable<OrderDTO>> GetAllOrder();
         Task<OrderDTO> GetLastOrder();
         Task<ResponseResult> FinishOrder(OrderDTO pedido);
+        Task<OrderDTO> GetOrderId(Guid orderId);
     }
 }

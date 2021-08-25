@@ -11,19 +11,11 @@ namespace KSE.WebAppMvc.V1.Controllers
     [Route("client")]
     public class ClientController : MainController
     {
-        private readonly IClientService _clientService;
-        private readonly IGatewayPurchaseService _gatewayPurchaseService;
+        private readonly IClientService _clientService;        
 
-        public ClientController(IClientService clientService, IGatewayPurchaseService gatewayPurchaseService)
+        public ClientController(IClientService clientService)
         {
-            _clientService = clientService;
-            _gatewayPurchaseService = gatewayPurchaseService;
-        }
-
-        [HttpGet("meus-pedidos")]
-        public async Task<IActionResult> MyOrders()
-        {
-            return View(await _gatewayPurchaseService.GetFindAllOrder());
+            _clientService = clientService;            
         }
 
         [HttpGet("meu-perfil")]
@@ -50,18 +42,16 @@ namespace KSE.WebAppMvc.V1.Controllers
             return RedirectToAction("ShippingAddress", "Order");
         }
 
-
         [HttpGet("devolucoes-reembolsos")]
         public async Task<IActionResult> ReturnsAndRefunds()
         {
             return View();
         }
+
         [HttpGet("produtos-favoritos")]
         public async Task<IActionResult> FavoriteProduct()
         {
             return View();
         }
-
-
     }
 }

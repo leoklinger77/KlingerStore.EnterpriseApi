@@ -9,11 +9,13 @@ namespace KSE.Gateway.Purchase.Models.Order
 {
     public class OrderDTO
     {
+        public Guid Id { get; set; }
         public int Code { get; set; }        
-        public int Status { get; set; }
+        public int OrderStatus { get; set; }
         public DateTime InsertDate { get; set; }
         public decimal TotalValue { get; set; }
-
+        public int Installments { get; set; }
+        public double Taxa { get; set; }
         public decimal Discount { get; set; }
         public string VoucherCode { get; set; }
         public bool VoucherUsed { get; set; }

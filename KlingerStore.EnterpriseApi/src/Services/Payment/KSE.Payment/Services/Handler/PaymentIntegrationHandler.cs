@@ -34,7 +34,7 @@ namespace KSE.Payment.Services.Handler
 
         private void SetSubscribers()
         {
-            _bus.SubscribeAsync<OrderCanceledIntegrationEvent>("PedidoCancelado", async request =>
+            _bus.SubscribeAsync<OrderRefoundIntegrationEvent>("PedidoCancelado", async request =>
             await CancelarPagamento(request));
 
             _bus.SubscribeAsync<OrderWrittenOffFromStockIntegrationEvent>("PedidoBaixadoEstoque", async request =>
@@ -51,59 +51,52 @@ namespace KSE.Payment.Services.Handler
 
         private async Task<ResponseMessage> AutorizarPagamento(OrderStartIntegrationEvent message)
         {
-            try
+            using var scope = _serviceProvider.CreateScope();
+            var pagamentoService = scope.ServiceProvider.GetRequiredService<IPaymentService>();
+
+
+            List<ItemViewModel> itens = new List<ItemViewModel>();
+
+            foreach (var item in message.Itens)
             {
-                using var scope = _serviceProvider.CreateScope();
-                var pagamentoService = scope.ServiceProvider.GetRequiredService<IPaymentService>();
-
-
-                List<ItemViewModel> itens = new List<ItemViewModel>();
-
-                foreach (var item in message.Itens)
+                itens.Add(new ItemViewModel
                 {
-                    itens.Add(new ItemViewModel
-                    {
-                        id = item.Id.ToString(),
-                        quantity = item.Quantity,
-                        tangible = item.Tangible,
-                        title = item.Title.ToString(),
-                        unit_price = item.Unit_price.ToString().Remove(item.Unit_price.ToString().Length - 3, 1)
-                    });
-                }
-
-                var pagamento = new Models.Payment
-                {
-                    OrderId = message.OrderId,
-                    TypePayment = (TypePayment)message.TypeOrder,
-                    Value = message.Value,
-                    CreditCart = new Models.CreditCart(
-                        message.NameCard, message.NumberCard, message.ExpirationCard, message.CVV),
-                    City = message.City,
-                    ClientDocument = message.ClientDocument,
-                    ClientEmail = message.ClientEmail,
-                    ClientId = message.ClientId,
-                    ClientName = message.ClientName,
-                    ClientPhone = message.ClientPhone,
-                    Itens = itens,
-                    Neighborhood = message.Neighborhood,
-                    Number = message.Number,
-                    State = message.State,
-                    Street = message.Street,
-                    Zipcode = message.Zipcode
-                };
-
-                var response = await pagamentoService.AutorizarPagamento(pagamento);
-
-                return response;
+                    id = item.Id.ToString(),
+                    quantity = item.Quantity,
+                    tangible = item.Tangible,
+                    title = item.Title.ToString(),
+                    unit_price = item.Unit_price.ToString().Remove(item.Unit_price.ToString().Length - 3, 1)
+                });
             }
-            catch (Exception e)
+
+            var pagamento = new Models.Payment
             {
-                throw;
-            }
+                OrderId = message.OrderId,
+                TypePayment = (TypePayment)message.TypeOrder,
+                Value = message.Value,
+                CreditCart = new Models.CreditCart(
+                    message.NameCard, message.NumberCard, message.ExpirationCard, message.CVV),
+                City = message.City,
+                ClientDocument = message.ClientDocument,
+                ClientEmail = message.ClientEmail,
+                ClientId = message.ClientId,
+                ClientName = message.ClientName,
+                ClientPhone = message.ClientPhone,
+                Itens = itens,
+                Neighborhood = message.Neighborhood,
+                Number = message.Number,
+                State = message.State,
+                Street = message.Street,
+                Zipcode = message.Zipcode
+            };
+
+            var response = await pagamentoService.AutorizarPagamento(pagamento);
+
+            return response;
 
         }
 
-        private async Task CancelarPagamento(OrderCanceledIntegrationEvent message)
+        private async Task CancelarPagamento(OrderRefoundIntegrationEvent message)
         {
             using (var scope = _serviceProvider.CreateScope())
             {

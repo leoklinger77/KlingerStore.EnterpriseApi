@@ -16,6 +16,7 @@ namespace KSE.WebAppMvc.Services.Interfaces
         Task<ResponseResult> ApplyVoucher(string code);
         Task<ResponseResult> FinishOrder(TransactionOrderViewModel transactionOrder);
         Task<IEnumerable<OrderViewModel>> GetFindAllOrder();
+        Task<OrderViewModel> GetOrderId(Guid orderId);
         Task<OrderViewModel> GetLastOrder();
     }
 }

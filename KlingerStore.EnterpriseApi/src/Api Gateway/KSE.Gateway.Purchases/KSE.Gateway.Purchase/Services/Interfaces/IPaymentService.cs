@@ -1,11 +1,11 @@
-﻿using System;
+﻿using KSE.Gateway.Purchase.Models.Payment;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace KSE.Gateway.Purchase.Services.Interfaces
 {
     public interface IPaymentService
     {
+        Task<IEnumerable<TaxaTransactionDTO>> GetAllsTaxa();
     }
 }
