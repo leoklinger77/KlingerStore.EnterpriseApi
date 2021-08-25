@@ -43,11 +43,11 @@ namespace KSE.Gateway.Purchase.V1.Controllers
         {
             var carrinho = await _cartService.GetCart();
             var produtos = await _catalogService.GetItens(carrinho.Itens.Select(p => p.ProductId));
-            var endereco = await _clientService.GetAddress();
+            var client = await _clientService.GetClient();
 
             if (!await ValidCartProduct(carrinho, produtos)) return CustomResponse();
 
-            MappingOrder(carrinho, endereco, pedido);
+            MappingOrder(carrinho, client, pedido);
 
             var response = await _orderService.FinishOrder(pedido);
 
@@ -122,7 +122,7 @@ namespace KSE.Gateway.Purchase.V1.Controllers
             return true;
         }
 
-        private void MappingOrder(CartDTO carrinho, AddressDTO endereco, OrderDTO pedido)
+        private void MappingOrder(CartDTO carrinho, ClientDTO client, OrderDTO pedido)
         {
             pedido.VoucherCode = carrinho.Voucher?.Code;
             pedido.VoucherUsed = carrinho.VoucherUsed;
@@ -130,7 +130,12 @@ namespace KSE.Gateway.Purchase.V1.Controllers
             pedido.Discount = carrinho.Discount;
             pedido.Itens = carrinho.Itens;
 
-            pedido.Address = endereco;
+            pedido.ClientEmail = client.Email;
+            pedido.ClientName = client.Name;
+            pedido.ClientPhone = "+55954665152";
+            pedido.ClientDocument = client.Cpf;
+
+            pedido.Address = client.Address;
         }
     }
 }

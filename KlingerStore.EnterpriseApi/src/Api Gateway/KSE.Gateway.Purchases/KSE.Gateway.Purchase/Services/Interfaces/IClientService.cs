@@ -5,6 +5,6 @@ namespace KSE.Gateway.Purchase.Services.Interfaces
 {
     public interface IClientService
     {
-        Task<AddressDTO> GetAddress();
+        Task<ClientDTO> GetClient();
     }
 }

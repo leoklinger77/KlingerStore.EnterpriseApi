@@ -18,6 +18,11 @@ namespace KSE.Gateway.Purchase.Models.Order
         public string VoucherCode { get; set; }
         public bool VoucherUsed { get; set; }
 
+        public string ClientName { get; set; }
+        public string ClientEmail { get; set; }
+        public string ClientDocument { get; set; }
+        public string ClientPhone { get; set; }
+
         public List<ItemCartDTO> Itens { get; set; } = new List<ItemCartDTO>();    
 
         public AddressDTO Address { get; set; }        

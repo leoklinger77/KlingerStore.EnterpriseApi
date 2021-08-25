@@ -67,6 +67,7 @@ namespace KSE.Order.Infrastructure.Data.Repository
         {
             return await _orderContext.Order
                 .Include(x => x.Itens)
+                .Include(x => x.Address)
                 .AsNoTracking()
                 .Where(x => x.ClientId == clientId)
                 .ToListAsync();

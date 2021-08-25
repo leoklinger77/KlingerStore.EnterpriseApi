@@ -25,18 +25,31 @@ namespace KSE.Payment.Services
 
         public async Task<ResponseMessage> AutorizarPagamento(Models.Payment payment)
         {
-            var transacao = await _pagamentoFacade.AuthorizePayment(payment);
+            var transactionResponse = await _pagamentoFacade.AuthorizePayment(payment);
             var validationResult = new ValidationResult();
 
-            if (transacao.Status != StatusTransaction.authorized)
+            if (transactionResponse.Error != null)
             {
                 validationResult.Errors.Add(new ValidationFailure("Pagamento",
                         "Pagamento recusado, entre em contato com a sua operadora de cartão"));
 
+                //TODO Gravar Log
+
                 return new ResponseMessage(validationResult);
             }
 
-            payment.AdicionarTransacao(transacao);
+
+            if (transactionResponse.Transaction?.Status != StatusTransaction.authorized)
+            {
+                validationResult.Errors.Add(new ValidationFailure("Pagamento",
+                        "Pagamento recusado, entre em contato com a sua operadora de cartão"));
+
+                //TODO Gravar Log
+
+                return new ResponseMessage(validationResult);
+            }
+
+            payment.AdicionarTransacao(transactionResponse.Transaction);
             _pagamentoRepository.InsertPayment(payment);
 
 
@@ -63,9 +76,20 @@ namespace KSE.Payment.Services
 
             if (transacaoAutorizada == null) throw new DomainException($"Transação não encontrada para o pedido {pedidoId}");
 
-            var transacao = await _pagamentoFacade.CanceledPayment(transacaoAutorizada.TID);
+            var transactionResponse = await _pagamentoFacade.CanceledPayment(transacaoAutorizada.TID);
 
-            if (transacao.Status != StatusTransaction.cancelled)
+            if (transactionResponse.Error != null)
+            {
+                validationResult.Errors.Add(new ValidationFailure("Pagamento",
+                    $"Não foi possível cancelar o pagamento do pedido {pedidoId}"));
+
+                //TODO Gravar Log
+
+                return new ResponseMessage(validationResult);
+            }
+
+
+            if (transactionResponse.Transaction.Status != StatusTransaction.cancelled)
             {
                 validationResult.Errors.Add(new ValidationFailure("Pagamento",
                     $"Não foi possível cancelar o pagamento do pedido {pedidoId}"));
@@ -73,8 +97,8 @@ namespace KSE.Payment.Services
                 return new ResponseMessage(validationResult);
             }
 
-            transacao.PaymentId = transacaoAutorizada.PaymentId;
-            _pagamentoRepository.InsertTransaction(transacao);
+            transactionResponse.Transaction.PaymentId = transacaoAutorizada.PaymentId;
+            _pagamentoRepository.InsertTransaction(transactionResponse.Transaction);
 
             if (!await _pagamentoRepository.UnitOfWork.Commit())
             {
@@ -95,9 +119,19 @@ namespace KSE.Payment.Services
 
             if (transacaoAutorizada == null) throw new DomainException($"Transação não encontrada para o pedido {pedidoId}");
 
-            var transacao = await _pagamentoFacade.CapturingPayment(transacaoAutorizada.TID);
+            var transactionResponse = await _pagamentoFacade.CapturingPayment(transacaoAutorizada.TID);
 
-            if (transacao.Status != StatusTransaction.paid)
+            if (transactionResponse.Error != null)
+            {
+                validationResult.Errors.Add(new ValidationFailure("Pagamento",
+                    $"Não foi possível capturar o pagamento do pedido {pedidoId}"));
+
+                //TODO Gravar Log
+
+                return new ResponseMessage(validationResult);
+            }
+
+            if (transactionResponse.Transaction.Status != StatusTransaction.paid)
             {
                 validationResult.Errors.Add(new ValidationFailure("Pagamento",
                     $"Não foi possível capturar o pagamento do pedido {pedidoId}"));
@@ -105,8 +139,8 @@ namespace KSE.Payment.Services
                 return new ResponseMessage(validationResult);
             }
 
-            transacao.PaymentId = transacaoAutorizada.PaymentId;
-            _pagamentoRepository.InsertTransaction(transacao);
+            transactionResponse.Transaction.PaymentId = transacaoAutorizada.PaymentId;
+            _pagamentoRepository.InsertTransaction(transactionResponse.Transaction);
 
             if (!await _pagamentoRepository.UnitOfWork.Commit())
             {

@@ -6,31 +6,57 @@
 <div class="row">
     <partial name="_MenuClientProfile" />
     <main class="col-md-9">
-        <article class="card">
-            <header class="card-header">
-                <strong class="d-inline-block mr-3">@ViewData["Title"]</strong>
-                <span></span>
-            </header>            
-            <div class="table-responsive">
-                <table class="table table-hover">
-                    @foreach (var item in Model)
-                    {
-                    <tr>
-                        <td width="65">
-                            <img src="~/imagens/produtos/@item.Itens.Select(x=>x.Image).First()" class="img-xs border">
-                        </td>
-                        <td>
-                            <p class="title mb-0">@item.Itens.Select(x => x.Name).First() </p>
-                            <var class="price text-muted">@this.CurrencyFormat(item.Itens.Select(x => x.Value).First())</var>
-                        </td>
-                        <td> Total do pedido: @this.CurrencyFormat(item.TotalValue) </td>
-                        <td> Total de Itens: @item.Itens.Count() </td>
-                        <td width="250"> <a href="#" class="btn btn-outline-primary">Rastrear Pedido</a> <a href="#" class="btn btn-light"> Detalhes </a> </td>
-                    </tr>
-                    }
 
-                </table>
-            </div>
-        </article>
+        @foreach (var item in Model.OrderByDescending(x => x.Code))
+        {
+
+            <article class="card">
+                <header class="card-header">
+                    <strong class="d-inline-block mr-3">Pedido número: @item.Code</strong>
+                    <span>Data do pedido: @item.InsertDate.ToString("dd-MM-yyyy")</span>
+                </header>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <h6 class="text-muted">Entrega para</h6>
+                            <p>
+                                @item.Address                                
+                            </p>
+                        </div>
+                        <div class="col-md-4">
+                            <h6 class="text-muted">Payment</h6>
+                            <span class="text-success">
+                                <i class="fas fa-credit-card"></i>
+                                Transação em cartão de crédito
+                            </span>
+                            <p>
+                                <span class="b">Total:  @this.CurrencyFormat(item.TotalValue) </span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <tr>
+                            <td width="65">
+                                <img src="~/imagens/produtos/@item.Itens.Select(x=>x.Image).First()" class="img-xs border">
+                            </td>
+                            <td>
+                                <p class="title mb-0">@item.Itens.Select(x => x.Name).First() </p>
+                                <var class="price text-muted">@this.CurrencyFormat(item.Itens.Select(x => x.Value).First())</var>
+                            </td>
+                            <td> Total do pedido: @this.CurrencyFormat(item.TotalValue) </td>
+                            <td> Total de Itens: @item.Itens.Count() </td>
+                            <td width="250"> <a href="#" class="btn btn-outline-primary">Rastrear Pedido</a> <a href="#" class="btn btn-light"> Detalhes </a> </td>
+                        </tr>
+                    </table>
+                </div>
+            </article>
+
+
+
+
+            <br />
+        }
     </main>
 </div>

@@ -142,10 +142,10 @@ namespace KSE.Order.Application.Commands
                     ExpirationCard = message.ExpirationCArt,
                     CVV = message.CVVCart,
 
-                    ClientName = "leandro Klinger",
-                    ClientEmail = "leandro@gmail.com",
-                    ClientDocument = "36018556820",
-                    ClientPhone = "+5511954665152",
+                    ClientName = message.ClientName,
+                    ClientEmail = message.ClientEmail,
+                    ClientDocument = message.ClientDocument,
+                    ClientPhone = message.ClientPhone,
 
                     City = order.Address.City,
                     State = order.Address.State,

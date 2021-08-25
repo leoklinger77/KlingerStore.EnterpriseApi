@@ -5,8 +5,8 @@ namespace KSE.Payment.Facade.Interfaces
 {
     public interface IPaymentFacade
     {
-        Task<Transaction> AuthorizePayment(Models.Payment payment);
-        Task<Transaction> CanceledPayment(string tid);
-        Task<Transaction> CapturingPayment(string tid);
+        Task<ReturnPayment> AuthorizePayment(Models.Payment payment);
+        Task<ReturnPayment> CanceledPayment(string tid);
+        Task<ReturnPayment> CapturingPayment(string tid);
     }
 }

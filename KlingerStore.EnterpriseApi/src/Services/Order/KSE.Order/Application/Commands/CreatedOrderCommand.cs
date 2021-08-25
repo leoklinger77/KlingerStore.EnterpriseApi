@@ -12,6 +12,11 @@ namespace KSE.Order.Application.Commands
         public decimal TotalValue { get; set; }
         public List<OrderItemDTO> Itens { get; set; } = new List<OrderItemDTO>();
 
+        public string ClientName { get; set; }
+        public string ClientEmail { get; set; }
+        public string ClientDocument { get; set; }
+        public string ClientPhone { get; set; }
+
         public string VoucherCode { get; set; }
         public bool VoucherUsed { get; set; }
         public decimal Discount { get; set; }

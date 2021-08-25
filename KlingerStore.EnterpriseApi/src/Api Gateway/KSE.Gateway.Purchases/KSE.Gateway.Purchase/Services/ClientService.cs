@@ -17,7 +17,8 @@ namespace KSE.Gateway.Purchase.Services
             _httpClient = httpClient;
             _httpClient.BaseAddress = new Uri(options.Value.ClientUrl);
         }
-        public async Task<AddressDTO> GetAddress()
-                => await ReturnResponse<AddressDTO>(await _httpClient.GetAsync($"v1/client/address"));
+        public async Task<ClientDTO> GetClient()
+                => await ReturnResponse<ClientDTO>(await _httpClient.GetAsync($"v1/client"));
+
     }
 }

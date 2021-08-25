@@ -21,43 +21,74 @@ namespace KSE.Payment.Facade
             _klingerPagService = klingerPagService;
         }
 
-        public async Task<Transaction> AuthorizePayment(Models.Payment payment)
+        public async Task<ReturnPayment> AuthorizePayment(Models.Payment payment)
         {
-            return ForTransaction(await _klingerPagService.PerformingTransaction(ForKlingerPagTransaction(payment, _paymentConfig.DefaultApiKey)));
-        }
+            var response = await _klingerPagService.PerformingTransaction(ForKlingerPagTransaction(payment, _paymentConfig.DefaultApiKey));
 
-        public async Task<Transaction> CanceledPayment(string tid)
-        {
-            return ForTransaction(await _klingerPagService.CanceledTransaction(tid, _paymentConfig.DefaultApiKey));
-        }
-
-        public async Task<Transaction> CapturingPayment(string tid)
-        {
-            return ForTransaction(await _klingerPagService.CapturingTransactionLater(tid, _paymentConfig.DefaultApiKey));
-        }
-
-        private static Transaction ForTransaction(TransactionResponse transaction)
-        {
-            try
+            if (response.TransactionResponse == null)
             {
-                return new Transaction
+                return new ReturnPayment { Error = ForErro(response) };
+            }
+
+            return new ReturnPayment { Transaction = ForTransaction(response) };
+        }
+
+        public async Task<ReturnPayment> CanceledPayment(string tid)
+        {
+            var response = await _klingerPagService.CanceledTransaction(tid, _paymentConfig.DefaultApiKey);
+
+            if (response.TransactionResponse == null)
+            {
+                return new ReturnPayment { Error = ForErro(response) };
+            }
+
+            return new ReturnPayment { Transaction = ForTransaction(response) };
+        }
+
+        public async Task<ReturnPayment> CapturingPayment(string tid)
+        {
+            var response = await _klingerPagService.CapturingTransactionLater(tid, _paymentConfig.DefaultApiKey);
+
+            if (response.TransactionResponse == null)
+            {
+                return new ReturnPayment { Error = ForErro(response) };
+            }
+
+            return new ReturnPayment { Transaction = ForTransaction(response) };
+        }
+
+        private static Transaction ForTransaction(PaymentResponse response)
+        {
+            return new Transaction
+            {
+                Id = Guid.NewGuid(),
+                Status = Enum.Parse<StatusTransaction>(response.TransactionResponse.Status),
+                TotalValue = response.TransactionResponse.Amount,
+                BrandCart = response.TransactionResponse.Card_brand,
+                CodeAuthorization = response.TransactionResponse.Authorization_code,
+                CostTransaction = response.TransactionResponse.Cost,
+                DateTransaction = response.TransactionResponse.Date_created,
+                NSU = response.TransactionResponse.Nsu.ToString(),
+                TID = response.TransactionResponse.Tid.ToString()
+            };
+        }
+        private static ReturnError ForErro(PaymentResponse response)
+        {
+            ReturnError returnError = new ReturnError();
+            returnError.method = response.TransactionError.method;
+            returnError.url = response.TransactionError.method;
+
+            foreach (var item in response.TransactionError.errors)
+            {
+                returnError.errors.Add(new Models.Errors
                 {
-                    Id = Guid.NewGuid(),
-                    Status = Enum.Parse<StatusTransaction>(transaction.Status),
-                    TotalValue = transaction.Amount,
-                    BrandCart = transaction.Card_brand,
-                    CodeAuthorization = transaction.Authorization_code,
-                    CostTransaction = transaction.Cost,
-                    DateTransaction = transaction.Date_created,
-                    NSU = transaction.Nsu.ToString(),
-                    TID = transaction.Tid.ToString()
-                };
+                    message = item.message,
+                    parameter_name = item.parameter_name,
+                    type = item.type
+                });
+
             }
-            catch (Exception e)
-            {
-                throw;
-            }
-            
+            return returnError;
         }
 
         private static TransactionViewModel ForKlingerPagTransaction(Models.Payment payment, string key)
@@ -66,10 +97,10 @@ namespace KSE.Payment.Facade
 
             transactionView.api_key = key;
             transactionView.capture = false;
-            transactionView.amount = payment.Value.ToString().Remove(payment.Value.ToString().Length - 3, 1); ;
+            transactionView.amount = payment.Value.ToString().Remove(payment.Value.ToString().Length - 3, 1);
             transactionView.card_number = payment.CreditCart.NumberCart;
             transactionView.card_cvv = payment.CreditCart.CVV;
-            transactionView.card_expiration_date = payment.CreditCart.ExpirationCart.Remove(2,1);
+            transactionView.card_expiration_date = payment.CreditCart.ExpirationCart.Remove(2, 1);
             transactionView.card_holder_name = payment.CreditCart.NameCart;
 
             CustomerViewModel customer = new CustomerViewModel();
@@ -109,7 +140,7 @@ namespace KSE.Payment.Facade
 
             ShippingViewModel shipping = new ShippingViewModel();
             shipping.name = payment.ClientName;
-            shipping.fee = payment.Value.ToString().Remove(2, 1);
+            shipping.fee = "0";
             shipping.delivery_date = DateTime.Now.AddDays(10).Date.ToString("yyyy-MM-dd");
             shipping.expedited = false;
 

@@ -39,7 +39,9 @@ namespace KSE.Client.Data.Repository
 
         public async Task<Models.Client> GetClient(Guid id)
         {
-            return await _clientContext.Client.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id);
+            return await _clientContext.Client
+                .Include(x => x.Address)
+                .AsNoTracking().FirstOrDefaultAsync(x => x.Id == id);
         }
 
         public async Task<Address> GetAddress(Guid id)
