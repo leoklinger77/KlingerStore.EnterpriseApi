@@ -21,10 +21,10 @@ namespace KSE.Catalog.V1.Controllers
         }
 
         [AllowAnonymous]
-        [HttpGet("Product")]        
-        public async Task<IEnumerable<Product>> Index()
+        [HttpGet("Product/")]        
+        public async Task<PagedResult<Product>> Index([FromQuery] int pageSize = 8, [FromQuery]int pageIndex = 1, [FromQuery] string query = null)
         {
-            return await _productRepository.FindAllProduct();
+            return await _productRepository.FindAllProduct(pageSize, pageIndex, query);
         }
                 
         [HttpGet("Product/{id}")]        

@@ -35,9 +35,9 @@
                         </a>
                     </div>
                     <div class="col-lg-6 col-sm-12">
-                        <form action="#" class="search">
+                        <form asp-action="Index" asp-controller="Catalog" method="get" class="search">
                             <div class="input-group w-100">
-                                <input type="text" class="form-control" placeholder="Search">
+                                <input type="text" name="query" id="query" value="@ViewBag.Search" class="form-control" placeholder="Pesquisar">
                                 <div class="input-group-append">
                                     <button class="btn btn-primary" type="submit">
                                         <i class="fa fa-search"></i>

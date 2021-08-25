@@ -2,14 +2,13 @@
 using KSE.Core.Interfaces;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace KSE.Catalog.Interfaces
 {
     public interface IProductRepository : IRepository<Product>
     {
-        Task<IEnumerable<Product>> FindAllProduct();
+        Task<PagedResult<Product>> FindAllProduct(int pageSize, int pageIndex, string query = null);
         Task<Product> FindByIdProduct(Guid id);
 
         Task<IEnumerable<Category>> FindAllCategory();

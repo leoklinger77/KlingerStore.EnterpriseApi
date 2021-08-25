@@ -1,4 +1,5 @@
-﻿using KSE.Catalog.Data;
+﻿using Dapper;
+using KSE.Catalog.Data;
 using KSE.Catalog.Interfaces;
 using KSE.Catalog.Models;
 using KSE.Core.Interfaces;
@@ -26,9 +27,29 @@ namespace KSE.Catalog.Repository
             return await _context.Category.AsNoTracking().ToListAsync();
         }
 
-        public async Task<IEnumerable<Product>> FindAllProduct()
+        public async Task<PagedResult<Product>> FindAllProduct(int pageSize, int pageIndex, string query = null)
         {
-            return await _context.Product.AsNoTracking().ToListAsync();
+            var sql = @$"SELECT * FROM TB_PRODUCT
+                        WHERE (@Query is null Or Name Like '%' + @Query + '%')
+                        Order by [Name]
+                        OFFSET {pageSize * (pageIndex - 1)} rows
+                        FETCH NEXT {pageSize} ROWS ONLY
+                        SELECT COUNT(Id) FROM TB_Product
+                        Where (@Query is null Or Name Like '%' + @Query + '%')";
+
+            var multi = await _context.Database.GetDbConnection().QueryMultipleAsync(sql, new { Query = query });
+
+            var product = multi.Read<Product>();
+            var total = multi.Read<int>().FirstOrDefault();
+
+            return new PagedResult<Product>()
+            {
+                List = product,
+                TotalResult = total,
+                PageIndex = pageIndex,
+                PageSize = pageSize,
+                Query = query
+            };
         }
 
         public async Task<Category> FindByIdCategory(Guid id)
@@ -79,5 +100,7 @@ namespace KSE.Catalog.Repository
                 .Where(p => idsValue.Contains(p.Id) && p.Active).ToListAsync();
 
         }
+
+
     }
 }

@@ -17,9 +17,10 @@ namespace KSE.WebAppMvc.V1.Controllers
 
         [HttpGet("")]        
         [Route("Vitrine")]
-        public async Task<IActionResult> Index()
-        {            
-            return View(await _catalogService.FindAll());
+        public async Task<IActionResult> Index([FromQuery] int pageSize = 2, [FromQuery] int pageIndex = 1, [FromQuery] string query = null)
+        {
+            ViewBag.Search = query;
+            return View(await _catalogService.FindAll(pageSize, pageIndex, query));
         }
 
         [HttpGet("produto-detalhe/{id}")]
