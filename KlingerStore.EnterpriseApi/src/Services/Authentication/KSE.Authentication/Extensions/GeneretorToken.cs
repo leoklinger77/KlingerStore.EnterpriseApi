@@ -1,14 +1,15 @@
 ﻿using KSE.Authentication.Models;
 using KSE.WebApi.Core.Identity;
+using KSE.WebApi.Core.User;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using NetDevPack.Security.Jwt.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace KSE.Authentication.Extensions
@@ -17,11 +18,18 @@ namespace KSE.Authentication.Extensions
     {        
         private readonly UserManager<IdentityUser> _userManager;
         private readonly AppSettings _appSettings;
+        private readonly IAspNetUser _aspNetUser;
+        private readonly IJsonWebKeySetService _jsonWebKeySet;
 
-        public GeneretorToken(UserManager<IdentityUser> userManager, IOptions<AppSettings> appSettings)
-        {            
+        public GeneretorToken(UserManager<IdentityUser> userManager, 
+                                IOptions<AppSettings> appSettings, 
+                                IAspNetUser aspNetUser, 
+                                IJsonWebKeySetService jsonWebKeySet)
+        {
             _userManager = userManager;
             _appSettings = appSettings.Value;
+            _aspNetUser = aspNetUser;
+            _jsonWebKeySet = jsonWebKeySet;
         }
 
         public async Task<UserResponseLogin> TokenJwt(string email)
@@ -35,7 +43,7 @@ namespace KSE.Authentication.Extensions
             return new UserResponseLogin
             {
                 AccessToken = encodedToken,
-                ExpiresIn = TimeSpan.FromHours(_appSettings.ExpirationHours).TotalSeconds,
+                ExpiresIn = TimeSpan.FromHours(1).TotalSeconds,
                 UserToken = new UserToken
                 {
                     Id = Guid.Parse(user.Id),
@@ -68,15 +76,17 @@ namespace KSE.Authentication.Extensions
         private string CodificarToken(ClaimsIdentity claims)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.ASCII.GetBytes(_appSettings.Secret);
+            var key = _jsonWebKeySet.GetCurrentSigningCredentials();
+
+            var currentIssuer = $"{_aspNetUser.FindHttpContext().Request.Scheme}://{_aspNetUser.FindHttpContext().Request.Host}";
+
 
             var token = tokenHandler.CreateToken(new SecurityTokenDescriptor
             {
                 Subject = claims,
-                Issuer = _appSettings.Issuer,
-                Audience = _appSettings.ValidIn,
-                Expires = DateTime.UtcNow.AddHours(_appSettings.ExpirationHours),
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256)
+                Issuer = currentIssuer,                
+                Expires = DateTime.UtcNow.AddHours(1),
+                SigningCredentials = key
             });
 
             return tokenHandler.WriteToken(token);

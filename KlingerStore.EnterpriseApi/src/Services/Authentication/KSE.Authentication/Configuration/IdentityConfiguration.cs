@@ -17,7 +17,6 @@ namespace KSE.Authentication.Configuration
             services.AddJwksManager()
                 .PersistKeysToDatabaseStore<ApplicationDbContext>();
 
-
             services.AddDbContext<ApplicationDbContext>(option => option.UseSqlServer(configuration.GetConnectionString("Connection")));
 
             services.AddDefaultIdentity<IdentityUser>()

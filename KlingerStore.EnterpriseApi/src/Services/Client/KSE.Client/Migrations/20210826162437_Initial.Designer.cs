@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace KSE.Client.Migrations
 {
     [DbContext(typeof(ClientContext))]
-    [Migration("20210815130033_Update")]
-    partial class Update
+    [Migration("20210826162437_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

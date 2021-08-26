@@ -13,7 +13,7 @@ namespace KSE.Client.Migrations
                 {
                     Id = table.Column<Guid>(nullable: false),
                     InsertDate = table.Column<DateTime>(nullable: false),
-                    UpdateDate = table.Column<DateTime>(nullable: false),
+                    UpdateDate = table.Column<DateTime>(nullable: true),
                     Name = table.Column<string>(type: "varchar(200)", nullable: false),
                     Cpf = table.Column<string>(type: "varchar(11)", maxLength: 11, nullable: true),
                     Email = table.Column<string>(type: "varchar(254)", maxLength: 254, nullable: true),
@@ -30,7 +30,7 @@ namespace KSE.Client.Migrations
                 {
                     Id = table.Column<Guid>(nullable: false),
                     InsertDate = table.Column<DateTime>(nullable: false),
-                    UpdateDate = table.Column<DateTime>(nullable: false),
+                    UpdateDate = table.Column<DateTime>(nullable: true),
                     ClientId = table.Column<Guid>(nullable: false),
                     Street = table.Column<string>(type: "varchar(200)", nullable: false),
                     Number = table.Column<string>(type: "varchar(20)", nullable: false),

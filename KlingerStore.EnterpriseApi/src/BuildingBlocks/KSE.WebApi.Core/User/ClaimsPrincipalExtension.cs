@@ -21,7 +21,7 @@ namespace KSE.WebApi.Core.User
             {
                 throw new ArgumentException(nameof(principal));
             }
-            var claim = principal.FindFirst("email");
+            var claim = principal.FindFirst("Email");
             return claim?.Value;
         }
 

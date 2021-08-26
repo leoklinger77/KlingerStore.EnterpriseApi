@@ -17,6 +17,7 @@ namespace KSE.WebAppMvc.Models
         public AddressViewModel Address { get; set; }
 
         [Required(ErrorMessage = "Informe o número do cartão")]
+        [StringLength(16, ErrorMessage = "O número do cartão deve conter 16 digitos", MinimumLength = 16)]
         [DisplayName("Número do Cartão")]
         public string NumberCart { get; set; }
 
@@ -31,6 +32,7 @@ namespace KSE.WebAppMvc.Models
         public string ExpirationCart { get; set; }
 
         [Required(ErrorMessage = "Informe o código de segurança")]
+        [StringLength(4, ErrorMessage = "O número do cvv deve ter entre {2} e {1} digitos", MinimumLength = 3)]
         [DisplayName("Código de Segurança")]
         public string CvvCart { get; set; }
 
