@@ -1,4 +1,4 @@
-﻿using Api.Klinger.Extensions;
+﻿using Api.Klinger.Configuration;
 using KSE.Authentication.Extensions;
 using KSE.WebApi.Core.Identity;
 using Microsoft.AspNetCore.Builder;
@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using NetDevPack.Security.Jwt.AspNetCore;
 
 namespace KSE.Authentication.Configuration
 {
@@ -38,6 +39,8 @@ namespace KSE.Authentication.Configuration
             {
                 endpoints.MapControllers();
             });
+
+            app.UseJwksDiscovery("key-Security");
         }
     }
 }

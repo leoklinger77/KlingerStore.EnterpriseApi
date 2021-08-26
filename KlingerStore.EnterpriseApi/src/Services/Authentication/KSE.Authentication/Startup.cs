@@ -1,9 +1,6 @@
-using Api.Klinger.Extensions;
 using KSE.Authentication.Configuration;
-using KSE.Authentication.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -30,8 +27,7 @@ namespace KSE.Authentication
         }
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<ApplicationDbContext>(option => option.UseSqlServer(Configuration.GetConnectionString("Connection")));
-            services.AddMessageBusConfiguration(Configuration);
+                 
             services.AddWebAppConfig(Configuration);
         }        
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

@@ -166,9 +166,7 @@ namespace KSE.Authentication.V1.Controllers
                 AddErros("Código de recuperação inválido inserido.");
             }
             return CustomResponse();
-        }
-
-        
+        }        
         
         [HttpGet("Authenticator")]
         public async Task<IActionResult> GetAuthenticator()

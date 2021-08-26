@@ -3,7 +3,7 @@ using KSE.MessageBus;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Api.Klinger.Extensions
+namespace Api.Klinger.Configuration
 {
     public static class MessageBusConfig
     {
