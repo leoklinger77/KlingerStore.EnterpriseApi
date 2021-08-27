@@ -1,8 +1,10 @@
-﻿using KSE.WebAppMvc.Extensions.Exceptions;
+﻿using Grpc.Core;
+using KSE.WebAppMvc.Extensions.Exceptions;
 using KSE.WebAppMvc.Services.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Polly.CircuitBreaker;
 using Refit;
+using System;
 using System.Net;
 using System.Threading.Tasks;
 
@@ -41,6 +43,19 @@ namespace KSE.WebAppMvc.Extensions.Middleware
             catch (BrokenCircuitException)
             {
                 HandlerCircuitBreakerExceptionAsync(httpContext);
+            }
+            catch(RpcException ex)
+            {   
+                var statusCode = ex.StatusCode switch
+                {
+                    StatusCode.Internal => 400,
+                    StatusCode.Unauthenticated => 401,
+                    StatusCode.PermissionDenied => 403,
+                    StatusCode.Unimplemented => 404,
+                    _ => 500
+                };
+
+                HandleRequestExceptionAsync(httpContext, (HttpStatusCode)Enum.Parse(typeof(HttpStatusCode), statusCode.ToString()));
             }
         }
 

@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 namespace KSE.Payment.Data
 {
     public class PaymentContext : DbContext, IUnitOfWork
-    {        
+    {
         public PaymentContext(DbContextOptions<PaymentContext> options) : base(options)
-        {            
+        {
             ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
             ChangeTracker.AutoDetectChangesEnabled = false;
         }
@@ -49,15 +49,8 @@ namespace KSE.Payment.Data
                     entry.Property("InsertDate").IsModified = false;
                 }
             }
-            try
-            {
-                return await base.SaveChangesAsync() > 0;
-            }
-            catch (Exception e)
-            {
-                throw;
-            }
-            
+
+            return await base.SaveChangesAsync() > 0;
         }
     }
 }

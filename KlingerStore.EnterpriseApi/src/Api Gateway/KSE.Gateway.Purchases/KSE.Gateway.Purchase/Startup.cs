@@ -31,6 +31,8 @@ namespace KSE.Gateway.Purchase
             services.AddWebAppConfig(Configuration);
             services.SwaggerConfig();
             services.RegisterService();
+
+            services.ConfigGrpcService(Configuration);
         }
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {

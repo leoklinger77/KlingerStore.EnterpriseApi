@@ -1,4 +1,5 @@
 ﻿using KSE.Cart.Extensions;
+using KSE.Cart.Services.gRPC;
 using KSE.WebApi.Core.Identity;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -14,6 +15,8 @@ namespace KSE.Cart.Configuration
         public static void AddWebAppConfig(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddControllers();
+
+            services.AddGrpc();
 
             services.AddJwtConfiguration(configuration);
 
@@ -46,6 +49,7 @@ namespace KSE.Cart.Configuration
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapGrpcService<CartGrpcService>().RequireCors("Total");
             });
         }
     }

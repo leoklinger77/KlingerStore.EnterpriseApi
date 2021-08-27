@@ -9,6 +9,7 @@
 
   <ItemGroup>
     <PackageReference Include="FluentValidation" Version="10.3.0" />
+    <PackageReference Include="Grpc.AspNetCore" Version="2.39.0" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.10.14" />
     <PackageReference Include="MongoDB.Driver" Version="2.13.1" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
@@ -21,4 +22,8 @@
   </ItemGroup>
 
 
+  <ItemGroup>
+    <Protobuf Include="Protos\cart.proto" GrpcServices="Server" />
+  </ItemGroup>
+  
 </Project>

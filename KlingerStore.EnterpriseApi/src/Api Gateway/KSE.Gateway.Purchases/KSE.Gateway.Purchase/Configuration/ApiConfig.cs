@@ -12,7 +12,7 @@ namespace KSE.Gateway.Purchase.Configuration
     {
         public static void AddWebAppConfig(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddControllers();
+            services.AddControllers();            
 
             services.AddJwtConfiguration(configuration);
 

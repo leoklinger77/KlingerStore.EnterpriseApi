@@ -1,4 +1,5 @@
 ﻿using KSE.Gateway.Purchase.Models.Cart;
+using KSE.Gateway.Purchase.Services.gRPC;
 using KSE.Gateway.Purchase.Services.Interfaces;
 using KSE.WebApi.Core.Controllers;
 using Microsoft.AspNetCore.Authorization;
@@ -13,28 +14,30 @@ namespace KSE.Gateway.Purchase.V1.Controllers
     [Route("V1/Cart")]
     public class CartController : MainController
     {
+        private readonly ICartGrpcService _cartGrpcService;
         private readonly ICartService _cartService;
         private readonly ICatalogService _catalogService;
         private readonly IOrderService _orderService;
 
         public CartController(ICartService cartService,
-                              ICatalogService catalogService, IOrderService orderService)
+                              ICatalogService catalogService, IOrderService orderService, ICartGrpcService cartGrpcService)
         {
             _cartService = cartService;
             _catalogService = catalogService;
             _orderService = orderService;
+            _cartGrpcService = cartGrpcService;
         }
 
         [HttpGet]
         public async Task<IActionResult> GetCart()
         {
-            return CustomResponse(await _cartService.GetCart());
+            return CustomResponse(await _cartGrpcService.GetCart());
         }
 
         [HttpGet("QuantityCart")]
         public async Task<int> GetQuantityCart()
         {
-            return (int)_cartService.GetCart().Result.Itens?.Sum(x => x.Quantity);
+            return (int)_cartGrpcService.GetCart().Result.Itens?.Sum(x => x.Quantity);
         }
 
         [HttpPost]

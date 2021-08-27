@@ -1,0 +1,39 @@
+syntax = "proto3";
+
+option csharp_namespace = "KSE.Cart.API.Services.gRPC";
+
+package CartAPI;
+
+service CartPurchase{
+	rpc GetCart(GetCartRequest) returns(CartClientResponse){}
+}
+
+message GetCartRequest{
+
+}
+
+message CartClientResponse{
+	string id = 1;
+	string clientid = 2;
+	double totalvalue = 3;
+	repeated CartItemResponse itens = 4;
+	bool voucherused = 5;
+	double discount = 6;
+	VoucherResponse voucher = 7;
+}
+
+message CartItemResponse{
+	string id = 1;
+	string productid = 2;
+	string name = 3;
+	string image = 4;
+	int32 quantity = 5;
+	double value = 6;
+}
+
+message VoucherResponse{
+	double percentage = 1;
+	double discountValue = 2;
+	string code = 3 ;
+	int32 typediscountvoucher = 4;
+}
