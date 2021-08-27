@@ -15,7 +15,7 @@ namespace KSE.Gateway.Purchase.Services.Handlers
             _user = user;
         }
 
-        private string FindToken => _user.FindUserToken();
+        private string FindToken => _user.GetUserToken();
 
         protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
         {

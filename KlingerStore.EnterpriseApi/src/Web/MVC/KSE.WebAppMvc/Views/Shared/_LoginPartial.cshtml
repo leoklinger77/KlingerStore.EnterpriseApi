@@ -7,7 +7,7 @@
     @if (AppUser.IsAuthentication())
     {
         <div class="text">
-            <span class="text-muted">Olá! @AppUser.FindUserEmail()</span>
+            <span class="text-muted">Olá! @AppUser.GetUserEmail()</span>
             <div>
                 <a asp-controller="Order" asp-action="MyOrders">Conta</a> |
                 <a asp-controller="Auth" asp-action="Logout"> Sair</a>

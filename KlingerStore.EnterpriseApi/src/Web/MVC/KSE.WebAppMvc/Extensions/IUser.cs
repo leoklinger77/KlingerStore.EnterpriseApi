@@ -9,8 +9,8 @@ namespace KSE.WebAppMvc.Extensions
     {
         string UserName { get; }
         Guid UserId { get; }
-        string FindUserEmail();
-        string FindUserToken();
+        string GetUserEmail();
+        string GetUserToken();       
         bool IsAuthentication();
         bool HasRoles(string role);
         IEnumerable<Claim> FindClaims();

@@ -1,7 +1,9 @@
-﻿using KSE.Authentication.Models;
+﻿using KSE.Authentication.Data;
+using KSE.Authentication.Models;
 using KSE.WebApi.Core.Identity;
 using KSE.WebApi.Core.User;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using NetDevPack.Security.Jwt.Interfaces;
@@ -15,21 +17,31 @@ using System.Threading.Tasks;
 namespace KSE.Authentication.Extensions
 {
     public class GeneretorToken
-    {        
+    {
         private readonly UserManager<IdentityUser> _userManager;
+        private readonly SignInManager<IdentityUser> _signInManager;
         private readonly AppSettings _appSettings;
+        private readonly AppTokenSettings _appTokenSettings;
+        private readonly ApplicationDbContext _context;
+
         private readonly IAspNetUser _aspNetUser;
         private readonly IJsonWebKeySetService _jsonWebKeySet;
 
-        public GeneretorToken(UserManager<IdentityUser> userManager, 
-                                IOptions<AppSettings> appSettings, 
-                                IAspNetUser aspNetUser, 
-                                IJsonWebKeySetService jsonWebKeySet)
+        public GeneretorToken(UserManager<IdentityUser> userManager,
+                                SignInManager<IdentityUser> signInManager,
+                                IOptions<AppSettings> appSettings,
+                                IOptions<AppTokenSettings> appTokenSettings,
+                                IAspNetUser aspNetUser,
+                                IJsonWebKeySetService jsonWebKeySet,
+                                ApplicationDbContext context)
         {
             _userManager = userManager;
             _appSettings = appSettings.Value;
             _aspNetUser = aspNetUser;
             _jsonWebKeySet = jsonWebKeySet;
+            _appTokenSettings = appTokenSettings.Value;
+            _signInManager = signInManager;
+            _context = context;
         }
 
         public async Task<UserResponseLogin> TokenJwt(string email)
@@ -40,9 +52,12 @@ namespace KSE.Authentication.Extensions
             var identityClaims = await GetClaimUser(claims, user);
             var encodedToken = CodificarToken(identityClaims);
 
+            var refreshToken = await GeneretorRefreshToken(email);
+
             return new UserResponseLogin
             {
                 AccessToken = encodedToken,
+                RefreshToken = refreshToken.Token,
                 ExpiresIn = TimeSpan.FromHours(1).TotalSeconds,
                 UserToken = new UserToken
                 {
@@ -50,7 +65,7 @@ namespace KSE.Authentication.Extensions
                     Email = user.Email,
                     Claims = claims.Select(x => new UserClaim { Type = x.Type, Value = x.Value })
                 }
-            };            
+            };
         }
 
         private async Task<ClaimsIdentity> GetClaimUser(ICollection<Claim> claims, IdentityUser user)
@@ -84,7 +99,7 @@ namespace KSE.Authentication.Extensions
             var token = tokenHandler.CreateToken(new SecurityTokenDescriptor
             {
                 Subject = claims,
-                Issuer = currentIssuer,                
+                Issuer = currentIssuer,
                 Expires = DateTime.UtcNow.AddHours(1),
                 SigningCredentials = key
             });
@@ -94,5 +109,27 @@ namespace KSE.Authentication.Extensions
 
         private static long ToUnixEpochDate(DateTime date)
             => (long)Math.Round((date.ToUniversalTime() - new DateTimeOffset(1970, 1, 1, 0, 0, 0, TimeSpan.Zero)).TotalSeconds);
+
+        private async Task<RefreshToken> GeneretorRefreshToken(string email)
+        {
+            var refreshToken = new RefreshToken
+            {
+                UserName = email,
+                ExpirationDate = DateTime.UtcNow.AddHours(_appTokenSettings.RefreshTokenExpiration)
+            };
+
+            _context.RefreshToken.RemoveRange(_context.RefreshToken.Where(x => x.UserName == email));
+            await _context.RefreshToken.AddAsync(refreshToken);
+
+            await _context.SaveChangesAsync();
+
+            return refreshToken;
+        }
+
+        public async Task<RefreshToken> GetRefreshToken(Guid refreshToken)
+        {
+            var token = await _context.RefreshToken.AsNoTracking().FirstOrDefaultAsync(x => x.Token == refreshToken);
+            return token != null && token.ExpirationDate.ToLocalTime() > DateTime.Now ? token : null;
+        }
     }
 }

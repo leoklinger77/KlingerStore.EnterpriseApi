@@ -28,12 +28,12 @@ namespace KSE.WebAppMvc.Extensions
             return _accessor.HttpContext;
         }
 
-        public string FindUserEmail()
+        public string GetUserEmail()
         {
             return IsAuthentication() ? _accessor.HttpContext.User.GetUserEmail() : "";
         }
 
-        public string FindUserToken()
+        public string GetUserToken()
         {
             return IsAuthentication() ? _accessor.HttpContext.User.GetUserToken() : ""; 
         }

@@ -13,5 +13,15 @@ namespace KSE.WebAppMvc.Services.Interfaces
         Task<UserResponseLogin> LoginWith2fa(UserLoginWith2fa with2Fa);
         Task<ResponseResult> ResetAuthenticator();
         Task<string[]> GenerateRecovery();
+
+
+
+
+
+        Task Logout();
+        Task RealizarLogin(UserResponseLogin user);
+        bool TokenExpiration();
+        Task<UserResponseLogin> RefreshToken(string refreshRoken);
+        Task<bool> RefreshTokenValid();
     }
 }

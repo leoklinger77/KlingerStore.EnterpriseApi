@@ -28,12 +28,17 @@ namespace KSE.WebApi.Core.User
             return _accessor.HttpContext;
         }
 
-        public string FindUserEmail()
+        public string GetRefreshToken()
+        {
+            return IsAuthentication() ? _accessor.HttpContext.User.GetRefreshToken() : "";
+        }
+
+        public string GetUserEmail()
         {
             return IsAuthentication() ? _accessor.HttpContext.User.GetUserEmail() : "";
         }
 
-        public string FindUserToken()
+        public string GetUserToken()
         {
             return IsAuthentication() ? _accessor.HttpContext.User.GetUserToken() : "";
         }

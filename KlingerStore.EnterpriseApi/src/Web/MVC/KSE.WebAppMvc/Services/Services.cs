@@ -12,7 +12,8 @@ namespace KSE.WebAppMvc.Services
     {
         protected StringContent FindContext(object data)
         {
-            return new StringContent(JsonSerializer.Serialize(data), Encoding.UTF8, "application/json");
+            var result = JsonSerializer.Serialize(data);
+            return new StringContent(result, Encoding.UTF8, "application/json");
         }
 
         protected async Task<T> DeserializeResponse<T>(HttpResponseMessage responseMessage)

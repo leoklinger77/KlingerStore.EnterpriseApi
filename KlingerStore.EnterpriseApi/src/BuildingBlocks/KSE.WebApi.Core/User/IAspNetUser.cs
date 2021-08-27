@@ -9,8 +9,9 @@ namespace KSE.WebApi.Core.User
     {
         string UserName { get; }
         Guid UserId { get; }
-        string FindUserEmail();
-        string FindUserToken();
+        string GetUserEmail();
+        string GetUserToken();
+        string GetRefreshToken();
         bool IsAuthentication();
         bool HasRoles(string role);
         IEnumerable<Claim> FindClaims();

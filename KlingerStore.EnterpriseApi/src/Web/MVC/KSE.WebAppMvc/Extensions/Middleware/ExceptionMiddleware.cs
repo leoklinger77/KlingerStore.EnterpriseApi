@@ -1,4 +1,5 @@
 ﻿using KSE.WebAppMvc.Extensions.Exceptions;
+using KSE.WebAppMvc.Services.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Polly.CircuitBreaker;
 using Refit;
@@ -10,14 +11,17 @@ namespace KSE.WebAppMvc.Extensions.Middleware
     public class ExceptionMiddleware
     {
         private readonly RequestDelegate _nest;
-
+        private static IAuthService _authService;
         public ExceptionMiddleware(RequestDelegate nest)
         {
             _nest = nest;
         }
 
-        public async Task InvokeAsync(HttpContext httpContext)
+        public async Task InvokeAsync(HttpContext httpContext, IAuthService authService)
         {
+            _authService = authService;
+
+
             try
             {
                 await _nest(httpContext);
@@ -44,6 +48,15 @@ namespace KSE.WebAppMvc.Extensions.Middleware
         {
             if (statusCode == HttpStatusCode.Unauthorized)
             {
+                if(_authService.TokenExpiration())
+                {
+                    if (_authService.RefreshTokenValid().Result)
+                    {
+                        context.Response.Redirect(context.Request.Path);
+                        return;
+                    }
+                }
+                _authService.Logout();
                 context.Response.Redirect($"/login?ReturnUrl={context.Request.Path}");
                 return;
             }

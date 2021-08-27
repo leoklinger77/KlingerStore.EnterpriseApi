@@ -254,8 +254,26 @@ namespace KSE.Authentication.V1.Controllers
 
             return CustomResponse(_userManager.GenerateNewTwoFactorRecoveryCodesAsync(user, 10).Result.ToArray());
         }
+        
+        [AllowAnonymous]
+        [HttpPost("refresh-token")]
+        public async Task<IActionResult> RefreshToken([FromBody]string refreshToken)
+        {
+            if(string.IsNullOrEmpty(refreshToken) && refreshToken != Guid.Empty.ToString())
+            {
+                AddErros("Refresh Token inválido");
+                return CustomResponse();
+            }
 
+            var token = await _token.GetRefreshToken(Guid.Parse(refreshToken));
+            if (token is null)
+            {
+                AddErros("Refresh Token expirado");
+                return CustomResponse();
+            }
 
+            return CustomResponse(await _token.TokenJwt(token.UserName));
+        }
 
 
         private async Task<ResponseMessage> RegisterClient(UserRegister userRegister)

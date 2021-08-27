@@ -1,4 +1,5 @@
-﻿using KSE.WebAppMvc.Extensions;
+﻿using KSE.WebApi.Core.User;
+using KSE.WebAppMvc.Extensions;
 using KSE.WebAppMvc.Extensions.DataAnnotation;
 using KSE.WebAppMvc.Extensions.Polly;
 using KSE.WebAppMvc.Services;
@@ -38,10 +39,10 @@ namespace KSE.WebAppMvc.Configuration
             services.AddHttpClient<IClientService, ClientService>()
                 .AddHttpMessageHandler<HttpClientAuthorizationHandler>()
                 .AddPolicyHandler(PollyExtension.WaitAndTry())
-                .AddTransientHttpErrorPolicy(p => p.CircuitBreakerAsync(5, TimeSpan.FromSeconds(30)));            
+                .AddTransientHttpErrorPolicy(p => p.CircuitBreakerAsync(5, TimeSpan.FromSeconds(30)));
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-
+            services.AddScoped<IAspNetUser, AspNetUser>();
             services.AddScoped<IUser, User>();
 
             #region Refit

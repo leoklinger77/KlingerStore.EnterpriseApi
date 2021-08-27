@@ -9,7 +9,6 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
@@ -46,7 +45,7 @@ namespace KSE.WebAppMvc.V1.Controllers
 
             if (HasErrorResponse(rs.ResponseResult)) return View(userRegister);
 
-            await RealizarLogi(rs);
+            await _authService.RealizarLogin(rs);
 
             return RedirectToAction("Index", "Catalog");
         }
@@ -74,7 +73,7 @@ namespace KSE.WebAppMvc.V1.Controllers
             }
             if (HasErrorResponse(rs.ResponseResult)) return View(userLogin);
 
-            await RealizarLogi(rs);
+            await _authService.RealizarLogin(rs);
 
             if (string.IsNullOrEmpty(returnUrl)) return RedirectToAction("Index", "Catalog");
 
@@ -106,7 +105,7 @@ namespace KSE.WebAppMvc.V1.Controllers
 
             if (HasErrorResponse(rs.ResponseResult)) return View("LoginWith2fa");
 
-            await RealizarLogi(rs);
+            await _authService.RealizarLogin(rs);
 
             if (string.IsNullOrEmpty(returnUrl)) return RedirectToAction("Index", "Catalog");
 
@@ -124,7 +123,7 @@ namespace KSE.WebAppMvc.V1.Controllers
         [HttpGet("sair")]
         public async Task<IActionResult> Logout()
         {
-            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            await _authService.Logout();
 
             return RedirectToAction("Index", "Catalog");
         }
@@ -189,18 +188,6 @@ namespace KSE.WebAppMvc.V1.Controllers
 
         
         
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
         [HttpGet("seguranca")]
         public async Task<IActionResult> Security()
         {
@@ -216,34 +203,6 @@ namespace KSE.WebAppMvc.V1.Controllers
 
 
             return View();
-        }
-
-
-
-
-
-        private async Task RealizarLogi(UserResponseLogin userResponseLogin)
-        {
-            var token = FindTokenFormat(userResponseLogin.AccessToken);
-
-            var claims = new List<Claim>();
-            claims.Add(new Claim("JWT", userResponseLogin.AccessToken));
-            claims.AddRange(token.Claims);
-
-            var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-
-            var authProperty = new AuthenticationProperties
-            {
-                ExpiresUtc = DateTime.UtcNow.AddMinutes(60),
-                IsPersistent = true
-            };
-
-            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity), authProperty);
-        }
-
-        private static JwtSecurityToken FindTokenFormat(string jwtToken)
-        {
-            return new JwtSecurityTokenHandler().ReadJwtToken(jwtToken) as JwtSecurityToken;
         }
     }
 }

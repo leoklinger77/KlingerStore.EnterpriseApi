@@ -1,5 +1,6 @@
 ﻿using Api.Klinger.Extensions;
 using KSE.Authentication.Data;
+using KSE.Authentication.Extensions;
 using KSE.WebApi.Core.Identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -14,6 +15,10 @@ namespace KSE.Authentication.Configuration
     {
         public static void IdentityConfig(this IServiceCollection services, IConfiguration configuration)
         {
+
+            var appSettingsSection = configuration.GetSection("AppTokenSettings");
+            services.Configure<AppTokenSettings>(appSettingsSection);
+
             services.AddJwksManager()
                 .PersistKeysToDatabaseStore<ApplicationDbContext>();
 
