@@ -9,8 +9,9 @@ using System.Threading.Tasks;
 
 namespace KSE.Catalog.V1.Controllers
 {
-    [Authorize]    
-    [Route("V1/Catalog")]
+    [Authorize]  
+    [ApiVersion("1.0")]
+    [Route("v{version:ApiVersion}/Catalog")]
     public class CatalogController : MainController
     {
         private readonly IProductRepository _productRepository;

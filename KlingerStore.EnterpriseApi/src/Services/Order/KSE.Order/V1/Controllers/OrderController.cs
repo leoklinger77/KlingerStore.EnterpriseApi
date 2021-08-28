@@ -11,7 +11,8 @@ using System.Threading.Tasks;
 namespace KSE.Order.V1.Controllers
 {
     [Authorize]
-    [Route("V1/Order")]
+    [ApiVersion("1.0")]
+    [Route("v{version:ApiVersion}/Order")]
     public class OrderController : MainController
     {
         private readonly IMediatrHandler _mediatr;

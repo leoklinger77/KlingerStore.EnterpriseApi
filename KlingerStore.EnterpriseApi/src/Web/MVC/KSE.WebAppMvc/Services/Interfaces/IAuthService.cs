@@ -23,5 +23,7 @@ namespace KSE.WebAppMvc.Services.Interfaces
         bool TokenExpiration();
         Task<UserResponseLogin> RefreshToken(string refreshRoken);
         Task<bool> RefreshTokenValid();
+        Task<UserResponseLogin> LoginWithRecovery(LoginWithRecovery loginWithRecovery);
+        Task<ResponseResult> Disable2fa();
     }
 }

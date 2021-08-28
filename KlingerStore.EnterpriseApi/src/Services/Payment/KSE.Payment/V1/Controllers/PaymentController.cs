@@ -7,7 +7,8 @@ using System.Threading.Tasks;
 namespace KSE.Payment.V1.Controllers
 {
     [Authorize]
-    [Route("V1/Payment")]
+    [ApiVersion("1.0")]
+    [Route("v{version:ApiVersion}/Payment")]
     public class PaymentController : MainController
     {
         private readonly ITaxaTransactionRepository _transactionRepository;

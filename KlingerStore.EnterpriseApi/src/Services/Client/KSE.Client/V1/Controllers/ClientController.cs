@@ -11,7 +11,8 @@ using System.Threading.Tasks;
 namespace KSE.Client.V1.Controllers
 {
     [Authorize]
-    [Route("V1/Client")]
+    [ApiVersion("1.0")]
+    [Route("v{version:ApiVersion}/Client")]
     public class ClientController : MainController
     {
         private readonly IClientQuery _clientQuery;

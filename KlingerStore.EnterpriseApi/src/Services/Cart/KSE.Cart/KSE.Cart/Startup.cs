@@ -1,6 +1,7 @@
 using KSE.Cart.Configuration;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -28,13 +29,18 @@ namespace KSE.Cart
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMessageBusConfiguration(Configuration);
+
             services.AddWebAppConfig(Configuration);
+
             services.SwaggerConfig();
+
             services.RegisterService();
         }
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IApiVersionDescriptionProvider provider)
         {
             app.AppWebAppConfig(env);
+
+            app.SwaggerApp(provider);
         }
     }
 }

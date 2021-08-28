@@ -16,16 +16,9 @@
                 <h5>Aplicativo de autenticação</h5>
                 <div>
 
+                    <a asp-action="EnableAuthenticator" class="btn btn-outline-primary">Configurar aplicativo autenticador</a>
 
-                    @if (!Model.HasAuthenticator)
-                    {
-                        <a id="enable-authenticator" class="btn btn-default">Adicionar aplicativo autenticador</a>
-                    }
-                    else
-                    {
-                        <a asp-action="EnableAuthenticator" asp-controller="Auth" id="enable-authenticator" class="btn btn-outline-primary">Configurar aplicativo autenticador</a>
-                        <a asp-action="ResetAuthenticator" asp-controller="Auth" id="reset-authenticator" class="btn btn-outline-primary">Redefinir aplicativo autenticador</a>
-                    }
+
                 </div>
                 <br />
                 <div>
@@ -61,8 +54,9 @@
                                 <button type="submit" class="btn btn-default">Esqueça este navegador</button>
                             </form>
                         }
-                        <a class="btn btn-outline-danger">Desativar 2FA</a>
+                        <a asp-action="Disable2fa" asp-controller="TwoFactor" class="btn btn-outline-danger">Desativar 2FA</a>
                         <a asp-action="GenerateRecovery" class="btn btn-outline-primary">Redefinir códigos de recuperação</a>
+                        <a asp-action="ResetAuthenticator" class="btn btn-outline-primary">Redefinir aplicativo autenticador</a>
                     }
                 </div>
 

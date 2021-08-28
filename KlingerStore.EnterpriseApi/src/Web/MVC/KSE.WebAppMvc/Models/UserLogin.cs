@@ -35,5 +35,6 @@ namespace KSE.WebAppMvc.Models
         [DataType(DataType.Text)]
         [Display(Name = "Código de recuperação")]
         public string RecoveryCode { get; set; }
+        public string Email { get; set; }
     }
 }

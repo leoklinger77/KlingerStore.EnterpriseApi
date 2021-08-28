@@ -9,7 +9,8 @@ using System.Threading.Tasks;
 namespace KSE.Order.V1.Controllers
 {
     [Authorize]
-    [Route("v1/voucher")]
+    [ApiVersion("1.0")]
+    [Route("v{version:ApiVersion}/voucher")]
     public class VoucherController : MainController
     {
         private readonly IVoucherQuery _voucherQuery;

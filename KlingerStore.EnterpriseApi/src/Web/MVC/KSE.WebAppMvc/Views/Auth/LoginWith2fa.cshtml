@@ -32,7 +32,7 @@
 </div>
 <p>
     Não tem acesso ao seu dispositivo autenticador? Você pode
-    <a asp-action="LoginWithRecoveryCode" asp-controller="Auth" id="recovery-code-login" >Faça login com um código de recuperação</a>.
+    <a asp-action="LoginWithRecoveryCode" asp-controller="Auth" asp-route-Email="@Context.Request.Query["Email"]">Faça login com um código de recuperação</a>.
 </p>
 
 @section Scripts {

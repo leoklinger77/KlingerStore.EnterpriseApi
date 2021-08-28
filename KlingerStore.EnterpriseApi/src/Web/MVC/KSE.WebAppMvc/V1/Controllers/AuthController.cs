@@ -1,15 +1,9 @@
 ﻿using KSE.WebAppMvc.Controllers;
 using KSE.WebAppMvc.Models;
 using KSE.WebAppMvc.Services.Interfaces;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace KSE.WebAppMvc.V1.Controllers
@@ -114,12 +108,29 @@ namespace KSE.WebAppMvc.V1.Controllers
 
         [AllowAnonymous]
         [HttpGet("LoginWithRecoveryCode")]
-        public async Task<IActionResult> LoginWithRecoveryCode(string returnUrl = null)
+        public async Task<IActionResult> LoginWithRecoveryCode([Required] string email, string returnUrl = null)
         {
             ViewData["returnUrl"] = returnUrl;           
-            return View();
+            return View(new LoginWithRecovery { Email = email });
         }
-        
+
+        [AllowAnonymous]
+        [HttpPost("LoginWithRecoveryCode")]
+        public async Task<IActionResult> LoginWithRecoveryCode(LoginWithRecovery loginWithRecovery, string returnUrl = null)
+        {
+            if (!ModelState.IsValid) return View("LoginWithRecoveryCode", ModelState);
+
+            var result = await _authService.LoginWithRecovery(loginWithRecovery);
+
+            if (HasErrorResponse(result.ResponseResult)) return View("LoginWithRecoveryCode");
+
+            await _authService.RealizarLogin(result);
+
+            if (string.IsNullOrEmpty(returnUrl)) return RedirectToAction("Index", "Catalog");
+
+            return LocalRedirect(returnUrl);
+        }
+
         [HttpGet("sair")]
         public async Task<IActionResult> Logout()
         {
@@ -127,66 +138,6 @@ namespace KSE.WebAppMvc.V1.Controllers
 
             return RedirectToAction("Index", "Catalog");
         }
-
-
-
-        [HttpGet("GenerateRecovery")]
-        public async Task<IActionResult> GenerateRecovery()
-        {
-            return View();
-        }
-        [HttpPost("ShowRecoveryCodes")]
-        public async Task<IActionResult> ShowRecoveryCodes()
-        {
-            return View(await _authService.GenerateRecovery());
-        }
-
-
-        [HttpGet("2fa-authenticacao")]
-        public async Task<IActionResult> TwoTactorAuthentication()
-        {
-            var result = await _authService.GetAuthenticator();
-            return View(result);
-        }
-
-        [HttpPost("2fa-AuthenticationVerified")]
-        public async Task<IActionResult> TwoTactorAuthenticationVerified(TwoFactorAuthenticator twoFactor)
-        {
-            if (!ModelState.IsValid) return View("EnableAuthenticator", ModelState);
-            var result = await _authService.AuthenticatorVerified(twoFactor);
-
-            if(HasErrorResponse(result)) return View("EnableAuthenticator");
-
-
-            return RedirectToAction("TwoTactorAuthentication");
-        }
-
-        [HttpGet("2fa-EnableAuthenticator")]
-        public async Task<IActionResult> EnableAuthenticator()
-        {
-            var result = await _authService.GetAuthenticator();
-            return View(result);
-        }
-
-
-        [HttpGet("2fa-ResetAuthenticator")]
-        public async Task<IActionResult> ResetAuthenticator()
-        {            
-            return View();
-        }
-
-        [HttpPost("2fa-ResetAuthenticator")]
-        public async Task<IActionResult> PostResetAuthenticator()
-        {
-            var response = await _authService.ResetAuthenticator();
-
-            if (HasErrorResponse(response)) return View("TwoTactorAuthentication");
-
-            TempData["Erro"] = "Sua chave de aplicativo autenticador foi redefinida, você precisará configurar seu aplicativo autenticador usando a nova chave.";
-            return RedirectToAction("EnableAuthenticator");
-        }
-
-        
         
         [HttpGet("seguranca")]
         public async Task<IActionResult> Security()

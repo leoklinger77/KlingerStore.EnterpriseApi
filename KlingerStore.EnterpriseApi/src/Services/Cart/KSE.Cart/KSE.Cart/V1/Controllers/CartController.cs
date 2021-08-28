@@ -11,7 +11,8 @@ using System.Threading.Tasks;
 namespace KSE.Cart.V1.Controllers
 {
     [Authorize]
-    [Route("V1/Cart")]
+    [ApiVersion("1.0")]
+    [Route("v{version:ApiVersion}/Cart")]
     public class CartController : MainController
     {
         private readonly IAspNetUser _user;
