@@ -28,8 +28,23 @@ namespace KSE.WebAppMvc.Services
             _user = user;
         }
 
-        public async Task<UserResponseLogin> Register(UserRegister userRegister)
-            => await ReturnResponse<UserResponseLogin>(await _httpClient.PostAsync("/V1/Authentication/Register", FindContext(userRegister)));
+        public async Task<ResponseResult> Register(UserRegister userRegister)
+        {
+            var response = await _httpClient.PostAsync("/V1/Authentication/Register", FindContext(userRegister));
+
+            if (!TreatErrosResponse(response))
+            {
+                return await DeserializeResponse<ResponseResult>(response);
+            }
+
+            return ReturnOk();
+        }
+
+        public async Task<UserResponseLogin> EmailConfirmation(string userId, string code)
+        {
+            return await ReturnResponse<UserResponseLogin>(await _httpClient.GetAsync($"/V1/Authentication/email-confirmed?userId={userId}&code={code}"));
+        }
+
 
         public async Task<UserResponseLogin> Login(UserLogin userLogin)
             => await ReturnResponse<UserResponseLogin>(await _httpClient.PostAsync("/V1/Authentication/FirstAccess", FindContext(userLogin)));
@@ -52,17 +67,17 @@ namespace KSE.WebAppMvc.Services
 
             return await DeserializeResponse<ResponseResult>(response);
         }
-           
-        
+
+
         public async Task<TwoFactorAuthenticator> GetAuthenticator()
             => await ReturnResponse<TwoFactorAuthenticator>(await _httpClient.GetAsync("/V1/TwoFactor/Authenticator"));
-        
+
         public async Task<ResponseResult> ResetAuthenticator()
             => await ReturnResponse<ResponseResult>(await _httpClient.PostAsync("/V1/TwoFactor/ResetAuthenticator", FindContext(null)));
-        
+
         public async Task<string[]> GenerateRecovery()
             => await ReturnResponse<string[]>(await _httpClient.GetAsync("/V1/TwoFactor/GenerateRecovery"));
-        
+
         public async Task<ResponseResult> Disable2fa()
             => await ReturnResponse<ResponseResult>(await _httpClient.PostAsync("/V1/TwoFactor/Disable2fa", FindContext(null)));
 
@@ -110,13 +125,15 @@ namespace KSE.WebAppMvc.Services
         {
             var response = await RefreshToken(_user.GetRefreshToken());
 
-            if(response.AccessToken != null && response.ResponseResult == null)
+            if (response.AccessToken != null && response.ResponseResult == null)
             {
                 await RealizarLogin(response);
                 return true;
             }
 
             return false;
-        }        
+        }
+
+
     }
 }

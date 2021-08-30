@@ -6,9 +6,12 @@ using KSE.MessageBus;
 using KSE.WebApi.Core.Controllers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.WebUtilities;
 using System;
 using System.Linq;
+using System.Security.Policy;
 using System.Text;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
@@ -25,17 +28,19 @@ namespace KSE.Authentication.V1.Controllers
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly UserManager<IdentityUser> _userManager;
         private readonly GeneretorToken _token;
+        private readonly IEmailSender _emailSender;
 
         public AuthenticationController(SignInManager<IdentityUser> signInManager,
                                         UserManager<IdentityUser> userManager,
                                         GeneretorToken token,
-                                        IMessageBus bus)
+                                        IMessageBus bus,
+                                        IEmailSender emailSender)
         {
             _bus = bus;
             _signInManager = signInManager;
             _userManager = userManager;
             _token = token;
-            
+            _emailSender = emailSender;
         }
 
         [AllowAnonymous]
@@ -48,7 +53,7 @@ namespace KSE.Authentication.V1.Controllers
             {
                 UserName = userRegister.Email,
                 Email = userRegister.Email,
-                EmailConfirmed = true
+                EmailConfirmed = false
             };
 
             var result = await _userManager.CreateAsync(user, userRegister.Password);
@@ -62,8 +67,15 @@ namespace KSE.Authentication.V1.Controllers
                     await _userManager.DeleteAsync(user);
                     return CustomResponse(clientResult.ValidationResult);
                 }
+                Url.Content("~/");
+                var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
+                var callbackUrl = new Uri($"https://localhost:44387/email-verification?userId={user.Id}&code={code}").ToString();
 
-                return CustomResponse(await _token.TokenJwt(userRegister.Email));
+                await _emailSender.SendEmailAsync(userRegister.Email, "Confirmar seu e-mail",
+                    $"Por favor, confirme sua conta <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicando aqui</a>.");
+
+                return CustomResponse();
             }
             foreach (var item in result.Errors)
             {
@@ -164,13 +176,13 @@ namespace KSE.Authentication.V1.Controllers
                 AddErros("Código de recuperação inválido inserido.");
             }
             return CustomResponse();
-        }        
-        
+        }
+
         [AllowAnonymous]
         [HttpPost("refresh-token")]
-        public async Task<IActionResult> RefreshToken([FromBody]string refreshToken)
+        public async Task<IActionResult> RefreshToken([FromBody] string refreshToken)
         {
-            if(string.IsNullOrEmpty(refreshToken) && refreshToken != Guid.Empty.ToString())
+            if (string.IsNullOrEmpty(refreshToken) && refreshToken != Guid.Empty.ToString())
             {
                 AddErros("Refresh Token inválido");
                 return CustomResponse();
@@ -184,7 +196,37 @@ namespace KSE.Authentication.V1.Controllers
             }
 
             return CustomResponse(await _token.TokenJwt(token.UserName));
+        }       
+
+        [AllowAnonymous]
+        [HttpGet("email-confirmed")]
+        public async Task<IActionResult> EmailConfirmed([FromQuery] string userId, [FromQuery] string code)
+        {
+            if (userId == null || code == null)
+            {
+                AddErros("User não encontrado.");
+                return CustomResponse();
+            }
+
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user == null)
+            {                
+                AddErros($"Não foi possível carregar o usuário com ID '{userId}'.");
+                return CustomResponse();
+            }
+
+            code = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(code));
+            var result = await _userManager.ConfirmEmailAsync(user, code);
+
+            if (result.Succeeded)
+            {                
+                return CustomResponse(await _token.TokenJwt(user.Email));
+            }
+
+            AddErros("Erro ao confirmar seu e-mail.");
+            return CustomResponse();
         }
+
         private async Task<ResponseMessage> RegisterClient(UserRegister userRegister)
         {
             var user = await _userManager.FindByEmailAsync(userRegister.Email);
@@ -194,7 +236,10 @@ namespace KSE.Authentication.V1.Controllers
                 new RegisteredUserIntegrationEvent(Guid.Parse(user.Id),
                                                     userRegister.FirstName + " " + userRegister.LastName,
                                                     userRegister.Email,
-                                                    userRegister.Cpf));
+                                                    userRegister.Cpf,
+                                                    userRegister.NumberPhone.Remove(2),
+                                                    userRegister.NumberPhone.Remove(0, 2),
+                                                    userRegister.PhoneType));
             }
             catch
             {

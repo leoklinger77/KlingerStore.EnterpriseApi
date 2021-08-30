@@ -2,42 +2,42 @@
 using KSE.Core.Messages;
 using KSE.Core.Tools;
 using System;
+using System.Collections.Generic;
 
 namespace KSE.Client.Application.Commands
 {
-    public class RegisterClientCommand : Command
+    public class UpdateClientProfileCommand : Command
     {
-        public Guid Id { get; private set; }
+        public Guid ClientId { get; private set; }
         public string Name { get; private set; }
         public string Cpf { get; private set; }
         public string Email { get; private set; }
 
-        public string Ddd { get; private set; }
-        public string PhoneNumber { get; private set; }        
+        public List<PhoneCommandHandler> Phones { get; private set; }
 
-        public RegisterClientCommand(Guid id, string name, string cpf, string email, string ddd, string phoneNumber)
+
+        public UpdateClientProfileCommand(Guid id, string name, string cpf, string email, List<PhoneCommandHandler> phones)
         {
             AggregateId = id;
 
-            Id = id;
+            ClientId = id;
             Name = name;
             Cpf = cpf;
             Email = email;
-            Ddd = ddd;
-            PhoneNumber = phoneNumber;            
+            Phones = phones;
         }
 
         public override bool IsValid()
         {
-            ValidationResult = new RegisterClientValidation().Validate(this);
+            ValidationResult = new UpdateClientProfileValidation().Validate(this);
             return ValidationResult.IsValid;
         }
 
-        public class RegisterClientValidation : AbstractValidator<RegisterClientCommand>
+        public class UpdateClientProfileValidation : AbstractValidator<UpdateClientProfileCommand>
         {
-            public RegisterClientValidation()
+            public UpdateClientProfileValidation()
             {
-                RuleFor(x => x.Id)
+                RuleFor(x => x.ClientId)
                     .NotEqual(Guid.Empty)
                     .WithMessage("Id do cliente inválido.");
 

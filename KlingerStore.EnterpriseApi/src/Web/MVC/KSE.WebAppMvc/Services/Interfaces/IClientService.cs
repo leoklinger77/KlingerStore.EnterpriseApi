@@ -9,5 +9,6 @@ namespace KSE.WebAppMvc.Services.Interfaces
         Task<ClientViewModel> GetClient();
         Task<AddressViewModel> GetAddress();
         Task<ResponseResult> CreateAddress(AddressViewModel address);
+        Task<ResponseResult> UpdateClient(ClientViewModel client);
     }
 }

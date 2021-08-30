@@ -32,15 +32,22 @@ namespace KSE.Client.Data.Repository
         {
             await _clientContext.AddAsync(client);
         }
-        public void Dispose()
+
+        public async Task Insert(Phone phone)
         {
-            _clientContext?.DisposeAsync();
+            await _clientContext.AddAsync(phone);
+        }
+
+        public async Task Insert(Address address)
+        {
+            await _clientContext.Address.AddAsync(address);
         }
 
         public async Task<Models.Client> GetClient(Guid id)
         {
             return await _clientContext.Client
                 .Include(x => x.Address)
+                .Include(x => x.Phones)
                 .AsNoTracking().FirstOrDefaultAsync(x => x.Id == id);
         }
 
@@ -48,10 +55,20 @@ namespace KSE.Client.Data.Repository
         {
             return await _clientContext.Address.AsNoTracking().FirstOrDefaultAsync(x => x.ClientId == id);
         }
-
-        public async Task Insert(Address address)
+        
+        public void Dispose()
         {
-            await _clientContext.Address.AddAsync(address);
+            _clientContext?.DisposeAsync();
+        }
+
+        public async Task Update(Models.Client client)
+        {
+            _clientContext.Update(client);
+        }
+
+        public async Task DeletePhone(Phone phone)
+        {
+            _clientContext.Remove(phone);
         }
     }
 }

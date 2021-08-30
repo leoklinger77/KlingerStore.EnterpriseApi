@@ -9,6 +9,14 @@ namespace KSE.Client.Models.Interfaces
     {
         Task Insert(Client client);
         Task Insert(Address address);
+        Task Insert(Phone phone);
+
+        Task Update(Client client);
+
+        Task DeletePhone(Phone phone);
+
+
+
         Task<IEnumerable<Client>> FindAll();
         Task<Client> FindByCpf(string cpf);
         

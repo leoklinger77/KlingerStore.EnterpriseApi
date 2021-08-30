@@ -26,5 +26,7 @@ namespace KSE.Authentication.Models
 
         [Compare("Password", ErrorMessage = "As senhas não conferem.")]
         public string ConfirmPassword { get; set; }
+        public string NumberPhone { get; set; }
+        public int PhoneType { get; set; }
     }
 }

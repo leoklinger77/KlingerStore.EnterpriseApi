@@ -22,6 +22,8 @@ namespace KSE.Client.Data
 
         public DbSet<Models.Client> Client { get; set; }
         public DbSet<Models.Address> Address { get; set; }
+        public DbSet<Models.Phone> Phone { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Ignore<Event>();

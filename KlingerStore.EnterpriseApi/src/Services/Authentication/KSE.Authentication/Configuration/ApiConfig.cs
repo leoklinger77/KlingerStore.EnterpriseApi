@@ -5,12 +5,15 @@ using KSE.WebApi.Core.User;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using NetDevPack.Security.Jwt.AspNetCore;
+using System.Net;
+using System.Net.Mail;
 
 namespace KSE.Authentication.Configuration
 {
@@ -37,6 +40,23 @@ namespace KSE.Authentication.Configuration
             {
                 options.SuppressModelStateInvalidFilter = true;
             });
+
+
+            services.AddScoped<SmtpClient>(option =>
+            {
+                SmtpClient smtp = new SmtpClient()
+                {
+                    Host = configuration.GetValue<string>("Email:ServerSMTP"),
+                    Port = configuration.GetValue<int>("Email:Port"),
+                    UseDefaultCredentials = false,
+                    Credentials = new NetworkCredential(configuration.GetValue<string>("Email:UserName"), configuration.GetValue<string>("Email:Password")),
+                    EnableSsl = true
+                };
+
+                return smtp;
+            });
+
+            services.AddTransient<IEmailSender, SendEmail>();
 
             services.IdentityConfig(configuration);
             services.AddMessageBusConfiguration(configuration);

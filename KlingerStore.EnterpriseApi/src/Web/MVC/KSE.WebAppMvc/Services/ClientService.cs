@@ -25,5 +25,18 @@ namespace KSE.WebAppMvc.Services
 
         public async Task<ResponseResult> CreateAddress(AddressViewModel address)
             => await ReturnResponse<ResponseResult>(await _httpClient.PostAsync("/V1/Client/Address", FindContext(address)));
+
+        public async Task<ResponseResult> UpdateClient(ClientViewModel client)
+        {
+           var response =  await _httpClient.PostAsync("/V1/Client/Profile", FindContext(client));
+
+            if (!TreatErrosResponse(response))
+            {
+                return await DeserializeResponse<ResponseResult>(response);
+            }
+
+            return ReturnOk();            
+        }
+            
     }
 }

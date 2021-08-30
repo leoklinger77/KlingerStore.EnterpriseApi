@@ -6,6 +6,7 @@ using KSE.WebApi.Core.Controllers;
 using KSE.WebApi.Core.User;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace KSE.Client.V1.Controllers
@@ -40,8 +41,26 @@ namespace KSE.Client.V1.Controllers
         [HttpPost("address")]
         public async Task<IActionResult> PostAddress(AddressViewModel address)
         {
+            if (!ModelState.IsValid) return CustomResponse(ModelState);
+
             var command = new AddressCommandHandler(address.Street, address.Number, address.Complement, address.District, address.ZipCode, address.City, address.State);
             command.ClientId = _aspNetUser.UserId;
+            return CustomResponse(await _mediatrHandler.SendCommand(command));
+        }
+
+        [HttpPost("Profile")]
+        public async Task<IActionResult> UpdateProfile(ClientViewModel client)
+        {
+            if (!ModelState.IsValid) return CustomResponse(ModelState);
+
+            List<PhoneCommandHandler> listPhones = new List<PhoneCommandHandler>();
+            foreach (var item in client.Phones)
+            {
+                listPhones.Add(new PhoneCommandHandler(_aspNetUser.UserId, item.Ddd, item.Number, item.PhoneType));
+            }
+
+            var command = new UpdateClientProfileCommand(_aspNetUser.UserId, client.Name, client.Cpf, client.Email, listPhones);
+
             return CustomResponse(await _mediatrHandler.SendCommand(command));
         }
     }

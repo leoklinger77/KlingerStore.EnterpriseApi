@@ -22,9 +22,8 @@ namespace KSE.WebAppMvc.V1.Controllers
         [AllowAnonymous]
         [HttpGet("nova-conta")]
 
-        public async Task<IActionResult> Register(string returnUrl = null)
+        public async Task<IActionResult> Register()
         {
-
             return View();
         }
 
@@ -34,14 +33,34 @@ namespace KSE.WebAppMvc.V1.Controllers
         public async Task<IActionResult> Register(UserRegister userRegister)
         {
             if (!ModelState.IsValid) return View(userRegister);
-
+            userRegister.PhoneType = 1;
             var rs = await _authService.Register(userRegister);
 
-            if (HasErrorResponse(rs.ResponseResult)) return View(userRegister);
+            if (HasErrorResponse(rs)) return View(userRegister);            
 
-            await _authService.RealizarLogin(rs);
+            return View("ConfirmeEmail");
+        }        
 
-            return RedirectToAction("Index", "Catalog");
+        [AllowAnonymous]
+        [HttpGet("email-verification")]
+        public async Task<IActionResult> EmailVerification([FromQuery] string userId, [FromQuery] string code)
+        {
+
+            if (string.IsNullOrEmpty(userId) || string.IsNullOrEmpty(code))
+            {
+                AddError("Usuario não localizado.");
+                return View("ConfirmeEmail");
+            }
+
+            var response = await _authService.EmailConfirmation(userId, code);
+            if (HasErrorResponse(response.ResponseResult))
+            {                
+                return View("ConfirmeEmail");
+            }
+
+            await _authService.RealizarLogin(response);
+
+            return RedirectToAction("Index","Catalog");
         }
 
         [AllowAnonymous]

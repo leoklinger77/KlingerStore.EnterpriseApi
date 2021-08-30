@@ -1,4 +1,4 @@
-﻿@model ClientViewModel
+﻿@model ClientProfileViewModel
 @{
     ViewData["Title"] = "Meu Perfil";
 }
@@ -10,61 +10,78 @@
             <header class="card-header">
                 <strong class="d-inline-block mr-3">Meu Perfil</strong>
             </header>
+
+
             <div class="card-body">
-                <div class="row">
-                    <div class=" col-md-6">
-                        <div class="form-group">
-                            <label asp-for="Name" class="control-label">Nome</label>
-                            <input asp-for="Name" class="form-control" />
-                            <span asp-validation-for="Name" class="text-danger"></span>
+
+                <vc:summary></vc:summary>
+                <form asp-action="Profile" asp-controller="Client" method="post">
+
+                    <input asp-for="Cpf" type="hidden" />
+                    <input asp-for="Email" type="hidden" />
+
+                    <div class="row">
+                        <div class=" col-md-6">
+                            <div class="form-group">
+                                <label asp-for="PrimaryName" class="control-label">Nome</label>
+                                <input asp-for="PrimaryName" class="form-control" />
+                                <span asp-validation-for="PrimaryName" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class=" col-md-6">
+                            <div class="form-group">
+                                <label asp-for="LastName" class="control-label">Sobrenome</label>
+                                <input asp-for="LastName" class="form-control" />
+                                <span asp-validation-for="LastName" class="text-danger"></span>
+                            </div>
                         </div>
                     </div>
-                    <div class=" col-md-6">
-                        <div class="form-group">
-                            <label asp-for="Name" class="control-label">Sobrenome</label>
-                            <input asp-for="Name" class="form-control" />
-                            <span asp-validation-for="Name" class="text-danger"></span>
+                    <div class="row">
+                        <div class=" col-md-6">
+                            <div class="form-group">
+                                <label asp-for="Cpf" class="control-label">Cpf</label>
+                                <input asp-for="Cpf" class="form-control" disabled />
+                                <span asp-validation-for="Cpf" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class=" col-md-6">
+                            <div class="form-group">
+                                <label asp-for="Email" class="control-label">E-mail</label>
+                                <input asp-for="Email" class="form-control" disabled />
+                                <span asp-validation-for="Email" class="text-danger"></span>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="row">
-                    <div class=" col-md-6">
-                        <div class="form-group">
-                            <label asp-for="Cpf" class="control-label">Cpf</label>
-                            <input asp-for="Cpf" class="form-control" disabled />
-                            <span asp-validation-for="Cpf" class="text-danger"></span>
+                    <div class="row">
+
+                        <input asp-for="Email" type="hidden" />
+                        <div class=" col-md-4">
+                            <div class="form-group">
+                                <label class="control-label">Celular</label>
+                                <input asp-for="Celular" class="form-control" />
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <input asp-for="TelId" type="hidden" />
+                        <div class=" col-md-4">
+                            <div class="form-group">
+                                <label class="control-label">Telefone</label>
+                                <input asp-for="Telefone" class="form-control" />
+                                <span class="text-danger"></span>
+                            </div>
                         </div>
                     </div>
-                    <div class=" col-md-6">
+                    <div class="row col-md-6">
                         <div class="form-group">
-                            <label asp-for="Email" class="control-label">E-mail</label>
-                            <input asp-for="Email" class="form-control" />
-                            <span asp-validation-for="Email" class="text-danger"></span>
+                            <input type="submit" value="Atualizar" class="btn btn-outline-primary" />
                         </div>
                     </div>
-                </div>
-                <div class="row">
-                    <div class=" col-md-6">
-                        <div class="form-group">
-                            <label class="control-label">Celular</label>
-                            <input class="form-control" />
-                            <span class="text-danger"></span>
-                        </div>
-                    </div>
-                    <div class=" col-md-6">
-                        <div class="form-group">
-                            <label class="control-label">Telefone</label>
-                            <input class="form-control" />
-                            <span class="text-danger"></span>
-                        </div>
-                    </div>
-                </div>
-                <div class="row col-md-6">
-                    <div class="form-group">
-                        <input type="submit" value="Atualizar" class="btn btn-outline-primary" />
-                    </div>
-                </div>
+
+
+                </form>
             </div>
+
         </article>
     </main>
 </div>

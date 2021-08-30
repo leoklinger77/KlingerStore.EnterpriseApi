@@ -7,7 +7,10 @@ namespace KSE.WebAppMvc.Services.Interfaces
     public interface IAuthService
     {
         Task<UserResponseLogin> Login(UserLogin userLogin);
-        Task<UserResponseLogin> Register(UserRegister userRegister);
+        Task<ResponseResult> Register(UserRegister userRegister);        
+        Task<UserResponseLogin> EmailConfirmation(string userId, string code);
+
+
         Task<TwoFactorAuthenticator> GetAuthenticator();
         Task<ResponseResult> AuthenticatorVerified(TwoFactorAuthenticator twoFactor);
         Task<UserResponseLogin> LoginWith2fa(UserLoginWith2fa with2Fa);
@@ -25,5 +28,6 @@ namespace KSE.WebAppMvc.Services.Interfaces
         Task<bool> RefreshTokenValid();
         Task<UserResponseLogin> LoginWithRecovery(LoginWithRecovery loginWithRecovery);
         Task<ResponseResult> Disable2fa();
+        
     }
 }
