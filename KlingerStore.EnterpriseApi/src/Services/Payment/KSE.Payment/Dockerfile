@@ -7,10 +7,14 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:3.1 AS build
 WORKDIR /src
-COPY ["src/Services/Payment/KSE.Payment/KSE.Payment.csproj", "src/Services/Payment/KSE.Payment/"]
-RUN dotnet restore "src/Services/Payment/KSE.Payment/KSE.Payment.csproj"
+COPY ["./Services/Payment/KSE.Payment/KSE.Payment.csproj", "Services/Payment/KSE.Payment/"]
+COPY ["./BuildingBlocks/Core/KSE.Core/KSE.Core.csproj", "buildingblocks/KSE.WebApi.Core/"]
+COPY ["./BuildingBlocks/KSE.WebApi.Core/KSE.WebApi.Core.csproj", "buildingblocks/KSE.WebApi.Core/"]
+COPY ["./BuildingBlocks/MessageBus/KSE.MessageBus/KSE.MessageBus.csproj", "buildingblocks/KSE.MessageBus/"]
+
+RUN dotnet restore "Services/Payment/KSE.Payment/KSE.Payment.csproj"
 COPY . .
-WORKDIR "/src/src/Services/Payment/KSE.Payment"
+WORKDIR "Services/Payment/KSE.Payment"
 RUN dotnet build "KSE.Payment.csproj" -c Release -o /app/build
 
 FROM build AS publish

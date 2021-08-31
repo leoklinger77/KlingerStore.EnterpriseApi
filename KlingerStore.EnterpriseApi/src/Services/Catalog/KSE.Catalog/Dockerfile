@@ -7,10 +7,14 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:3.1 AS build
 WORKDIR /src
-COPY ["src/Services/Catalog/KSE.Catalog/KSE.Catalog.csproj", "src/Services/Catalog/KSE.Catalog/"]
-RUN dotnet restore "src/Services/Catalog/KSE.Catalog/KSE.Catalog.csproj"
+COPY ["./Services/Catalog/KSE.Catalog/KSE.Catalog.csproj", "Services/Catalog/KSE.Catalog/"]
+COPY ["./BuildingBlocks/Core/KSE.Core/KSE.Core.csproj", "buildingblocks/KSE.WebApi.Core/"]
+COPY ["./BuildingBlocks/KSE.WebApi.Core/KSE.WebApi.Core.csproj", "buildingblocks/KSE.WebApi.Core/"]
+COPY ["./BuildingBlocks/MessageBus/KSE.MessageBus/KSE.MessageBus.csproj", "buildingblocks/KSE.MessageBus/"]
+
+RUN dotnet restore "Services/Catalog/KSE.Catalog/KSE.Catalog.csproj"
 COPY . .
-WORKDIR "/src/src/Services/Catalog/KSE.Catalog"
+WORKDIR "Services/Catalog/KSE.Catalog"
 RUN dotnet build "KSE.Catalog.csproj" -c Release -o /app/build
 
 FROM build AS publish

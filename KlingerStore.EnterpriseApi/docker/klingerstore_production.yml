@@ -1,0 +1,115 @@
+version: "3"
+
+services:
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name : rabbitmq-klingerstore
+    environment:
+      RABBITMQ_DEFAULT_USER: "klingerstore"
+      RABBITMQ_DEFAULT_PASS: "klingerstore"
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+
+  web-mvc: 
+    image: klingerstore-web-mvc-ecommerce:latest
+    container_name: klingerstore-web-mvc-ecommerce
+    build:
+      context:  ../src
+      dockerfile: ./Web/mvc/kse.WebAppMvc/Dockerfile
+    ports:  
+      - "5010:5010"
+    environment: 
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ASPNETCORE_URLS=http://*:5010
+    depends_on:
+      - api-authentication
+      - api-catalog
+
+  api-catalog:
+    image: klingerstore-api-catalog:latest
+    container_name: klingerstore-api-catalog
+    build:
+      context:  ../src
+      dockerfile: ./services/catalog/kse.catalog/Dockerfile        
+    environment: 
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ASPNETCORE_URLS=http://*:4001
+    depends_on:
+      - rabbitmq
+      - api-authentication
+
+  api-order:
+    image: klingerstore-api-order:latest
+    container_name: klingerstore-api-order
+    build:
+      context:  ../src
+      dockerfile: ./services/order/kse.order/Dockerfile        
+    environment: 
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ASPNETCORE_URLS=http://*:6001
+    depends_on:
+      - rabbitmq
+  
+  api-authentication:
+    image: klingerstore-api-authentication:latest
+    container_name: klingerstore-api-authentication
+    build:
+      context:  ../src
+      dockerfile: ./services/authentication/kse.authentication/Dockerfile       
+    environment: 
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ASPNETCORE_URLS=http://*:2001
+    depends_on:
+      - rabbitmq
+  
+  api-payment:
+    image: klingerstore-api-payment:latest
+    container_name: klingerstore-api-payment
+    build:
+      context:  ../src
+      dockerfile: ./Services/Payment/KSE.Payment/Dockerfile        
+    environment: 
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ASPNETCORE_URLS=http://*:7001
+    depends_on:
+      - rabbitmq
+
+  api-client:
+    image: klingerstore-api-client:latest
+    container_name: klingerstore-api-client
+    build:
+      context:  ../src
+      dockerfile: ./services/client/kse.client/Dockerfile        
+    environment: 
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ASPNETCORE_URLS=http://*:3001
+    depends_on:
+      - rabbitmq
+      - api-authentication
+
+  api-cart:
+    image: klingerstore-api-cart:latest
+    container_name: klingerstore-api-cart
+    build:
+      context:  ../src
+      dockerfile: ./services/cart/kse.cart/Dockerfile        
+    environment: 
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ASPNETCORE_URLS=http://*:3001
+    depends_on:
+      - rabbitmq
+      - api-authentication
+
+  api-Gateway:
+    image: klingerstore-api-gateay:latest
+    container_name: klingerstore-api-gateay
+    build:
+      context:  ../src
+      dockerfile: ./ApiGateway/KSE.Gateway.Purchase/Dockerfile        
+    environment: 
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ASPNETCORE_URLS=http://*:1001
+    depends_on:
+      - rabbitmq
+      - api-authentication

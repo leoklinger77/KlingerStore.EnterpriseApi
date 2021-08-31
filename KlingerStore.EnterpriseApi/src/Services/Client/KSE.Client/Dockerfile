@@ -7,10 +7,14 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:3.1 AS build
 WORKDIR /src
-COPY ["src/Services/Client/KSE.Client/KSE.Client.csproj", "src/Services/Client/KSE.Client/"]
-RUN dotnet restore "src/Services/Client/KSE.Client/KSE.Client.csproj"
+COPY ["./Services/Client/KSE.Client/KSE.Client.csproj", "Services/Client/KSE.Client/"]
+COPY ["./BuildingBlocks/Core/KSE.Core/KSE.Core.csproj", "buildingblocks/KSE.WebApi.Core/"]
+COPY ["./BuildingBlocks/KSE.WebApi.Core/KSE.WebApi.Core.csproj", "buildingblocks/KSE.WebApi.Core/"]
+COPY ["./BuildingBlocks/MessageBus/KSE.MessageBus/KSE.MessageBus.csproj", "buildingblocks/KSE.MessageBus/"]
+
+RUN dotnet restore "Services/Client/KSE.Client/KSE.Client.csproj"
 COPY . .
-WORKDIR "/src/src/Services/Client/KSE.Client"
+WORKDIR "Services/Client/KSE.Client"
 RUN dotnet build "KSE.Client.csproj" -c Release -o /app/build
 
 FROM build AS publish

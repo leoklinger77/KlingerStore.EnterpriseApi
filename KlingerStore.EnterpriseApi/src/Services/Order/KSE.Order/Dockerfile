@@ -7,10 +7,14 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:3.1 AS build
 WORKDIR /src
-COPY ["src/Services/Order/KSE.Order/KSE.Order.csproj", "src/Services/Order/KSE.Order/"]
-RUN dotnet restore "src/Services/Order/KSE.Order/KSE.Order.csproj"
+COPY ["./Services/Order/KSE.Order/KSE.Order.csproj", "Services/Order/KSE.Order/"]
+COPY ["./BuildingBlocks/Core/KSE.Core/KSE.Core.csproj", "buildingblocks/KSE.WebApi.Core/"]
+COPY ["./BuildingBlocks/KSE.WebApi.Core/KSE.WebApi.Core.csproj", "buildingblocks/KSE.WebApi.Core/"]
+COPY ["./BuildingBlocks/MessageBus/KSE.MessageBus/KSE.MessageBus.csproj", "buildingblocks/KSE.MessageBus/"]
+
+RUN dotnet restore "Services/Order/KSE.Order/KSE.Order.csproj"
 COPY . .
-WORKDIR "/src/src/Services/Order/KSE.Order"
+WORKDIR "Services/Order/KSE.Order"
 RUN dotnet build "KSE.Order.csproj" -c Release -o /app/build
 
 FROM build AS publish
