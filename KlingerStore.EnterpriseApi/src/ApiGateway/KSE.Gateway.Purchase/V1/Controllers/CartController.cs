@@ -35,7 +35,7 @@ namespace KSE.Gateway.Purchase.V1.Controllers
         }
 
         [HttpGet("QuantityCart")]
-        public async Task<int> GetQuantityCart()
+        public int GetQuantityCart()
         {
             return (int)_cartGrpcService.GetCart().Result.Itens?.Sum(x => x.Quantity);
         }

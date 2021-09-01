@@ -49,7 +49,7 @@ namespace KSE.Cart.V1.Controllers
         public async Task<IActionResult> UpdateITemCart(Guid productId, CartItem item)
         {
             var cart = await FindCartClient();
-            var itemCarrinho = await FindCartItemValid(productId, cart, item);
+            var itemCarrinho = FindCartItemValid(productId, cart, item);
             if (itemCarrinho == null) return CustomResponse();
 
             cart.UpdateUnits(itemCarrinho, item.Quantity);
@@ -64,7 +64,7 @@ namespace KSE.Cart.V1.Controllers
         public async Task<IActionResult> RemoveItemCart(Guid productId)
         {
             var cart = await FindCartClient();
-            var itemCarrinho = await FindCartItemValid(productId, cart);
+            var itemCarrinho = FindCartItemValid(productId, cart);
             if (itemCarrinho == null) return CustomResponse();
 
             cart.RemoveItem(itemCarrinho);
@@ -112,7 +112,7 @@ namespace KSE.Cart.V1.Controllers
             await _cartRepository.Update(cart.Id, cart);
         }
 
-        private async Task<CartItem> FindCartItemValid(Guid produtoId, Models.Cart carrinho, CartItem item = null)
+        private CartItem FindCartItemValid(Guid produtoId, Models.Cart carrinho, CartItem item = null)
         {
             if (item != null && produtoId != item.ProductId)
             {
